@@ -15,8 +15,10 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Education-App')
-    .setDescription('Education-Platform APIs description')
+    .setTitle('Education-App APIs Documentation')
+    .setDescription(
+      `<h4>Discover our concise and professional Swagger documentation, providing a comprehensive overview of our APIs. This indispensable resource outlines endpoints, request and response formats, authentication methods, and error handling guidelines. Seamlessly integrate our APIs and unleash the full potential of your applications.</h4>`,
+    )
     .setVersion('1.0')
     .addTag('APIs')
     .addBearerAuth(

@@ -23,16 +23,15 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mongoose": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/sequelize": "^10.0.0",
     "@nestjs/swagger": "^7.0.4",
     "@nestjs/throttler": "^4.1.0",
     "helmet": "^7.0.0",
-    "pg": "^8.11.0",
+    "mongoose": "^7.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "sequelize": "^6.32.1",
-    "sequelize-typescript": "^2.1.5",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
