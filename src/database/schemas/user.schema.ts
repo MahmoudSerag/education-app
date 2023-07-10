@@ -29,7 +29,7 @@ export const UserSchema = new mongoose.Schema(
     },
     sex: {
       type: String,
-      enum: ['male', 'female'],
+      enum: ['ذكر', 'انثي'],
       required: true,
     },
     role: {
@@ -47,7 +47,7 @@ export const UserSchema = new mongoose.Schema(
     },
     verificationLink: {
       type: String,
-      required: true,
+      default: null,
     },
     linkExpirationDate: {
       type: Date,

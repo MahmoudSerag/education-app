@@ -3,14 +3,31 @@ import { Response } from 'express';
 
 export class ErrorResponse {
   static validateRequestBody(error: object[]) {
-    const message: object[] = [];
-
-    error.forEach((el) => {
-      message.push(el['constraints']);
+    throw new BadRequestException({
+      success: false,
+      statusCode: 400,
+      message: Object.values(error[0]['constraints'])[0],
     });
-
-    throw new BadRequestException({ success: false, statusCode: 400, message });
   }
+
+  public validatePasswordAndEmail(body: any) {
+    if (body.email !== body.confirmedEmail) {
+      throw new BadRequestException({
+        success: false,
+        statusCode: 400,
+        message: 'البريد الالكتروني وتأكيد البريد الالكتروني غير متطابقين',
+      });
+    }
+
+    if (body.password !== body.confirmedPassword) {
+      throw new BadRequestException({
+        success: false,
+        statusCode: 400,
+        message: 'كلمة المرور وتأكيد كلمة المرور غير متطابقين',
+      });
+    }
+  }
+
   public handleError(
     @Res() res: Response,
     statusCode: number,
