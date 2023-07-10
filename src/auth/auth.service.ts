@@ -23,7 +23,7 @@ export class AuthService {
       if (isEmailExist)
         return this.errorResponse.handleError(
           res,
-          400,
+          409,
           'البريد الالكتروني مسجل بالفعل',
         );
 
@@ -34,7 +34,7 @@ export class AuthService {
       if (isPhoneNumberExist)
         return this.errorResponse.handleError(
           res,
-          400,
+          409,
           'رقم الهاتف مسجل بالفعل',
         );
 
@@ -48,7 +48,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: 'تم إنشاء حسابك بنجاح',
+        message: 'User created successfully',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

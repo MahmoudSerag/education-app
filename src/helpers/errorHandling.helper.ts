@@ -15,7 +15,7 @@ export class ErrorResponse {
       throw new BadRequestException({
         success: false,
         statusCode: 400,
-        message: 'البريد الالكتروني وتأكيد البريد الالكتروني غير متطابقين',
+        message: 'The email and confirmed email do not match',
       });
     }
 
@@ -23,7 +23,7 @@ export class ErrorResponse {
       throw new BadRequestException({
         success: false,
         statusCode: 400,
-        message: 'كلمة المرور وتأكيد كلمة المرور غير متطابقين',
+        message: 'The password and confirmed password do not match',
       });
     }
   }
