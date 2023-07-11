@@ -51,7 +51,7 @@ export const UserSchema = new mongoose.Schema(
     },
     linkExpirationDate: {
       type: Date,
-      default: Date.now(),
+      default: null,
     },
   },
   { timestamps: true },

@@ -22,6 +22,20 @@ export class AuthModel {
     return await this.authModel.findOne({ email }).select('email -_id').lean();
   }
 
+  async findUserByEmailOrPhoneNumber(
+    emailOrPhoneNumber: string,
+  ): Promise<UserAuthInterface> {
+    return await this.authModel
+      .findOne({
+        $or: [
+          { email: emailOrPhoneNumber },
+          { phoneNumber: emailOrPhoneNumber },
+        ],
+      })
+      .select('password email role phoneNumber')
+      .lean();
+  }
+
   async CreateNewUser(body: registerDto): Promise<void> {
     await this.authModel.create(body);
   }

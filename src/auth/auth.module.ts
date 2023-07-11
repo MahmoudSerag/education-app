@@ -6,13 +6,13 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 import { UserSchema } from 'src/database/schemas/user.schema';
-import { ErrorResponse } from 'src/helpers/errorHandling.helper';
+
 import { PasswordService } from 'src/helpers/passwordService.helper';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
   controllers: [AuthController],
-  providers: [AuthService, AuthModel, ErrorResponse, PasswordService],
+  providers: [AuthService, AuthModel, PasswordService],
   exports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
 })
 export class AuthModule {}

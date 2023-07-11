@@ -5,9 +5,10 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import {
   ApiBadRequestResponse,
   ApiConflictResponse,
@@ -26,7 +27,7 @@ import {
 } from 'src/helpers/swagger.helper';
 
 @ApiTags('Auth')
-@Controller('/api/v1/auth')
+@Controller('/api/v1/auth/')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -57,5 +58,15 @@ export class AuthController {
     @Body() body: registerDto,
   ): object {
     return this.authService.register(res, body);
+  }
+
+  @Post('login')
+  login(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+    @Body() body: { emailOrPhoneNumber: string; password: string },
+  ): object {
+    const userAccessToken: string = req.cookies.accessToken;
+    return this.authService.login(res, userAccessToken, body);
   }
 }

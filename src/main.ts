@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import * as xss from 'xss-clean';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -41,6 +42,8 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(xss());
+
+  app.use(cookieParser());
 
   const port = process.env.SERVER_PORT || 3000;
   await app.listen(port, () => {
