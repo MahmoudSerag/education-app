@@ -13,17 +13,22 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiUnauthorizedResponse,
+  ApiNotAcceptableResponse,
   ApiInternalServerErrorResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
 import { registerDto } from './dto/register.dto';
+import { loginDto } from './dto/login.dto';
 
 import { ErrorResponse } from 'src/helpers/errorHandling.helper';
 import {
   apiInternalServerErrorResponse,
   apiBadRequestResponse,
   apiConflictResponse,
+  apiUnauthorizedResponse,
+  apiNotAcceptableResponse,
 } from 'src/helpers/swagger.helper';
 
 @ApiTags('Auth')
@@ -34,7 +39,7 @@ export class AuthController {
   @Post('register')
   @ApiCreatedResponse({
     status: 201,
-    description: 'User created, verify your account.',
+    description: 'User registration',
     schema: {
       example: {
         success: true,
@@ -61,10 +66,31 @@ export class AuthController {
   }
 
   @Post('login')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'User login',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 201,
+        message: 'User created successfully',
+      },
+    },
+  })
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiNotAcceptableResponse(apiNotAcceptableResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
+  @UsePipes(
+    new ValidationPipe({
+      exceptionFactory(error: object[]) {
+        ErrorResponse.validateRequestBody(error);
+      },
+    }),
+  )
   login(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
-    @Body() body: { emailOrPhoneNumber: string; password: string },
+    @Body() body: loginDto,
   ): object {
     const userAccessToken: string = req.cookies.accessToken;
     return this.authService.login(res, userAccessToken, body);

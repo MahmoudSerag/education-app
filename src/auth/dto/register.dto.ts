@@ -26,9 +26,9 @@ export class registerDto {
     example: '01012345678',
     required: true,
   })
-  @Matches(/^0[0-9]{10}$/, {
+  @Matches(/^01[0125][0-9]{8}$/, {
     message:
-      'Invalid phone number format. Please provide a valid phone number starting with 0 followed by 10 digits.',
+      'Invalid phone number format. Please provide a valid phone number starting with 01 followed by 9 digits.',
   })
   phoneNumber: string;
 

@@ -1,6 +1,6 @@
 export const apiUnauthorizedResponse = {
   status: 401,
-  description: 'User not loggedIn.',
+  description: 'User unauthorized.',
   schema: {
     example: {
       success: false,
@@ -42,6 +42,18 @@ export const apiNotFoundResponse = {
       success: false,
       statusCode: 404,
       message: 'Not found.',
+    },
+  },
+};
+
+export const apiNotAcceptableResponse = {
+  status: 406,
+  description: 'User not accepted.',
+  schema: {
+    example: {
+      success: false,
+      statusCode: 406,
+      message: 'Not acceptable.',
     },
   },
 };
