@@ -37,21 +37,13 @@ export const UserSchema = new mongoose.Schema(
       enum: ['admin', 'moderator', 'student'],
       default: 'student',
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
     wallet: {
       type: Number,
       default: 0,
     },
-    verificationLink: {
-      type: String,
-      default: null,
-    },
-    linkExpirationDate: {
-      type: Date,
-      default: null,
+    isTokenExpired: {
+      type: Boolean,
+      default: true,
     },
   },
   { timestamps: true },
