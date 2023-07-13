@@ -15,6 +15,7 @@ import {
   ApiCreatedResponse,
   ApiUnauthorizedResponse,
   ApiNotAcceptableResponse,
+  ApiNotFoundResponse,
   ApiInternalServerErrorResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -30,6 +31,7 @@ import {
   apiConflictResponse,
   apiUnauthorizedResponse,
   apiNotAcceptableResponse,
+  apiNotFoundResponse,
 } from 'src/helpers/swaggerService.helper';
 
 @ApiTags('Auth')
@@ -79,6 +81,7 @@ export class AuthController {
     },
   })
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiNotAcceptableResponse(apiNotAcceptableResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(
@@ -98,6 +101,20 @@ export class AuthController {
   }
 
   @Post('password-reset-step-one')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'User reset password',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 201,
+        message: 'من فضلك تحقق من حسابك',
+      },
+    },
+  })
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(
     new ValidationPipe({
       exceptionFactory(error: object[]) {
