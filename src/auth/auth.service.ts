@@ -30,7 +30,7 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           409,
-          'البريد الالكتروني مسجل بالفعل',
+          'البريد الالكتروني مسجل بالفعل.',
         );
 
       const isPhoneNumberExist = await this.authModel.findUserByPhoneNumber(
@@ -41,7 +41,7 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           409,
-          'رقم الهاتف مسجل بالفعل',
+          'رقم الهاتف مسجل بالفعل.',
         );
 
       const hashedPassword = await this.passwordService.hashPassword(
@@ -54,7 +54,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: 'User created successfully',
+        message: 'User created successfully.',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
@@ -68,7 +68,7 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (userAccessToken)
-        return this.errorResponse.handleError(res, 406, 'Already logged in');
+        return this.errorResponse.handleError(res, 406, 'Already logged in.');
 
       const user = await this.authModel.findUserByEmailOrPhoneNumber(
         body.emailOrPhoneNumber,
@@ -78,7 +78,7 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           401,
-          'بيانات المستخدم غير صحيحة.من فضلك حاول مرة اخري',
+          'بيانات المستخدم غير صحيحة.من فضلك حاول مرة اخري.',
         );
 
       const isPasswordCorrect = await this.passwordService.comparePassword(
@@ -90,7 +90,7 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           401,
-          'بيانات المستخدم غير صحيحة. من فضلك حاول مرة اخري',
+          'بيانات المستخدم غير صحيحة. من فضلك حاول مرة اخري.',
         );
 
       const payload = {
@@ -114,7 +114,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: 'User logged in successfully',
+        message: 'User logged in successfully.',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
@@ -132,18 +132,18 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           404,
-          'المستخدم غير موجود. من فضلك حاول مرة اخري',
+          'المستخدم غير موجود. من فضلك حاول مرة اخري.',
         );
 
       await this.emailService.senMail(user.email);
 
-      await this.authModel.setTokenExpired(user);
+      await this.authModel.setTokenExpired(user, false);
 
       const payload = { email: user.email };
       const passwordResetToken =
         await this.jwtService.generatePasswordResetToken(payload);
 
-      res.cookie('passwordResetToken', passwordResetToken, {
+      res.cookie('userToken', passwordResetToken, {
         httpOnly: true,
         sameSite: 'none',
         secure: true,
@@ -157,6 +157,41 @@ export class AuthService {
         success: true,
         statusCode: 201,
         message: 'من فضلك تحقق من حسابك',
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async resetPasswordStepTwo(
+    @Res() res: Response,
+    passwordResetToken: string,
+  ): Promise<any> {
+    try {
+      if (!passwordResetToken)
+        return this.errorResponse.handleError(
+          res,
+          401,
+          "The user's cookies has expired.",
+        );
+
+      const decodedToken = await this.jwtService.verifyJWT(passwordResetToken);
+
+      const user = await this.authModel.findUserByEmail(decodedToken.email);
+
+      if (user.isTokenExpired) {
+        res.clearCookie('userToken');
+        return this.errorResponse.handleError(
+          res,
+          401,
+          "The user's cookies has expired.",
+        );
+      }
+
+      return {
+        success: true,
+        statusCode: 201,
+        message: "The user's session is active",
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

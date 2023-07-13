@@ -35,7 +35,7 @@ export class ErrorResponse {
   ) {
     if (message === 'jwt expired') {
       statusCode = HttpStatus.UNAUTHORIZED;
-      message = 'JWT Expired.';
+      message = "The user's cookies has expired.";
     }
 
     if (message.startsWith('Cast')) {

@@ -128,4 +128,13 @@ export class AuthController {
   ): object {
     return this.authService.resetPasswordStepOne(res, body);
   }
+
+  @Post('password-reset-step-two')
+  resetPasswordStepTwo(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+  ): object {
+    const passwordResetToken = req.cookies.userToken;
+    return this.authService.resetPasswordStepTwo(res, passwordResetToken);
+  }
 }

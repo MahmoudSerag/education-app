@@ -40,8 +40,11 @@ export class AuthModel {
     await this.authModel.create(body);
   }
 
-  async setTokenExpired(user: UserAuthInterface): Promise<void> {
-    user.isTokenExpired = false;
+  async setTokenExpired(
+    user: UserAuthInterface,
+    isTokenExpired: boolean,
+  ): Promise<void> {
+    user.isTokenExpired = isTokenExpired;
     user.save();
   }
 }
