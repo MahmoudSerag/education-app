@@ -14,6 +14,12 @@ export class JWTService {
     return this.jwtService.sign(payload);
   }
 
+  public generatePasswordResetToken(payload: { email: string }): string {
+    return this.jwtService.sign(payload, {
+      expiresIn: `${process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN}m`,
+    });
+  }
+
   public verifyJWT(accessToken: string): {
     userId: string;
     email: string;

@@ -8,7 +8,6 @@ export interface UserAuthInterface extends Document {
   phoneNumber: string;
   sex: 'ذكر' | 'أنثى';
   role: 'admin' | 'moderator' | 'student';
-  isVerified: false;
-  wallet: 0;
-  linkExpirationDate: Date;
+  wallet: number;
+  isTokenExpired: boolean;
 }

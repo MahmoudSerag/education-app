@@ -9,7 +9,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
 import { JWTService } from './helpers/jwtService.helper';
-import { ErrorResponse } from './helpers/errorHandling.helper';
+import { ErrorResponse } from './helpers/errorHandlingService.helper';
 
 @Global()
 @Module({

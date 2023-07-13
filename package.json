@@ -35,6 +35,7 @@
     "cookie-parser": "^1.4.6",
     "helmet": "^7.0.0",
     "mongoose": "^7.3.1",
+    "nodemailer": "^6.9.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "xss-clean": "^0.1.4"
@@ -48,7 +49,7 @@
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
-    "@types/sequelize": "^4.28.15",
+    "@types/nodemailer": "^6.4.8",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",

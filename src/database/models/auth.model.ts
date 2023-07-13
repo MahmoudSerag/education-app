@@ -19,7 +19,7 @@ export class AuthModel {
   }
 
   async findUserByEmail(email: string): Promise<UserAuthInterface> {
-    return await this.authModel.findOne({ email }).select('email -_id').lean();
+    return await this.authModel.findOne({ email }).select('email');
   }
 
   async findUserByEmailOrPhoneNumber(
@@ -38,5 +38,10 @@ export class AuthModel {
 
   async CreateNewUser(body: registerDto): Promise<void> {
     await this.authModel.create(body);
+  }
+
+  async setTokenExpired(user: UserAuthInterface): Promise<void> {
+    user.isTokenExpired = false;
+    user.save();
   }
 }

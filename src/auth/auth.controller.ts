@@ -21,15 +21,16 @@ import {
 
 import { registerDto } from './dto/register.dto';
 import { loginDto } from './dto/login.dto';
+import { resetPasswordDto } from './dto/resetPassword.dto';
 
-import { ErrorResponse } from 'src/helpers/errorHandling.helper';
+import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import {
   apiInternalServerErrorResponse,
   apiBadRequestResponse,
   apiConflictResponse,
   apiUnauthorizedResponse,
   apiNotAcceptableResponse,
-} from 'src/helpers/swagger.helper';
+} from 'src/helpers/swaggerService.helper';
 
 @ApiTags('Auth')
 @Controller('/api/v1/auth/')
@@ -94,5 +95,20 @@ export class AuthController {
   ): object {
     const userAccessToken: string = req.cookies.accessToken;
     return this.authService.login(res, userAccessToken, body);
+  }
+
+  @Post('password-reset-step-one')
+  @UsePipes(
+    new ValidationPipe({
+      exceptionFactory(error: object[]) {
+        ErrorResponse.validateRequestBody(error);
+      },
+    }),
+  )
+  resetPasswordStepOne(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: resetPasswordDto,
+  ): object {
+    return this.authService.resetPasswordStepOne(res, body);
   }
 }

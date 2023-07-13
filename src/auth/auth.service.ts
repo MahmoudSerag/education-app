@@ -2,11 +2,14 @@ import { Injectable, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import { registerDto } from './dto/register.dto';
+import { resetPasswordDto } from './dto/resetPassword.dto';
+
 import { AuthModel } from 'src/database/models/auth.model';
 
-import { ErrorResponse } from 'src/helpers/errorHandling.helper';
+import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import { PasswordService } from 'src/helpers/passwordService.helper';
 import { JWTService } from 'src/helpers/jwtService.helper';
+import { EmailService } from 'src/helpers/emailService.helper';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +18,7 @@ export class AuthService {
     private readonly errorResponse: ErrorResponse,
     private readonly passwordService: PasswordService,
     private readonly jwtService: JWTService,
+    private readonly emailService: EmailService,
   ) {}
   async register(@Res() res: Response, body: registerDto): Promise<any> {
     try {
@@ -111,6 +115,48 @@ export class AuthService {
         success: true,
         statusCode: 201,
         message: 'User logged in successfully',
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async resetPasswordStepOne(
+    @Res() res: Response,
+    body: resetPasswordDto,
+  ): Promise<any> {
+    try {
+      const user = await this.authModel.findUserByEmail(body.email);
+
+      if (!user)
+        return this.errorResponse.handleError(
+          res,
+          404,
+          'المستخدم غير موجود. من فضلك حاول مرة اخري',
+        );
+
+      await this.emailService.senMail(user.email);
+
+      await this.authModel.setTokenExpired(user);
+
+      const payload = { email: user.email };
+      const passwordResetToken =
+        await this.jwtService.generatePasswordResetToken(payload);
+
+      res.cookie('passwordResetToken', passwordResetToken, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+        expires: new Date(
+          new Date().getTime() +
+            Number(process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN) * 60 * 1000,
+        ),
+      });
+
+      return {
+        success: true,
+        statusCode: 201,
+        message: 'من فضلك تحقق من حسابك',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
