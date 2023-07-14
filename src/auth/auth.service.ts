@@ -3,6 +3,7 @@ import { Response } from 'express';
 
 import { registerDto } from './dto/register.dto';
 import { resetPasswordDto } from './dto/resetPassword.dto';
+import { newPasswordDto } from './dto/newPassword.dto';
 
 import { AuthModel } from 'src/database/models/auth.model';
 
@@ -191,7 +192,62 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: "The user's session is active",
+        message: "The user's cookies is active",
+      };
+    } catch (error) {
+      console.log(error);
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async resetPasswordStepThree(
+    @Res() res: Response,
+    passwordResetToken: string,
+    body: newPasswordDto,
+  ): Promise<any> {
+    try {
+      if (body.newPassword !== body.confirmedNewPassword)
+        return this.errorResponse.handleError(
+          res,
+          406,
+          'The email and confirmed email do not match.',
+        );
+
+      if (!passwordResetToken)
+        return this.errorResponse.handleError(
+          res,
+          401,
+          "The user's cookies has expired.",
+        );
+
+      const decodedToken = await this.jwtService.verifyJWT(passwordResetToken);
+
+      const user = await this.authModel.findUserByEmail(decodedToken.email);
+
+      if (user.isTokenExpired) {
+        res.clearCookie('userToken');
+        return this.errorResponse.handleError(
+          res,
+          401,
+          "The user's cookies has expired.",
+        );
+      }
+
+      const hashedPassword = await this.passwordService.hashPassword(
+        body.newPassword,
+      );
+
+      await this.authModel.createNewPassword(
+        decodedToken.email,
+        hashedPassword,
+      );
+
+      res.clearCookie('userToken');
+
+      return {
+        success: true,
+        statusCode: 201,
+        message: 'user reset password successfully.',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

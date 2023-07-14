@@ -24,6 +24,7 @@ import {
 import { registerDto } from './dto/register.dto';
 import { loginDto } from './dto/login.dto';
 import { resetPasswordDto } from './dto/resetPassword.dto';
+import { newPasswordDto } from './dto/newPassword.dto';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import {
@@ -150,5 +151,27 @@ export class AuthController {
   ): object {
     const passwordResetToken = req.cookies.userToken;
     return this.authService.resetPasswordStepTwo(res, passwordResetToken);
+  }
+
+  @Post('password-reset-step-three')
+  @UsePipes(
+    new ValidationPipe({
+      exceptionFactory(error: object[]) {
+        ErrorResponse.validateRequestBody(error);
+      },
+    }),
+  )
+  resetPasswordStepThree(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+    @Body() body: newPasswordDto,
+  ): object {
+    console.log(req.cookies);
+    const passwordResetToken = req.cookies.userToken;
+    return this.authService.resetPasswordStepThree(
+      res,
+      passwordResetToken,
+      body,
+    );
   }
 }

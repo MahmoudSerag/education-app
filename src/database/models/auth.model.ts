@@ -47,4 +47,12 @@ export class AuthModel {
     user.isTokenExpired = isTokenExpired;
     user.save();
   }
+
+  async createNewPassword(
+    email: string,
+    hashedPassword: string,
+  ): Promise<void> {
+    const queryOptions = { password: hashedPassword, isTokenExpired: true };
+    await this.authModel.findOneAndUpdate({ email }, queryOptions);
+  }
 }
