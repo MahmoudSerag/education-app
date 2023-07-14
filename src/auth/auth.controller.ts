@@ -6,6 +6,7 @@ import {
   UsePipes,
   ValidationPipe,
   Req,
+  Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
@@ -129,7 +130,20 @@ export class AuthController {
     return this.authService.resetPasswordStepOne(res, body);
   }
 
-  @Post('password-reset-step-two')
+  @Get('password-reset-step-two')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'User reset password step two',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 201,
+        message: "The user's session is active",
+      },
+    },
+  })
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   resetPasswordStepTwo(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
