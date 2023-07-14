@@ -247,7 +247,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: 'user reset password successfully.',
+        message: 'The user successfully reset his password.',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

@@ -14,6 +14,7 @@ import {
   ApiBadRequestResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiUnauthorizedResponse,
   ApiNotAcceptableResponse,
   ApiNotFoundResponse,
@@ -132,13 +133,13 @@ export class AuthController {
   }
 
   @Get('password-reset-step-two')
-  @ApiCreatedResponse({
-    status: 201,
+  @ApiOkResponse({
+    status: 200,
     description: 'User reset password step two',
     schema: {
       example: {
         success: true,
-        statusCode: 201,
+        statusCode: 200,
         message: "The user's session is active",
       },
     },
@@ -154,6 +155,20 @@ export class AuthController {
   }
 
   @Post('password-reset-step-three')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'User reset password step three',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 201,
+        message: 'The user successfully reset his password',
+      },
+    },
+  })
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(
     new ValidationPipe({
       exceptionFactory(error: object[]) {
