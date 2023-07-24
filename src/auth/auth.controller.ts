@@ -79,7 +79,7 @@ export class AuthController {
       example: {
         success: true,
         statusCode: 201,
-        message: 'User created successfully',
+        message: 'User logged in successfully',
       },
     },
   })
@@ -190,6 +190,19 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiCreatedResponse({
+    status: 201,
+    description: 'User logout',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 201,
+        message: 'User logged out successfully',
+      },
+    },
+  })
+  @ApiNotAcceptableResponse(apiNotAcceptableResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   logout(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,

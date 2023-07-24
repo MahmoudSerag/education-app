@@ -22,17 +22,7 @@ async function bootstrap() {
     )
     .setVersion('1.0')
     .addTag('APIs')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'JWT',
-        description: 'Enter JWT token',
-        in: 'header',
-      },
-      'JWT-auth',
-    )
+    .addCookieAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
