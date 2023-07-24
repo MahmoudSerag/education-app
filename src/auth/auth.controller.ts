@@ -181,12 +181,20 @@ export class AuthController {
     @Req() req: Request,
     @Body() body: newPasswordDto,
   ): object {
-    console.log(req.cookies);
     const passwordResetToken = req.cookies.userToken;
     return this.authService.resetPasswordStepThree(
       res,
       passwordResetToken,
       body,
     );
+  }
+
+  @Post('logout')
+  logout(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+  ): object {
+    const accessToken = req.cookies.accessToken;
+    return this.authService.logout(res, accessToken);
   }
 }

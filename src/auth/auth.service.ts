@@ -253,4 +253,17 @@ export class AuthService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  logout(@Res() res: Response, accessToken: string): any {
+    if (!accessToken)
+      return this.errorResponse.handleError(res, 406, 'Already logged out.');
+
+    res.clearCookie('accessToken');
+
+    return {
+      success: true,
+      statusCode: 201,
+      message: 'User logged out successfully.',
+    };
+  }
 }
