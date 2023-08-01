@@ -11,6 +11,7 @@ import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import { PasswordService } from 'src/helpers/passwordService.helper';
 import { JWTService } from 'src/helpers/jwtService.helper';
 import { EmailService } from 'src/helpers/emailService.helper';
+import { CookieService } from 'src/helpers/cookieService.helper';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly jwtService: JWTService,
     private readonly emailService: EmailService,
+    private readonly cookieService: CookieService,
   ) {}
   async register(@Res() res: Response, body: registerDto): Promise<any> {
     try {
@@ -102,15 +104,16 @@ export class AuthService {
       };
       const accessToken = await this.jwtService.signJWT(payload);
 
-      res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-        expires: new Date(
-          Date.now() +
-            Number(process.env.COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
-        ),
-      });
+      const cookieExpiredAt = new Date(
+        Date.now() +
+          Number(process.env.COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
+      );
+      this.cookieService.setCookie(
+        'accessToken',
+        accessToken,
+        cookieExpiredAt,
+        res,
+      );
 
       return {
         success: true,
