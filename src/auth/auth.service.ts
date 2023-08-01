@@ -147,15 +147,16 @@ export class AuthService {
       const passwordResetToken =
         await this.jwtService.generatePasswordResetToken(payload);
 
-      res.cookie('userToken', passwordResetToken, {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-        expires: new Date(
-          new Date().getTime() +
-            Number(process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN) * 60 * 1000,
-        ),
-      });
+      const cookieExpiredAt = new Date(
+        new Date().getTime() +
+          Number(process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN) * 60 * 1000,
+      );
+      this.cookieService.setCookie(
+        'userToken',
+        passwordResetToken,
+        cookieExpiredAt,
+        res,
+      );
 
       return {
         success: true,
