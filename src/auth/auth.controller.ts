@@ -99,8 +99,8 @@ export class AuthController {
     @Req() req: Request,
     @Body() body: loginDto,
   ): object {
-    const userAccessToken: string = req.cookies.accessToken;
-    return this.authService.login(res, userAccessToken, body);
+    const accessToken: string = req.cookies.accessToken;
+    return this.authService.login(res, accessToken, body);
   }
 
   @Post('password-reset-step-one')

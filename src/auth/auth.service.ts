@@ -77,23 +77,17 @@ export class AuthService {
         body.emailOrPhoneNumber,
       );
 
-      if (!user)
+      if (
+        !user ||
+        !(await this.passwordService.comparePassword(
+          body.password,
+          user.password,
+        ))
+      )
         return this.errorResponse.handleError(
           res,
           401,
           'بيانات المستخدم غير صحيحة.من فضلك حاول مرة اخري.',
-        );
-
-      const isPasswordCorrect = await this.passwordService.comparePassword(
-        body.password,
-        user.password,
-      );
-
-      if (!isPasswordCorrect)
-        return this.errorResponse.handleError(
-          res,
-          401,
-          'بيانات المستخدم غير صحيحة. من فضلك حاول مرة اخري.',
         );
 
       const payload = {
