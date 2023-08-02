@@ -167,25 +167,16 @@ export class AuthService {
     passwordResetToken: string,
   ): Promise<any> {
     try {
-      if (!passwordResetToken)
-        return this.errorResponse.handleError(
-          res,
-          401,
-          "The user's cookies has expired.",
-        );
-
       const decodedToken = await this.jwtService.verifyJWT(passwordResetToken);
 
       const user = await this.authModel.findUserByEmail(decodedToken.email);
 
-      if (user.isTokenExpired) {
-        res.clearCookie('userToken');
+      if (!passwordResetToken || user.isTokenExpired)
         return this.errorResponse.handleError(
           res,
           401,
           "The user's cookies has expired.",
         );
-      }
 
       return {
         success: true,
