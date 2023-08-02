@@ -20,14 +20,12 @@ export class JWTService {
     });
   }
 
-  public verifyJWT(accessToken: string):
-    | {
-        userId: string;
-        email: string;
-        phoneNumber: string;
-        role: string;
-      }
-    | { email: string } {
+  public verifyJWT(accessToken: string): {
+    userId: string;
+    email: string;
+    phoneNumber: string;
+    role: string;
+  } {
     return this.jwtService.verify(accessToken);
   }
 }

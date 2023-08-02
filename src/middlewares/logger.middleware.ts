@@ -16,8 +16,6 @@ export class LoggerMiddleware implements NestMiddleware {
         message: 'Unauthorized.',
       });
 
-    res.locals.accessToken = req.cookies.accessToken;
-
     next();
   }
 }
