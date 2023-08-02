@@ -169,7 +169,7 @@ export class AuthService {
     try {
       const decodedToken = await this.jwtService.verifyJWT(passwordResetToken);
 
-      const user = await this.authModel.findUserByEmail(decodedToken.email);
+      const user = await this.authModel.findUserById(decodedToken.userId);
 
       if (!passwordResetToken || user.isTokenExpired)
         return this.errorResponse.handleError(
