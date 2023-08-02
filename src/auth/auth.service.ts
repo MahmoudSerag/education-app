@@ -137,7 +137,7 @@ export class AuthService {
 
       await this.authModel.setTokenExpired(user, false);
 
-      const payload = { email: user.email };
+      const payload = { email: user.email, userId: user._id };
       const passwordResetToken =
         await this.jwtService.generatePasswordResetToken(payload);
 
@@ -184,7 +184,6 @@ export class AuthService {
         message: "The user's cookies is active",
       };
     } catch (error) {
-      console.log(error);
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
@@ -202,18 +201,11 @@ export class AuthService {
           'The email and confirmed email do not match.',
         );
 
-      if (!passwordResetToken)
-        return this.errorResponse.handleError(
-          res,
-          401,
-          "The user's cookies has expired.",
-        );
-
       const decodedToken = await this.jwtService.verifyJWT(passwordResetToken);
 
-      const user = await this.authModel.findUserByEmail(decodedToken.email);
+      const user = await this.authModel.findUserById(decodedToken.userId);
 
-      if (user.isTokenExpired) {
+      if (!passwordResetToken || user.isTokenExpired) {
         res.clearCookie('userToken');
         return this.errorResponse.handleError(
           res,

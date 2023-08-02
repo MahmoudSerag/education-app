@@ -55,4 +55,11 @@ export class AuthModel {
     const queryOptions = { password: hashedPassword, isTokenExpired: true };
     await this.authModel.findOneAndUpdate({ email }, queryOptions);
   }
+
+  async findUserById(userId: string): Promise<UserAuthInterface> {
+    return await this.authModel
+      .findOne({ _id: userId })
+      .select('_id isTokenExpired')
+      .lean();
+  }
 }

@@ -33,7 +33,7 @@ export class ErrorResponse {
     statusCode: number,
     message: string,
   ) {
-    if (message === 'jwt expired') {
+    if (message === 'jwt expired' || message === 'jwt must be provided') {
       statusCode = HttpStatus.UNAUTHORIZED;
       message = "The user's cookies has expired.";
     }
