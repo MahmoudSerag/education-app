@@ -9,20 +9,14 @@ import { Request, Response, NextFunction } from 'express';
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    if (
-      !req.headers ||
-      !req.headers.authorization ||
-      !req.headers.authorization.startsWith('Bearer') ||
-      !req.headers.authorization.split(' ')[1]
-    )
+    if (!req.cookies || !req.cookies.accessToken)
       throw new UnauthorizedException({
         success: false,
         statusCode: HttpStatus.UNAUTHORIZED,
         message: 'Unauthorized.',
       });
 
-    const accessToken: any = req.headers.authorization.split(' ')[1];
-    res.locals.accessToken = accessToken;
+    res.locals.accessToken = req.cookies.accessToken;
 
     next();
   }
