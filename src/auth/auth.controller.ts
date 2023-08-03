@@ -20,6 +20,7 @@ import {
   ApiNotFoundResponse,
   ApiInternalServerErrorResponse,
   ApiTags,
+  ApiProduces,
 } from '@nestjs/swagger';
 
 import { registerDto } from './dto/register.dto';
@@ -36,7 +37,7 @@ import {
   apiNotAcceptableResponse,
   apiNotFoundResponse,
 } from 'src/helpers/swaggerService.helper';
-
+@ApiProduces('application/json')
 @ApiTags('Auth')
 @Controller('/api/v1/auth/')
 export class AuthController {

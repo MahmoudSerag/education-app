@@ -29,7 +29,8 @@ async function bootstrap() {
     )
     .setVersion('1.0')
     .addTag('APIs')
-    .addCookieAuth()
+    .addServer('http://localhost:3000')
+    .addServer('http://localhost:5000')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
