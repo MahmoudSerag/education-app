@@ -1,15 +1,21 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthModule } from './auth/auth.module';
+import { CodeBankModule } from './code-bank/codeBank.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
 import { JWTService } from './helpers/jwtService.helper';
 import { ErrorResponse } from './helpers/errorHandlingService.helper';
+
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
+
+import { CodeBankController } from './code-bank/codeBank.controller';
 
 @Global()
 @Module({
@@ -25,6 +31,7 @@ import { ErrorResponse } from './helpers/errorHandlingService.helper';
       },
     }),
     AuthModule,
+    CodeBankModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
@@ -33,4 +40,10 @@ import { ErrorResponse } from './helpers/errorHandlingService.helper';
   ],
   exports: [JWTService, ErrorResponse],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware, RoleAuthMiddleware)
+      .forRoutes(CodeBankController);
+  }
+}
