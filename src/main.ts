@@ -9,7 +9,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: '*',
+    origin: [
+      process.env.CLIENT_DOMAIN_ONE,
+      process.env.CLIENT_DOMAIN_TWO,
+      process.env.CLIENT_DOMAIN_THREE,
+    ],
     credentials: true,
     methods: 'GET,PATCH,POST,DELETE',
     allowedHeaders: [
@@ -23,14 +27,13 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Education-App APIs Documentation')
-    .setDescription(
-      `<h4>Discover our concise and professional Swagger documentation, providing a comprehensive overview of our APIs. This indispensable resource outlines endpoints, request and response formats, authentication methods, and error handling guidelines. Seamlessly integrate our APIs and unleash the full potential of your applications.</h4>`,
-    )
+    .setTitle(process.env.SWAGGER_TITLE)
+    .setDescription(process.env.SWAGGER_DESCRIPTION)
     .setVersion('1.0')
     .addTag('APIs')
-    .addServer('http://localhost:3000')
-    .addServer('http://localhost:5000')
+    .addServer(process.env.SWAGGER_SERVER_ONE)
+    .addServer(process.env.SWAGGER_SERVER_TWO)
+    .addServer(process.env.SWAGGER_SERVER_THREE)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
