@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "18.x"
+  },
   "name": "education-app",
   "version": "0.0.1",
   "description": "An education app for students that offers interactive lessons, quizzes, study tools, and resources to help students for improving their academic grades.",
