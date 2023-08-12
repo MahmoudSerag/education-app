@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthModule } from './auth/auth.module';
 import { CodeBankModule } from './code-bank/codeBank.module';
+import { ChapterModule } from './chapter/chapter.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
@@ -32,6 +33,7 @@ import { CodeBankController } from './code-bank/codeBank.controller';
     }),
     AuthModule,
     CodeBankModule,
+    ChapterModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
