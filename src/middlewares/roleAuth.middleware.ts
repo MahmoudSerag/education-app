@@ -14,7 +14,7 @@ export class RoleAuthMiddleware implements NestMiddleware {
     try {
       const decodedToken = this.jwtService.verifyJWT(req.cookies.accessToken);
       if (decodedToken.role === 'student')
-        return this.errorResponse.handleError(res, 403, 'Forbidden');
+        return this.errorResponse.handleError(res, 403, 'Forbidden.');
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }

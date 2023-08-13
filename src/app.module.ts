@@ -17,6 +17,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
 
 import { CodeBankController } from './code-bank/codeBank.controller';
+import { ChapterController } from './chapter/chapter.controller';
 
 @Global()
 @Module({
@@ -46,6 +47,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware, RoleAuthMiddleware)
-      .forRoutes(CodeBankController);
+      .forRoutes(CodeBankController, ChapterController);
   }
 }
