@@ -42,7 +42,7 @@ export class ChapterService {
 
       return {
         success: true,
-        statusCode: 204,
+        statusCode: 200,
         message:
           message ||
           `تم حذف الفصل بنجاح وتم حذف المحاضرات التابعة لهذا الفصل بنجاح.`,

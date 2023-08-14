@@ -18,6 +18,9 @@ import {
   ApiForbiddenResponse,
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
 } from '@nestjs/swagger';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
@@ -26,6 +29,7 @@ import {
   apiForbiddenResponse,
   apiUnauthorizedResponse,
   apiInternalServerErrorResponse,
+  apiNotFoundResponse,
 } from 'src/helpers/swaggerService.helper';
 
 import { chapterDto } from './dto/chapter.dto';
@@ -66,6 +70,29 @@ export class ChapterController {
   }
 
   @Delete(':chapterId')
+  @ApiParam({
+    name: 'chapterId',
+    description: 'Should provide chapterId to delete single chapter',
+    example: '5f2b4a7c4c5c4d5e6f7g8h9i',
+    required: true,
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'Delete single chapter by chapterId',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 200,
+        message:
+          'تم حذف الفصل بنجاح و لا يوجد محاضرات محذوفة تابعة لهذا الفصل. || تم حذف الفصل بنجاح وتم حذف المحاضرات التابعة لهذا الفصل بنجاح.',
+      },
+    },
+  })
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   deleteSingleChapter(
     @Res({ passthrough: true }) res: Response,
     @Param('chapterId') chapterId: string,
