@@ -13,5 +13,8 @@ import { LectureSchema } from 'src/database/schemas/lecture.schema';
   ],
   controllers: [LectureController],
   providers: [LectureService, LectureModel],
+  exports: [
+    MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
+  ],
 })
 export class LectureModule {}

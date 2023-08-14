@@ -1,10 +1,14 @@
 import {
   Body,
   Controller,
+  Delete,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ChapterService } from './chapter.service';
 import {
   ApiProduces,
@@ -26,7 +30,7 @@ import {
 
 import { chapterDto } from './dto/chapter.dto';
 @ApiProduces('application/json')
-@ApiTags('Auth')
+@ApiTags('Chapter: Accessed by Admin / Moderator')
 @Controller('api/v1/chapters')
 export class ChapterController {
   constructor(private readonly chapterService: ChapterService) {}
@@ -54,7 +58,18 @@ export class ChapterController {
       },
     }),
   )
-  createNewChapter(@Body() body: chapterDto): object {
-    return this.chapterService.createNewChapter(body);
+  createNewChapter(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: chapterDto,
+  ): object {
+    return this.chapterService.createNewChapter(res, body);
+  }
+
+  @Delete(':chapterId')
+  deleteSingleChapter(
+    @Res({ passthrough: true }) res: Response,
+    @Param('chapterId') chapterId: string,
+  ): object {
+    return this.chapterService.deleteSingleChapter(res, chapterId);
   }
 }

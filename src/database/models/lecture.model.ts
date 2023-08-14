@@ -11,7 +11,9 @@ export class LectureModel {
     private readonly lectureModel: Model<LectureInterface>,
   ) {}
 
-  async deleteManyLecturesByChapterId(chapterId: string): Promise<any> {
-    return { message: 'Hello World!!', chapterId };
+  async deleteManyLecturesByChapterId(
+    chapterId: string,
+  ): Promise<LectureInterface> {
+    return await this.lectureModel.deleteMany({ chapterId }).lean();
   }
 }

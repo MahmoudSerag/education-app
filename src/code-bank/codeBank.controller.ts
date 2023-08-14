@@ -31,7 +31,7 @@ import {
 } from 'src/helpers/swaggerService.helper';
 
 @ApiProduces('application/json')
-@ApiTags('CodeBank')
+@ApiTags('CodeBank: Accessed by Admin / Moderator')
 @Controller('api/v1/code-bank')
 export class CodeBankController {
   constructor(private readonly codeBankService: CodeBankService) {}
