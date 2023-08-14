@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { CodeBankModule } from './code-bank/codeBank.module';
 import { ChapterModule } from './chapter/chapter.module';
+import { LectureModule } from './lecture/lecture.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
@@ -35,6 +36,7 @@ import { ChapterController } from './chapter/chapter.controller';
     AuthModule,
     CodeBankModule,
     ChapterModule,
+    LectureModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
