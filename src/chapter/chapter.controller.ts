@@ -8,6 +8,7 @@ import {
   ValidationPipe,
   Res,
   Patch,
+  Get,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ChapterService } from './chapter.service';
@@ -137,5 +138,10 @@ export class ChapterController {
     @Body() body: chapterDto,
   ): object {
     return this.chapterService.updateSingleChapter(res, chapterId, body);
+  }
+
+  @Get('all')
+  getAllChapters(@Res({ passthrough: true }) res: Response): object {
+    return this.chapterService.getAllChapters(res);
   }
 }

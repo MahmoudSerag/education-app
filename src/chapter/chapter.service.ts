@@ -75,4 +75,19 @@ export class ChapterService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async getAllChapters(@Res() res: Response): Promise<any> {
+    try {
+      const chapters = await this.chapterModel.getAllChapters();
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Chapters fetched successfully.',
+        chapters,
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }

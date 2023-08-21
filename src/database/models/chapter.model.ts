@@ -39,4 +39,8 @@ export class ChapterModel {
   ): Promise<ChapterInterface> {
     return await this.chapterModel.findByIdAndUpdate(chapterId, body).lean();
   }
+
+  async getAllChapters(): Promise<ChapterInterface[]> {
+    return await this.chapterModel.find().lean();
+  }
 }
