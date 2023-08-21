@@ -80,6 +80,9 @@ export class ChapterService {
     try {
       const chapters = await this.chapterModel.getAllChapters();
 
+      if (!chapters)
+        return this.errorResponse.handleError(res, 404, 'Chapters not found.');
+
       return {
         success: true,
         statusCode: 200,

@@ -24,7 +24,7 @@ export const apiBadRequestResponse = {
 
 export const apiConflictResponse = {
   status: 409,
-  description: 'Conflict Response.',
+  description: 'Conflict Request.',
   schema: {
     example: {
       success: false,
@@ -36,7 +36,7 @@ export const apiConflictResponse = {
 
 export const apiNotFoundResponse = {
   status: 404,
-  description: 'User not found.',
+  description: 'Not found.',
   schema: {
     example: {
       success: false,

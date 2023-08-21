@@ -44,12 +44,12 @@ export class ChapterController {
   @Post()
   @ApiCreatedResponse({
     status: 201,
-    description: 'User registration',
+    description: 'Create new chapter',
     schema: {
       example: {
         success: true,
         statusCode: 201,
-        message: 'User created successfully',
+        message: 'Chapter created successfully.',
       },
     },
   })
@@ -141,6 +141,42 @@ export class ChapterController {
   }
 
   @Get('all')
+  @ApiOkResponse({
+    status: 200,
+    description: 'Fetch all chapters',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 200,
+        message: 'Chapters fetched successfully.',
+        chapters: [
+          {
+            _id: '64d97510859dc4f83d9dc0c8',
+            title: 'المواد المصولة و المواد الغير موصلة',
+            imageURL:
+              'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
+            academicYear: 2,
+            description: 'النهاردة درس مهم موووت',
+            createdAt: '2023-08-14T00:28:00.061Z',
+            updatedAt: '2023-08-14T00:28:00.061Z',
+          },
+          {
+            _id: '64da68e286a1df137c94af8a',
+            title: 'المواد المصولة و المواد الغير موصلة',
+            imageURL:
+              'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
+            academicYear: 2,
+            description: 'النهاردة درس مهم موووت',
+            createdAt: '2023-08-14T17:48:18.803Z',
+            updatedAt: '2023-08-14T17:48:18.803Z',
+          },
+          `{ .......... }`,
+        ],
+      },
+    },
+  })
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getAllChapters(@Res({ passthrough: true }) res: Response): object {
     return this.chapterService.getAllChapters(res);
   }
