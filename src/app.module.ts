@@ -12,6 +12,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
 import { JWTService } from './helpers/jwtService.helper';
+import { AppService } from './app.service';
 import { ErrorResponse } from './helpers/errorHandlingService.helper';
 
 import { LoggerMiddleware } from './middlewares/logger.middleware';
@@ -19,6 +20,7 @@ import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
 
 import { CodeBankController } from './code-bank/codeBank.controller';
 import { ChapterController } from './chapter/chapter.controller';
+import { AppController } from './app.controller';
 
 @Global()
 @Module({
@@ -38,10 +40,12 @@ import { ChapterController } from './chapter/chapter.controller';
     ChapterModule,
     LectureModule,
   ],
+  controllers: [AppController],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     JWTService,
     ErrorResponse,
+    AppService,
   ],
   exports: [JWTService, ErrorResponse],
 })

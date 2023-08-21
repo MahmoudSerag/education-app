@@ -102,6 +102,28 @@ export class ChapterController {
   }
 
   @Patch(':chapterId')
+  @ApiParam({
+    name: 'chapterId',
+    description: 'Should provide chapterId to delete single chapter',
+    example: '5f2b4a7c4c5c4d5e6f7g8h9i',
+    required: true,
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'Update single chapter by chapterId',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 200,
+        message: 'تم تعديل الفصل بنجاح.',
+      },
+    },
+  })
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(
     new ValidationPipe({
       exceptionFactory(error: object[]) {
