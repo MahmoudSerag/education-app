@@ -45,7 +45,7 @@ export class AuthModel {
     isTokenExpired: boolean,
   ): Promise<void> {
     user.isTokenExpired = isTokenExpired;
-    user.save();
+    await user.save();
   }
 
   async createNewPassword(

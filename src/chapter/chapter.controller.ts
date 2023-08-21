@@ -7,6 +7,7 @@ import {
   UsePipes,
   ValidationPipe,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ChapterService } from './chapter.service';
@@ -98,5 +99,21 @@ export class ChapterController {
     @Param('chapterId') chapterId: string,
   ): object {
     return this.chapterService.deleteSingleChapter(res, chapterId);
+  }
+
+  @Patch(':chapterId')
+  @UsePipes(
+    new ValidationPipe({
+      exceptionFactory(error: object[]) {
+        ErrorResponse.validateRequestBody(error);
+      },
+    }),
+  )
+  updateSingleChapter(
+    @Res({ passthrough: true }) res: Response,
+    @Param('chapterId') chapterId: string,
+    @Body() body: chapterDto,
+  ): object {
+    return this.chapterService.updateSingleChapter(res, chapterId, body);
   }
 }

@@ -51,4 +51,28 @@ export class ChapterService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async updateSingleChapter(
+    @Res() res: Response,
+    chapterId: string,
+    body: chapterDto,
+  ): Promise<any> {
+    try {
+      const updatedChapter = await this.chapterModel.updateChapterById(
+        chapterId,
+        body,
+      );
+
+      if (!updatedChapter)
+        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'تم تعديل الفصل بنجاح.',
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }

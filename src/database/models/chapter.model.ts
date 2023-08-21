@@ -32,4 +32,11 @@ export class ChapterModel {
       this.lectureModel.deleteManyLecturesByChapterId(chapterId),
     ]);
   }
+
+  async updateChapterById(
+    chapterId: string,
+    body: chapterDto,
+  ): Promise<ChapterInterface> {
+    return await this.chapterModel.findByIdAndUpdate(chapterId, body).lean();
+  }
 }
