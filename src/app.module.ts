@@ -59,7 +59,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware, RoleAuthMiddleware)
-      .exclude({ path: '/api/v1/chapters/all', method: RequestMethod.GET })
+      .exclude({ path: '/api/v1/chapters', method: RequestMethod.GET })
       .forRoutes(CodeBankController, ChapterController);
   }
 }

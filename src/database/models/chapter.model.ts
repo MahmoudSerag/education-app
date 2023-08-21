@@ -40,7 +40,9 @@ export class ChapterModel {
     return await this.chapterModel.findByIdAndUpdate(chapterId, body).lean();
   }
 
-  async getAllChapters(): Promise<ChapterInterface[]> {
-    return await this.chapterModel.find().lean();
+  async getAllChapters(academicYear: number): Promise<ChapterInterface[]> {
+    if (!academicYear) return await this.chapterModel.find().lean();
+
+    return await this.chapterModel.find({ academicYear }).lean();
   }
 }

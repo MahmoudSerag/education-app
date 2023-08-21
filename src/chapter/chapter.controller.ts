@@ -9,6 +9,7 @@ import {
   Res,
   Patch,
   Get,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ChapterService } from './chapter.service';
@@ -23,6 +24,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
@@ -140,7 +142,14 @@ export class ChapterController {
     return this.chapterService.updateSingleChapter(res, chapterId, body);
   }
 
-  @Get('all')
+  @Get()
+  @ApiQuery({
+    name: 'academicYear',
+    description:
+      'Should provide academicYear to get related chapters to this academicYear',
+    example: '2',
+    required: false,
+  })
   @ApiOkResponse({
     status: 200,
     description: 'Fetch all chapters',
@@ -177,7 +186,13 @@ export class ChapterController {
   })
   @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  getAllChapters(@Res({ passthrough: true }) res: Response): object {
-    return this.chapterService.getAllChapters(res);
+  getAllChapters(
+    @Res({ passthrough: true }) res: Response,
+    @Query('academicYear') academicYear: number,
+  ): object {
+    return this.chapterService.getAllChapters(
+      res,
+      Number(academicYear) || null,
+    );
   }
 }

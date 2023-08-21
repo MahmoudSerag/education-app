@@ -76,9 +76,12 @@ export class ChapterService {
     }
   }
 
-  async getAllChapters(@Res() res: Response): Promise<any> {
+  async getAllChapters(
+    @Res() res: Response,
+    academicYear: number,
+  ): Promise<any> {
     try {
-      const chapters = await this.chapterModel.getAllChapters();
+      const chapters = await this.chapterModel.getAllChapters(academicYear);
 
       if (!chapters)
         return this.errorResponse.handleError(res, 404, 'Chapters not found.');
