@@ -45,4 +45,15 @@ export class ChapterModel {
 
     return await this.chapterModel.find({ academicYear }).lean();
   }
+
+  async getChapterByTitle(title: string): Promise<ChapterInterface[]> {
+    const chapterQuery: { title?: { $regex: RegExp } } = {};
+
+    if (title)
+      chapterQuery.title = {
+        $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i'),
+      };
+
+    return await this.chapterModel.find(chapterQuery).lean();
+  }
 }

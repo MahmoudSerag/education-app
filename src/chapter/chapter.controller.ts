@@ -190,9 +190,14 @@ export class ChapterController {
     @Res({ passthrough: true }) res: Response,
     @Query('academicYear') academicYear: number,
   ): object {
-    return this.chapterService.getAllChapters(
-      res,
-      Number(academicYear) || null,
-    );
+    return this.chapterService.getAllChapters(res, Number(academicYear));
+  }
+
+  @Get('/search')
+  searchChapter(
+    @Res({ passthrough: true }) res: Response,
+    @Query('title') title: string,
+  ): object {
+    return this.chapterService.searchChapter(res, title);
   }
 }

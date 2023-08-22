@@ -83,7 +83,32 @@ export class ChapterService {
     try {
       const chapters = await this.chapterModel.getAllChapters(academicYear);
 
-      if (!chapters)
+      if (!chapters.length)
+        return this.errorResponse.handleError(res, 404, 'Chapters not found.');
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Chapters fetched successfully.',
+        chapters,
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async searchChapter(@Res() res: Response, title: string): Promise<any> {
+    try {
+      if (!title || title.trim() === '')
+        return this.errorResponse.handleError(
+          res,
+          400,
+          `Incorrect query parameters. 'title' should not be empty or undefined.`,
+        );
+
+      const chapters = await this.chapterModel.getChapterByTitle(title);
+
+      if (!chapters.length)
         return this.errorResponse.handleError(res, 404, 'Chapters not found.');
 
       return {
