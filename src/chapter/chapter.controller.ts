@@ -245,6 +245,38 @@ export class ChapterController {
   }
 
   @Get(':chapterId')
+  @ApiParam({
+    name: 'chapterId',
+    description: 'Should provide chapterId to fetch chapter details',
+    example: '64d97510859dc4f83d9dc0c8',
+    required: true,
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'Fetch chapter details',
+    schema: {
+      example: {
+        success: true,
+        statusCode: 200,
+        message: 'Chapter fetched successfully.',
+        chapters: [
+          {
+            _id: '64d97510859dc4f83d9dc0c8',
+            title: 'المواد المصولة و المواد الغير موصلة',
+            imageURL:
+              'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
+            academicYear: 2,
+            description: 'النهاردة درس مهم موووت',
+            createdAt: '2023-08-14T00:28:00.061Z',
+            updatedAt: '2023-08-14T00:28:00.061Z',
+          },
+        ],
+      },
+    },
+  })
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getChapterById(
     @Res({ passthrough: true }) res: Response,
     @Param('chapterId') chapterId: string,
