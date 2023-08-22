@@ -106,10 +106,14 @@ export class ChapterService {
           `Incorrect query parameters. 'title' should not be empty or undefined.`,
         );
 
-      const chapters = await this.chapterModel.getChapterByTitle(title);
+      const chapters = await this.chapterModel.getChaptersByTitle(title);
 
       if (!chapters.length)
-        return this.errorResponse.handleError(res, 404, 'Chapters not found.');
+        return this.errorResponse.handleError(
+          res,
+          404,
+          'لا يوجد محاضرات بهذا التسلسل او الرمز',
+        );
 
       return {
         success: true,

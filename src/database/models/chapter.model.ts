@@ -41,19 +41,23 @@ export class ChapterModel {
   }
 
   async getAllChapters(academicYear: number): Promise<ChapterInterface[]> {
-    if (!academicYear) return await this.chapterModel.find().lean();
+    if (!academicYear)
+      return await this.chapterModel.find().sort({ createdAt: -1 }).lean();
 
-    return await this.chapterModel.find({ academicYear }).lean();
+    return await this.chapterModel
+      .find({ academicYear })
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
-  async getChapterByTitle(title: string): Promise<ChapterInterface[]> {
-    const chapterQuery: { title?: { $regex: RegExp } } = {};
+  async getChaptersByTitle(title: string): Promise<ChapterInterface[]> {
+    const chapterQuery = {
+      title: { $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i') },
+    };
 
-    if (title)
-      chapterQuery.title = {
-        $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i'),
-      };
-
-    return await this.chapterModel.find(chapterQuery).lean();
+    return await this.chapterModel
+      .find(chapterQuery)
+      .sort({ createdAt: -1 })
+      .lean();
   }
 }
