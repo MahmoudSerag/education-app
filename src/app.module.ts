@@ -62,6 +62,7 @@ export class AppModule implements NestModule {
       .exclude(
         { path: '/api/v1/chapters', method: RequestMethod.GET },
         { path: '/api/v1/chapters/search', method: RequestMethod.GET },
+        { path: 'api/v1/chapters/:chapterId', method: RequestMethod.GET },
       )
       .forRoutes(CodeBankController, ChapterController);
   }

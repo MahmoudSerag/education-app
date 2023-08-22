@@ -125,4 +125,22 @@ export class ChapterService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async getChapterById(@Res() res: Response, chapterId: string): Promise<any> {
+    try {
+      const chapter = await this.chapterModel.getChapterById(chapterId);
+
+      if (!chapter)
+        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Chapter fetched successfully.',
+        chapter,
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }

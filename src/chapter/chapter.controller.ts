@@ -243,4 +243,12 @@ export class ChapterController {
   ): object {
     return this.chapterService.searchChapter(res, title);
   }
+
+  @Get(':chapterId')
+  getChapterById(
+    @Res({ passthrough: true }) res: Response,
+    @Param('chapterId') chapterId: string,
+  ): object {
+    return this.chapterService.getChapterById(res, chapterId);
+  }
 }

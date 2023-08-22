@@ -60,4 +60,8 @@ export class ChapterModel {
       .sort({ createdAt: -1 })
       .lean();
   }
+
+  async getChapterById(chapterId: string): Promise<ChapterInterface> {
+    return await this.chapterModel.findById(chapterId).lean();
+  }
 }
