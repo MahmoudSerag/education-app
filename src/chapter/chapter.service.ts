@@ -97,7 +97,7 @@ export class ChapterService {
     }
   }
 
-  async searchChapter(@Res() res: Response, title: string): Promise<any> {
+  async searchChapters(@Res() res: Response, title: string): Promise<any> {
     try {
       if (!title || title.trim() === '')
         return this.errorResponse.handleError(

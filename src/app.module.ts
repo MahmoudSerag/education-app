@@ -26,6 +26,7 @@ import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
 
 import { CodeBankController } from './code-bank/codeBank.controller';
 import { ChapterController } from './chapter/chapter.controller';
+import { LectureController } from './lecture/lecture.controller';
 import { AppController } from './app.controller';
 
 @Global()
@@ -64,6 +65,6 @@ export class AppModule implements NestModule {
         { path: '/api/v1/chapters/search', method: RequestMethod.GET },
         { path: 'api/v1/chapters/:chapterId', method: RequestMethod.GET },
       )
-      .forRoutes(CodeBankController, ChapterController);
+      .forRoutes(CodeBankController, ChapterController, LectureController);
   }
 }

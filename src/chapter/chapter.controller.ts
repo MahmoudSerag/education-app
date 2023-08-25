@@ -38,7 +38,7 @@ import {
 
 import { chapterDto } from './dto/chapter.dto';
 @ApiProduces('application/json')
-@ApiTags('Chapter: Accessed by Admin / Moderator')
+@ApiTags('Chapters')
 @Controller('api/v1/chapters')
 export class ChapterController {
   constructor(private readonly chapterService: ChapterService) {}
@@ -241,7 +241,7 @@ export class ChapterController {
     @Res({ passthrough: true }) res: Response,
     @Query('title') title: string,
   ): object {
-    return this.chapterService.searchChapter(res, title);
+    return this.chapterService.searchChapters(res, title);
   }
 
   @Get(':chapterId')

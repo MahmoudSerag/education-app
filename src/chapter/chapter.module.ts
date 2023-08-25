@@ -16,5 +16,8 @@ import { ChapterSchema } from 'src/database/schemas/chapter.schema';
   ],
   controllers: [ChapterController],
   providers: [ChapterService, ChapterModel, LectureModel],
+  exports: [
+    MongooseModule.forFeature([{ name: 'Chapter', schema: ChapterSchema }]),
+  ],
 })
 export class ChapterModule {}
