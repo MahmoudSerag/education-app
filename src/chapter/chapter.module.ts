@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LectureModule } from 'src/lecture/lecture.module';
 import { ChapterModel } from 'src/database/models/chapter.model';
@@ -12,7 +12,7 @@ import { ChapterSchema } from 'src/database/schemas/chapter.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Chapter', schema: ChapterSchema }]),
-    LectureModule,
+    forwardRef(() => LectureModule),
   ],
   controllers: [ChapterController],
   providers: [ChapterService, ChapterModel, LectureModel],

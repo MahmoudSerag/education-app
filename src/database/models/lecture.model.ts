@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ChapterModel } from './chapter.model';
 import { Model } from 'mongoose';
 
 import { LectureInterface } from 'src/lecture/interface/lecture.interface';
@@ -12,6 +13,8 @@ export class LectureModel {
   constructor(
     @InjectModel('Lecture')
     private readonly lectureModel: Model<LectureInterface>,
+    @Inject(forwardRef(() => ChapterModel))
+    private readonly chapterModel: ChapterModel,
   ) {}
 
   async deleteManyLecturesByChapterId(
@@ -27,5 +30,9 @@ export class LectureModel {
     body['chapterId'] = chapter._id;
     body['academicYear'] = chapter.academicYear;
     await this.lectureModel.create(body);
+  }
+
+  async getChapterById(chapterId: string): Promise<ChapterInterface> {
+    return await this.chapterModel.getChapterById(chapterId);
   }
 }

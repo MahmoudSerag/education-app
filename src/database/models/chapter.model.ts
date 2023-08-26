@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LectureModel } from './lecture.model';
@@ -12,6 +12,7 @@ export class ChapterModel {
   constructor(
     @InjectModel('Chapter')
     private readonly chapterModel: Model<ChapterInterface>,
+    @Inject(forwardRef(() => LectureModel))
     private readonly lectureModel: LectureModel,
   ) {}
 
