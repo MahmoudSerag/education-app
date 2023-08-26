@@ -15,7 +15,7 @@ export class LectureService {
     @Res() res: Response,
     chapterId: string,
     body: lectureDto,
-  ) {
+  ): Promise<any> {
     try {
       const chapter = await this.lectureModel.getChapterById(chapterId);
 

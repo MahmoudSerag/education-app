@@ -50,7 +50,7 @@ export class LectureController {
     schema: {
       example: {
         success: true,
-        statusCode: 200,
+        statusCode: 201,
         message: 'Lecture created successfully.',
       },
     },
