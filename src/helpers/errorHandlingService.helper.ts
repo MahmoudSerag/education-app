@@ -30,22 +30,25 @@ export class ErrorResponse {
     };
   }
 
-  public validatePasswordAndEmail(body: any) {
-    if (body.email !== body.confirmedEmail) {
+  public validatePasswordAndEmail(body: {
+    email: string;
+    password: string;
+    confirmedPassword: string;
+    confirmedEmail: string;
+  }): void {
+    if (body.email !== body.confirmedEmail)
       throw new BadRequestException({
         success: false,
         statusCode: 400,
         message: 'The email and confirmed email do not match',
       });
-    }
 
-    if (body.password !== body.confirmedPassword) {
+    if (body.password !== body.confirmedPassword)
       throw new BadRequestException({
         success: false,
         statusCode: 400,
-        message: 'Only PDF files are allowed.',
+        message: 'The password and confirmed password do not match',
       });
-    }
   }
 
   public handleError(

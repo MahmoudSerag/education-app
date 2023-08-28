@@ -23,8 +23,15 @@ export class AuthService {
     private readonly emailService: EmailService,
     private readonly cookieService: CookieService,
   ) {}
-  async register(@Res() res: Response, body: registerDto): Promise<any> {
+  async register(
+    @Res() res: Response,
+    body: registerDto,
+    accessToken: string,
+  ): Promise<any> {
     try {
+      if (accessToken)
+        return this.errorResponse.handleError(res, 406, ', Logout first.');
+
       this.errorResponse.validatePasswordAndEmail(body);
 
       const isEmailExist = await this.authModel.findUserByEmail(body.email);

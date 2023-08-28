@@ -66,10 +66,12 @@ export class AuthController {
     }),
   )
   register(
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     @Body() body: registerDto,
   ): object {
-    return this.authService.register(res, body);
+    const accessToken = req.cookies.accessToken;
+    return this.authService.register(res, body, accessToken);
   }
 
   @Post('login')
