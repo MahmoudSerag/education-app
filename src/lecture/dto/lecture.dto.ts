@@ -9,7 +9,7 @@ import {
 import { IsValidVideoUrl } from './videoURL.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class lectureDto {
+export class LectureDto {
   @ApiProperty({
     name: 'title',
     type: String,
