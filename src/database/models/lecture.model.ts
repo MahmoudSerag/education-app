@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { LectureInterface } from 'src/lecture/interface/lecture.interface';
 import { ChapterInterface } from 'src/chapter/interface/chapter.interface';
 
-import { lectureDto } from 'src/lecture/dto/lecture.dto';
+import { LectureDto } from 'src/lecture/dto/lecture.dto';
 
 @Injectable()
 export class LectureModel {
@@ -24,11 +24,16 @@ export class LectureModel {
   }
 
   async createNewLecture(
-    body: lectureDto,
+    body: LectureDto,
     chapter: ChapterInterface,
+    files: Array<Express.Multer.File>,
   ): Promise<void> {
     body['chapterId'] = chapter._id;
     body['academicYear'] = chapter.academicYear;
+
+    if (files && files.length)
+      body['pdfFiles'] = files.map((file) => file.filename);
+
     await this.lectureModel.create(body);
   }
 

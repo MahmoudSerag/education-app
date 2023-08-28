@@ -1,4 +1,10 @@
-import { Module, forwardRef } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+  forwardRef,
+} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LectureModel } from 'src/database/models/lecture.model';
 import { ChapterModel } from 'src/database/models/chapter.model';
@@ -8,7 +14,8 @@ import { LectureController } from './lecture.controller';
 import { LectureService } from './lecture.service';
 
 import { LectureSchema } from 'src/database/schemas/lecture.schema';
-// import { ChapterSchema } from 'src/database/schemas/chapter.schema';
+
+import { ValidationMiddleware } from 'src/middlewares/bodyValidation.middleware';
 
 @Module({
   imports: [
@@ -21,4 +28,11 @@ import { LectureSchema } from 'src/database/schemas/lecture.schema';
     MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
   ],
 })
-export class LectureModule {}
+export class LectureModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ValidationMiddleware).forRoutes({
+      path: 'api/v1/lectures/:chapterId',
+      method: RequestMethod.POST,
+    });
+  }
+}

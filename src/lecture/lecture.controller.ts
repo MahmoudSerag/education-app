@@ -4,16 +4,19 @@ import {
   Param,
   Post,
   Res,
-  ValidationPipe,
-  UsePipes,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { LectureService } from './lecture.service';
 import { Response } from 'express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
-import { lectureDto } from './dto/lecture.dto';
-import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
+import { MulterConfig } from 'src/helpers/multerService.helper';
+import { LectureDto } from './dto/lecture.dto';
+
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
@@ -60,18 +63,14 @@ export class LectureController {
   @ApiForbiddenResponse(apiForbiddenResponse)
   @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UseInterceptors(FilesInterceptor('files', 5, MulterConfig))
+  @ApiBody({ type: LectureDto })
   createNewLecture(
     @Res({ passthrough: true }) res: Response,
     @Param('chapterId') chapterId: string,
-    @Body() body: lectureDto,
+    @Body() body: LectureDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
   ): object {
-    return this.lectureService.createNewLecture(res, chapterId, body);
+    return this.lectureService.createNewLecture(res, chapterId, body, files);
   }
 }
