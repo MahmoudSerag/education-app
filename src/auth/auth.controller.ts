@@ -129,10 +129,12 @@ export class AuthController {
     }),
   )
   resetPasswordStepOne(
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     @Body() body: resetPasswordDto,
   ): object {
-    return this.authService.resetPasswordStepOne(res, body);
+    const accessToken = req.cookies.accessToken;
+    return this.authService.resetPasswordStepOne(res, body, accessToken);
   }
 
   @Get('password-reset-step-two')

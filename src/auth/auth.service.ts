@@ -129,8 +129,12 @@ export class AuthService {
   async resetPasswordStepOne(
     @Res() res: Response,
     body: resetPasswordDto,
+    accessToken: string,
   ): Promise<any> {
     try {
+      if (accessToken)
+        return this.errorResponse.handleError(res, 406, 'Logout first.');
+
       const user = await this.authModel.findUserByEmail(body.email);
 
       if (!user)
