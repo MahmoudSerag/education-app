@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { BadRequestException, HttpStatus, Res } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -8,6 +9,25 @@ export class ErrorResponse {
       statusCode: 400,
       message: Object.values(error[0]['constraints'])[0],
     });
+  }
+
+  public deleteFiles(files: Array<Express.Multer.File>): object | void {
+    let isPDFFound = false;
+    for (const file of files)
+      if (file.mimetype !== 'application/pdf') {
+        isPDFFound = true;
+        break;
+      }
+
+    if (isPDFFound)
+      for (const file of files)
+        if (file.mimetype === 'application/pdf') fs.unlinkSync(file.path);
+
+    return {
+      success: false,
+      statusCode: 400,
+      message: 'Only PDF files are allowed.',
+    };
   }
 
   public validatePasswordAndEmail(body: any) {
@@ -23,7 +43,7 @@ export class ErrorResponse {
       throw new BadRequestException({
         success: false,
         statusCode: 400,
-        message: 'The password and confirmed password do not match',
+        message: 'Only PDF files are allowed.',
       });
     }
   }
