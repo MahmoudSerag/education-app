@@ -15,13 +15,7 @@ async function bootstrap() {
       process.env.CLIENT_DOMAIN_THREE,
     ],
     credentials: true,
-    methods: 'GET,PATCH,POST,DELETE',
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Accept',
-      'Application/json',
-    ],
+    methods: ['GET', 'PATCH', 'POST', 'DELETE', 'PUT'],
     preflightContinue: false,
     optionsSuccessStatus: 200,
   });
