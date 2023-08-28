@@ -1,9 +1,9 @@
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { LectureModel } from 'src/database/models/lecture.model';
 import { Response } from 'express';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
-import { lectureDto } from './dto/lecture.dto';
+import { LectureDto } from './dto/lecture.dto';
 
 @Injectable()
 export class LectureService {
@@ -12,17 +12,21 @@ export class LectureService {
     private readonly errorResponse: ErrorResponse,
   ) {}
   async createNewLecture(
-    @Res() res: Response,
+    res: Response,
     chapterId: string,
-    body: lectureDto,
+    body: LectureDto,
+    files: Array<Express.Multer.File>,
   ) {
     try {
+      if (files && files.length && files[0].mimetype !== 'application/pdf')
+        return this.errorResponse.deleteFiles(files);
+
       const chapter = await this.lectureModel.getChapterById(chapterId);
 
       if (!chapter)
         return this.errorResponse.handleError(res, 404, 'Chapter not found.');
 
-      await this.lectureModel.createNewLecture(body, chapter);
+      await this.lectureModel.createNewLecture(body, chapter, files);
 
       return {
         success: true,
