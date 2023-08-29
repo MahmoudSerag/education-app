@@ -36,7 +36,7 @@ import {
   apiNotFoundResponse,
 } from 'src/helpers/swaggerService.helper';
 
-import { chapterDto } from './dto/chapter.dto';
+import { ChapterDto } from './dto/chapter.dto';
 @ApiProduces('application/json')
 @ApiTags('Chapters')
 @Controller('api/v1/chapters')
@@ -68,7 +68,7 @@ export class ChapterController {
   )
   createNewChapter(
     @Res({ passthrough: true }) res: Response,
-    @Body() body: chapterDto,
+    @Body() body: ChapterDto,
   ): object {
     return this.chapterService.createNewChapter(res, body);
   }
@@ -137,7 +137,7 @@ export class ChapterController {
   updateSingleChapter(
     @Res({ passthrough: true }) res: Response,
     @Param('chapterId') chapterId: string,
-    @Body() body: chapterDto,
+    @Body() body: ChapterDto,
   ): object {
     return this.chapterService.updateSingleChapter(res, chapterId, body);
   }

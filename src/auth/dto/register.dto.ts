@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class registerDto {
+export class RegisterDto {
   @ApiProperty({
     name: 'fullName',
     type: String,

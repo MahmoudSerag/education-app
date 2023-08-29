@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class codeBankDto {
+export class CodeBankDto {
   @ApiProperty({
     name: 'numberOfCodes',
     type: Number,

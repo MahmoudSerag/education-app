@@ -1,9 +1,9 @@
 import { Injectable, Res } from '@nestjs/common';
 import { Response } from 'express';
 
-import { registerDto } from './dto/register.dto';
-import { resetPasswordDto } from './dto/resetPassword.dto';
-import { newPasswordDto } from './dto/newPassword.dto';
+import { RegisterDto } from './dto/register.dto';
+import { ResetPasswordDto } from './dto/resetPassword.dto';
+import { NewPasswordDto } from './dto/newPassword.dto';
 
 import { AuthModel } from 'src/database/models/auth.model';
 
@@ -25,7 +25,7 @@ export class AuthService {
   ) {}
   async register(
     @Res() res: Response,
-    body: registerDto,
+    body: RegisterDto,
     accessToken: string,
   ): Promise<any> {
     try {
@@ -128,7 +128,7 @@ export class AuthService {
 
   async resetPasswordStepOne(
     @Res() res: Response,
-    body: resetPasswordDto,
+    body: ResetPasswordDto,
     accessToken: string,
   ): Promise<any> {
     try {
@@ -202,7 +202,7 @@ export class AuthService {
   async resetPasswordStepThree(
     @Res() res: Response,
     passwordResetToken: string,
-    body: newPasswordDto,
+    body: NewPasswordDto,
   ): Promise<any> {
     try {
       if (body.newPassword !== body.confirmedNewPassword)

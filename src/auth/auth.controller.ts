@@ -23,10 +23,10 @@ import {
   ApiProduces,
 } from '@nestjs/swagger';
 
-import { registerDto } from './dto/register.dto';
-import { loginDto } from './dto/login.dto';
-import { resetPasswordDto } from './dto/resetPassword.dto';
-import { newPasswordDto } from './dto/newPassword.dto';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { ResetPasswordDto } from './dto/resetPassword.dto';
+import { NewPasswordDto } from './dto/newPassword.dto';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import {
@@ -68,7 +68,7 @@ export class AuthController {
   register(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @Body() body: registerDto,
+    @Body() body: RegisterDto,
   ): object {
     const accessToken = req.cookies.accessToken;
     return this.authService.register(res, body, accessToken);
@@ -100,7 +100,7 @@ export class AuthController {
   login(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
-    @Body() body: loginDto,
+    @Body() body: LoginDto,
   ): object {
     const accessToken: string = req.cookies.accessToken;
     return this.authService.login(res, accessToken, body);
@@ -131,7 +131,7 @@ export class AuthController {
   resetPasswordStepOne(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @Body() body: resetPasswordDto,
+    @Body() body: ResetPasswordDto,
   ): object {
     const accessToken = req.cookies.accessToken;
     return this.authService.resetPasswordStepOne(res, body, accessToken);
@@ -184,7 +184,7 @@ export class AuthController {
   resetPasswordStepThree(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
-    @Body() body: newPasswordDto,
+    @Body() body: NewPasswordDto,
   ): object {
     const passwordResetToken = req.cookies.userToken;
     return this.authService.resetPasswordStepThree(

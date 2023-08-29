@@ -12,7 +12,7 @@ import { CodeBankService } from './codeBank.service';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 
-import { codeBankDto } from './dto/codeBank.dto';
+import { CodeBankDto } from './dto/codeBank.dto';
 
 import {
   ApiBadRequestResponse,
@@ -61,7 +61,7 @@ export class CodeBankController {
   )
   createCodeBank(
     @Res({ passthrough: true }) res: Response,
-    @Body() body: codeBankDto,
+    @Body() body: CodeBankDto,
   ): object {
     return this.codeBankService.createCodeBank(res, body);
   }

@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LectureModel } from './lecture.model';
 
-import { chapterDto } from 'src/chapter/dto/chapter.dto';
+import { ChapterDto } from 'src/chapter/dto/chapter.dto';
 import { ChapterInterface } from 'src/chapter/interface/chapter.interface';
 import { LectureInterface } from 'src/lecture/interface/lecture.interface';
 
@@ -16,7 +16,7 @@ export class ChapterModel {
     private readonly lectureModel: LectureModel,
   ) {}
 
-  async createNewChapter(body: chapterDto): Promise<void> {
+  async createNewChapter(body: ChapterDto): Promise<void> {
     await this.chapterModel.create(body);
   }
 
@@ -36,7 +36,7 @@ export class ChapterModel {
 
   async updateChapterById(
     chapterId: string,
-    body: chapterDto,
+    body: ChapterDto,
   ): Promise<ChapterInterface> {
     return await this.chapterModel.findByIdAndUpdate(chapterId, body).lean();
   }

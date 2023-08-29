@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class chapterDto {
+export class ChapterDto {
   @ApiProperty({
     name: 'title',
     type: String,

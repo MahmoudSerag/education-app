@@ -2,7 +2,7 @@ import { Injectable, Res } from '@nestjs/common';
 import { ChapterModel } from 'src/database/models/chapter.model';
 import { Response } from 'express';
 
-import { chapterDto } from './dto/chapter.dto';
+import { ChapterDto } from './dto/chapter.dto';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 @Injectable()
@@ -11,7 +11,7 @@ export class ChapterService {
     private readonly chapterModel: ChapterModel,
     private readonly errorResponse: ErrorResponse,
   ) {}
-  async createNewChapter(@Res() res: Response, body: chapterDto): Promise<any> {
+  async createNewChapter(@Res() res: Response, body: ChapterDto): Promise<any> {
     try {
       await this.chapterModel.createNewChapter(body);
 
@@ -55,7 +55,7 @@ export class ChapterService {
   async updateSingleChapter(
     @Res() res: Response,
     chapterId: string,
-    body: chapterDto,
+    body: ChapterDto,
   ): Promise<any> {
     try {
       const updatedChapter = await this.chapterModel.updateChapterById(

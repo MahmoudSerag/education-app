@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { CodeBankInterface } from 'src/code-bank/interface/codeBank.interface';
-import { codeBankDto } from 'src/code-bank/dto/codeBank.dto';
+import { CodeBankDto } from 'src/code-bank/dto/codeBank.dto';
 
 @Injectable()
 export class CodeBankModel {
@@ -12,7 +12,7 @@ export class CodeBankModel {
     private readonly codeBankModel: Model<CodeBankInterface>,
   ) {}
 
-  async createCodeBank(body: codeBankDto): Promise<void> {
+  async createCodeBank(body: CodeBankDto): Promise<void> {
     const codeBank = [];
 
     for (let i = 0; i < body.numberOfCodes; i++) {

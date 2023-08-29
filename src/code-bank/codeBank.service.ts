@@ -5,7 +5,7 @@ import { CodeBankModel } from 'src/database/models/codeBank.model';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 
-import { codeBankDto } from './dto/codeBank.dto';
+import { CodeBankDto } from './dto/codeBank.dto';
 
 @Injectable()
 export class CodeBankService {
@@ -14,7 +14,7 @@ export class CodeBankService {
     private readonly errorResponse: ErrorResponse,
   ) {}
 
-  async createCodeBank(@Res() res: Response, body: codeBankDto): Promise<any> {
+  async createCodeBank(@Res() res: Response, body: CodeBankDto): Promise<any> {
     try {
       await this.codeBankModel.createCodeBank(body);
 
