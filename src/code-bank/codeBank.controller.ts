@@ -1,16 +1,9 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Res,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Post, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 
-import { CodeBankService } from './codeBank.service';
+import { validationPipe } from 'src/pipes/validation.pipe';
 
-import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
+import { CodeBankService } from './codeBank.service';
 
 import { CodeBankDto } from './dto/codeBank.dto';
 
@@ -24,11 +17,12 @@ import {
   ApiProduces,
 } from '@nestjs/swagger';
 import {
-  apiInternalServerErrorResponse,
   apiBadRequestResponse,
+  apiInternalServerErrorResponse,
   apiUnauthorizedResponse,
   apiForbiddenResponse,
-} from 'src/helpers/swaggerService.helper';
+} from 'src/swagger/errors.swagger';
+import { createdCodeBankResponse } from 'src/swagger/code-bank/codeBank.swagger';
 
 @ApiProduces('application/json')
 @ApiTags('CodeBank')
@@ -37,28 +31,12 @@ export class CodeBankController {
   constructor(private readonly codeBankService: CodeBankService) {}
 
   @Post()
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'Code Bank',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'تم انشاء عدد 200 كود شراء بقيمة 50 جنيه للكود الواحد',
-      },
-    },
-  })
-  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiCreatedResponse(createdCodeBankResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiForbiddenResponse(apiForbiddenResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UsePipes(validationPipe)
   createCodeBank(
     @Res({ passthrough: true }) res: Response,
     @Body() body: CodeBankDto,

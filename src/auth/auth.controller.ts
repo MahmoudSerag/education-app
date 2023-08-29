@@ -4,12 +4,29 @@ import {
   Body,
   Res,
   UsePipes,
-  ValidationPipe,
   Req,
   Get,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
+
+import { AuthService } from './auth.service';
+
+import { validationPipe } from 'src/pipes/validation.pipe';
+
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { ResetPasswordDto } from './dto/resetPassword.dto';
+import { NewPasswordDto } from './dto/newPassword.dto';
+
+import {
+  apiBadRequestResponse,
+  apiConflictResponse,
+  apiInternalServerErrorResponse,
+  apiNotAcceptableResponse,
+  apiNotFoundResponse,
+  apiUnauthorizedResponse,
+} from 'src/swagger/errors.swagger';
+
 import {
   ApiBadRequestResponse,
   ApiConflictResponse,
@@ -22,21 +39,14 @@ import {
   ApiTags,
   ApiProduces,
 } from '@nestjs/swagger';
-
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { ResetPasswordDto } from './dto/resetPassword.dto';
-import { NewPasswordDto } from './dto/newPassword.dto';
-
-import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import {
-  apiInternalServerErrorResponse,
-  apiBadRequestResponse,
-  apiConflictResponse,
-  apiUnauthorizedResponse,
-  apiNotAcceptableResponse,
-  apiNotFoundResponse,
-} from 'src/helpers/swaggerService.helper';
+  loginSuccessResponse,
+  logoutSuccessResponse,
+  passwordResetStepOneSuccessResponse,
+  passwordResetStepThreeSuccessResponse,
+  passwordResetStepTwoSuccessResponse,
+  registrationSuccessResponse,
+} from 'src/swagger/auth/auth.swagger';
 @ApiProduces('application/json')
 @ApiTags('Auth')
 @Controller('/api/v1/auth/')
@@ -44,27 +54,11 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'User registration',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'User created successfully',
-      },
-    },
-  })
-  @ApiConflictResponse(apiConflictResponse)
+  @ApiCreatedResponse(registrationSuccessResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiConflictResponse(apiConflictResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UsePipes(validationPipe)
   register(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -75,28 +69,12 @@ export class AuthController {
   }
 
   @Post('login')
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'User login',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'User logged in successfully',
-      },
-    },
-  })
+  @ApiCreatedResponse(loginSuccessResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiNotAcceptableResponse(apiNotAcceptableResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UsePipes(validationPipe)
   login(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
@@ -107,27 +85,11 @@ export class AuthController {
   }
 
   @Post('password-reset-step-one')
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'User reset password',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'من فضلك تحقق من حسابك',
-      },
-    },
-  })
+  @ApiCreatedResponse(passwordResetStepOneSuccessResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
   @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UsePipes(validationPipe)
   resetPasswordStepOne(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -138,17 +100,7 @@ export class AuthController {
   }
 
   @Get('password-reset-step-two')
-  @ApiOkResponse({
-    status: 200,
-    description: 'User reset password step two',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 200,
-        message: "The user's session is active",
-      },
-    },
-  })
+  @ApiOkResponse(passwordResetStepTwoSuccessResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   resetPasswordStepTwo(
@@ -160,27 +112,11 @@ export class AuthController {
   }
 
   @Post('password-reset-step-three')
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'User reset password step three',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'The user successfully reset his password',
-      },
-    },
-  })
+  @ApiCreatedResponse(passwordResetStepThreeSuccessResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
-  @UsePipes(
-    new ValidationPipe({
-      exceptionFactory(error: object[]) {
-        ErrorResponse.validateRequestBody(error);
-      },
-    }),
-  )
+  @UsePipes(validationPipe)
   resetPasswordStepThree(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
@@ -195,17 +131,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'User logout',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'User logged out successfully',
-      },
-    },
-  })
+  @ApiCreatedResponse(logoutSuccessResponse)
   @ApiNotAcceptableResponse(apiNotAcceptableResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   logout(

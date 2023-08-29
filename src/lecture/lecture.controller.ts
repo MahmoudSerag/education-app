@@ -7,12 +7,14 @@ import {
   UseInterceptors,
   UploadedFiles,
 } from '@nestjs/common';
-import { LectureService } from './lecture.service';
 import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
-import { MulterConfig } from 'src/helpers/multerService.helper';
+import { LectureService } from './lecture.service';
+
 import { LectureDto } from './dto/lecture.dto';
+
+import { MulterConfig } from 'src/helpers/multerService.helper';
 
 import {
   ApiBadRequestResponse,
@@ -28,11 +30,15 @@ import {
 } from '@nestjs/swagger';
 import {
   apiBadRequestResponse,
-  apiNotFoundResponse,
   apiInternalServerErrorResponse,
+  apiNotFoundResponse,
   apiUnauthorizedResponse,
   apiForbiddenResponse,
-} from 'src/helpers/swaggerService.helper';
+} from 'src/swagger/errors.swagger';
+import {
+  createdLectureParam,
+  createdLectureResponse,
+} from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
 @ApiTags('Lectures')
@@ -41,23 +47,8 @@ export class LectureController {
   constructor(private readonly lectureService: LectureService) {}
 
   @Post(':chapterId')
-  @ApiParam({
-    name: 'chapterId',
-    description: 'Should provide chapterId to check if chapter exists.',
-    example: '64d97510859dc4f83d9dc0c8',
-    required: true,
-  })
-  @ApiCreatedResponse({
-    status: 201,
-    description: 'Create a new lecture for a specific chapter.',
-    schema: {
-      example: {
-        success: true,
-        statusCode: 201,
-        message: 'Lecture created successfully.',
-      },
-    },
-  })
+  @ApiParam(createdLectureParam)
+  @ApiCreatedResponse(createdLectureResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiForbiddenResponse(apiForbiddenResponse)
