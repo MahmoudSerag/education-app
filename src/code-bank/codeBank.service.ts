@@ -1,4 +1,4 @@
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 
 import { CodeBankModel } from 'src/database/models/codeBank.model';
@@ -14,7 +14,7 @@ export class CodeBankService {
     private readonly errorResponse: ErrorResponse,
   ) {}
 
-  async createCodeBank(@Res() res: Response, body: CodeBankDto): Promise<any> {
+  async createCodeBank(res: Response, body: CodeBankDto): Promise<any> {
     try {
       await this.codeBankModel.createCodeBank(body);
 

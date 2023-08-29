@@ -25,10 +25,7 @@ export class ChapterService {
     }
   }
 
-  async deleteSingleChapter(
-    @Res() res: Response,
-    chapterId: string,
-  ): Promise<any> {
+  async deleteSingleChapter(res: Response, chapterId: string): Promise<any> {
     try {
       let message;
 
@@ -53,7 +50,7 @@ export class ChapterService {
   }
 
   async updateSingleChapter(
-    @Res() res: Response,
+    res: Response,
     chapterId: string,
     body: ChapterDto,
   ): Promise<any> {
@@ -76,10 +73,7 @@ export class ChapterService {
     }
   }
 
-  async getAllChapters(
-    @Res() res: Response,
-    academicYear: number,
-  ): Promise<any> {
+  async getAllChapters(res: Response, academicYear: number): Promise<any> {
     try {
       const chapters = await this.chapterModel.getAllChapters(academicYear);
 
@@ -97,7 +91,7 @@ export class ChapterService {
     }
   }
 
-  async searchChapters(@Res() res: Response, title: string): Promise<any> {
+  async searchChapters(res: Response, title: string): Promise<any> {
     try {
       if (!title || title.trim() === '')
         return this.errorResponse.handleError(
@@ -126,7 +120,7 @@ export class ChapterService {
     }
   }
 
-  async getChapterById(@Res() res: Response, chapterId: string): Promise<any> {
+  async getChapterById(res: Response, chapterId: string): Promise<any> {
     try {
       const chapter = await this.chapterModel.getChapterById(chapterId);
 

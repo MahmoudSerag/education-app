@@ -1,4 +1,4 @@
-import { Injectable, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 
 import { RegisterDto } from './dto/register.dto';
@@ -24,7 +24,7 @@ export class AuthService {
     private readonly cookieService: CookieService,
   ) {}
   async register(
-    @Res() res: Response,
+    res: Response,
     body: RegisterDto,
     accessToken: string,
   ): Promise<any> {
@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   async login(
-    @Res() res: Response,
+    res: Response,
     userAccessToken: string,
     body: { emailOrPhoneNumber: string; password: string },
   ): Promise<any> {
@@ -127,7 +127,7 @@ export class AuthService {
   }
 
   async resetPasswordStepOne(
-    @Res() res: Response,
+    res: Response,
     body: ResetPasswordDto,
     accessToken: string,
   ): Promise<any> {
@@ -174,7 +174,7 @@ export class AuthService {
   }
 
   async resetPasswordStepTwo(
-    @Res() res: Response,
+    res: Response,
     passwordResetToken: string,
   ): Promise<any> {
     try {
@@ -200,7 +200,7 @@ export class AuthService {
   }
 
   async resetPasswordStepThree(
-    @Res() res: Response,
+    res: Response,
     passwordResetToken: string,
     body: NewPasswordDto,
   ): Promise<any> {
@@ -246,7 +246,7 @@ export class AuthService {
     }
   }
 
-  logout(@Res() res: Response, accessToken: string): any {
+  logout(res: Response, accessToken: string): any {
     if (!accessToken)
       return this.errorResponse.handleError(res, 406, 'Already logged out.');
 
