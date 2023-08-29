@@ -6,9 +6,9 @@ import {
   Post,
   UsePipes,
   Res,
-  Patch,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import { Response } from 'express';
 
@@ -87,7 +87,7 @@ export class ChapterController {
     return this.chapterService.deleteSingleChapter(res, chapterId);
   }
 
-  @Patch(':chapterId')
+  @Put(':chapterId')
   @ApiParam(updateChapterParam)
   @ApiOkResponse(updateChapterResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
