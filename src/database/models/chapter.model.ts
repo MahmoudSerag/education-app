@@ -22,14 +22,9 @@ export class ChapterModel {
 
   async deleteChapterById(
     chapterId: string,
-  ): Promise<[ChapterInterface, LectureInterface]> {
+  ): Promise<[ChapterInterface, LectureInterface | void]> {
     return await Promise.all([
-      this.chapterModel
-        .findByIdAndDelete(chapterId)
-        .select(
-          '-title -imageURL -description -academicYear -createdAt -updatedAt',
-        )
-        .lean(),
+      this.chapterModel.findByIdAndDelete(chapterId).lean(),
       this.lectureModel.deleteManyLecturesByChapterId(chapterId),
     ]);
   }

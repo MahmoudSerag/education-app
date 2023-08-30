@@ -8,6 +8,8 @@ import { ChapterInterface } from 'src/chapter/interface/chapter.interface';
 
 import { LectureDto } from 'src/lecture/dto/lecture.dto';
 
+import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
+
 @Injectable()
 export class LectureModel {
   constructor(
@@ -15,11 +17,23 @@ export class LectureModel {
     private readonly lectureModel: Model<LectureInterface>,
     @Inject(forwardRef(() => ChapterModel))
     private readonly chapterModel: ChapterModel,
+    private readonly errorResponse: ErrorResponse,
   ) {}
+
+  async getLecturesByChapterId(chapterId: string): Promise<string[]> {
+    return (
+      await this.lectureModel.find({ chapterId }).select('pdfFiles -_id').lean()
+    ).flatMap((lecture) => lecture.pdfFiles);
+  }
 
   async deleteManyLecturesByChapterId(
     chapterId: string,
-  ): Promise<LectureInterface> {
+  ): Promise<LectureInterface | void> {
+    const lecturesPDFsFiles = await this.getLecturesByChapterId(chapterId);
+
+    if (lecturesPDFsFiles.length)
+      this.errorResponse.deletePDFFiles(lecturesPDFsFiles);
+
     return await this.lectureModel.deleteMany({ chapterId }).lean();
   }
 
