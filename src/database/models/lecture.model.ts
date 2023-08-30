@@ -32,7 +32,7 @@ export class LectureModel {
     body['academicYear'] = chapter.academicYear;
 
     if (files && files.length)
-      body['pdfFiles'] = files.map((file) => file.filename);
+      body['pdfFiles'] = files.map((file) => file.path);
 
     await this.lectureModel.create(body);
   }
