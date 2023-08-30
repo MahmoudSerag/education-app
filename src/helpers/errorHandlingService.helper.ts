@@ -30,6 +30,10 @@ export class ErrorResponse {
     };
   }
 
+  public deletePDFFiles(pdfFilesPaths: string[]): void {
+    for (const pdfFile of pdfFilesPaths) fs.unlinkSync(pdfFile);
+  }
+
   public validatePasswordAndEmail(body: {
     email: string;
     password: string;
