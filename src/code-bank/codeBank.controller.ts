@@ -37,7 +37,7 @@ export class CodeBankController {
   @ApiForbiddenResponse(apiForbiddenResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(validationPipe)
-  createCodeBank(
+  generateChargingCodes(
     @Res({ passthrough: true }) res: Response,
     @Body() body: CodeBankDto,
   ): object {
