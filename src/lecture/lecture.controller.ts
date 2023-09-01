@@ -14,7 +14,7 @@ import { LectureService } from './lecture.service';
 
 import { LectureDto } from './dto/lecture.dto';
 
-import { MulterConfig } from 'src/helpers/multerService.helper';
+import { MulterConfig } from 'src/helpers/uploadAndDownloadService.helper';
 
 import {
   ApiBadRequestResponse,

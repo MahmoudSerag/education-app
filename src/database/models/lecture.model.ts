@@ -8,7 +8,7 @@ import { ChapterInterface } from 'src/chapter/interface/chapter.interface';
 
 import { LectureDto } from 'src/lecture/dto/lecture.dto';
 
-import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
+import { HelperFunctions } from 'src/helpers/helperFunctions.helper';
 
 @Injectable()
 export class LectureModel {
@@ -17,7 +17,7 @@ export class LectureModel {
     private readonly lectureModel: Model<LectureInterface>,
     @Inject(forwardRef(() => ChapterModel))
     private readonly chapterModel: ChapterModel,
-    private readonly errorResponse: ErrorResponse,
+    private readonly helperFunction: HelperFunctions,
   ) {}
 
   async getLecturesByChapterId(chapterId: string): Promise<string[]> {
@@ -32,7 +32,7 @@ export class LectureModel {
     const lecturesPDFsFiles = await this.getLecturesByChapterId(chapterId);
 
     if (lecturesPDFsFiles.length)
-      this.errorResponse.deletePDFFiles(lecturesPDFsFiles);
+      this.helperFunction.deletePDFFiles(lecturesPDFsFiles);
 
     return await this.lectureModel.deleteMany({ chapterId }).lean();
   }
