@@ -32,7 +32,19 @@ export class AuthService {
       if (accessToken)
         return this.errorResponse.handleError(res, 406, ', Logout first.');
 
-      this.errorResponse.validatePasswordAndEmail(body);
+      if (body.email !== body.confirmedEmail)
+        return this.errorResponse.handleError(
+          res,
+          400,
+          'The email and confirmed email do not match',
+        );
+
+      if (body.password !== body.confirmedPassword)
+        return this.errorResponse.handleError(
+          res,
+          400,
+          'The password and confirmed password do not match',
+        );
 
       const isEmailExist = await this.authModel.findUserByEmail(body.email);
 
