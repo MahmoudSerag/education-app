@@ -20,6 +20,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JWTService } from './helpers/jwtService.helper';
 import { AppService } from './app.service';
 import { ErrorResponse } from './helpers/errorHandlingService.helper';
+import { HelperFunctions } from './helpers/helperFunctions.helper';
 
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
@@ -52,9 +53,10 @@ import { AppController } from './app.controller';
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     JWTService,
     ErrorResponse,
+    HelperFunctions,
     AppService,
   ],
-  exports: [JWTService, ErrorResponse],
+  exports: [JWTService, ErrorResponse, HelperFunctions],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
