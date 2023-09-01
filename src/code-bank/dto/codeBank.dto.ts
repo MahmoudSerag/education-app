@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CodeBankDto {
@@ -21,4 +21,14 @@ export class CodeBankDto {
   @IsNumber()
   @IsNotEmpty()
   codePrice: number;
+
+  @ApiProperty({
+    name: 'prefix',
+    type: Number,
+    example: 'KT1',
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  prefix: string;
 }
