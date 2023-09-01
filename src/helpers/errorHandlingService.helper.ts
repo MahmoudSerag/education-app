@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { BadRequestException, HttpStatus, Res } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 
 export class ErrorResponse {
@@ -11,55 +11,21 @@ export class ErrorResponse {
     });
   }
 
-  public deleteFiles(files: Array<Express.Multer.File>): object | void {
-    let isPDFFound = false;
+  public deleteFiles(
+    res: Response,
+    files: Array<Express.Multer.File>,
+  ): object | void {
     for (const file of files)
-      if (file.mimetype !== 'application/pdf') {
-        isPDFFound = true;
-        break;
-      }
+      if (file.mimetype === 'application/pdf') fs.unlinkSync(file.path);
 
-    if (isPDFFound)
-      for (const file of files)
-        if (file.mimetype === 'application/pdf') fs.unlinkSync(file.path);
-
-    return {
-      success: false,
+    res.status(400).json({
+      success: true,
       statusCode: 400,
-      message: 'Only PDF files are allowed.',
-    };
+      message: 'Only pdf files allowed',
+    });
   }
 
-  public deletePDFFiles(pdfFilesPaths: string[]): void {
-    for (const pdfFile of pdfFilesPaths) fs.unlinkSync(pdfFile);
-  }
-
-  public validatePasswordAndEmail(body: {
-    email: string;
-    password: string;
-    confirmedPassword: string;
-    confirmedEmail: string;
-  }): void {
-    if (body.email !== body.confirmedEmail)
-      throw new BadRequestException({
-        success: false,
-        statusCode: 400,
-        message: 'The email and confirmed email do not match',
-      });
-
-    if (body.password !== body.confirmedPassword)
-      throw new BadRequestException({
-        success: false,
-        statusCode: 400,
-        message: 'The password and confirmed password do not match',
-      });
-  }
-
-  public handleError(
-    @Res() res: Response,
-    statusCode: number,
-    message: string,
-  ) {
+  public handleError(res: Response, statusCode: number, message: string) {
     if (message === 'jwt expired' || message === 'jwt must be provided') {
       statusCode = HttpStatus.UNAUTHORIZED;
       message = "The user's cookies have expired.";
