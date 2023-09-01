@@ -9,11 +9,12 @@ export const CodeBankSchema = new mongoose.Schema(
       index: true,
       validate: {
         validator: function (value: string) {
-          return value.length === 16;
+          return value.length === 8;
         },
       },
     },
     price: { type: Number, required: true },
+    prefix: { type: String, required: true },
   },
   { timestamps: true },
 );
