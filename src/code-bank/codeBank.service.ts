@@ -22,19 +22,20 @@ export class CodeBankService {
     try {
       const chargingCodes = this.helperFunctions.generateChargingCodes(body);
 
-      const codesBank = await this.codeBankModel.createCodesBank(chargingCodes);
-
-      await this.uploadAndDownloadService.generateFile(codesBank);
+      await this.uploadAndDownloadService.generateFile(chargingCodes, body);
 
       const fileName = 'Code-Bank.xlsx';
       const fileMimeType =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-      return this.uploadAndDownloadService.downloadFile(
-        res,
-        fileName,
-        fileMimeType,
-      );
+      this.uploadAndDownloadService.downloadFile(res, fileName, fileMimeType);
+
+      return await this.codeBankModel.createCodeBank(chargingCodes);
+    } catch (error) {
+      console.log(error);
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }
