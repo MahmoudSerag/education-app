@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 
 import { validationPipe } from 'src/pipes/validation.pipe';
@@ -37,10 +37,15 @@ export class CodeBankController {
   @ApiForbiddenResponse(apiForbiddenResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(validationPipe)
-  generateChargingCodes(
+  createCodeBank(
     @Res({ passthrough: true }) res: Response,
     @Body() body: CodeBankDto,
   ): object {
     return this.codeBankService.createCodeBank(res, body);
+  }
+
+  @Delete()
+  deleteCodeBank(@Res({ passthrough: true }) res: Response): object {
+    return this.codeBankService.deleteCodeBank(res);
   }
 }

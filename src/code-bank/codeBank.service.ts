@@ -36,6 +36,19 @@ export class CodeBankService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async deleteCodeBank(res: Response): Promise<any> {
+    try {
+      const deletedCount = await this.codeBankModel.deleteCodeBank();
+
+      if (!deletedCount)
+        return this.errorResponse.handleError(res, 404, 'No Codes to delete.');
+
+      return {
+        success: true,
+        statusCode: 204,
+        message: 'Code Bank deleted successfully',
+      };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }

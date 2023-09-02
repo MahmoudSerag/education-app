@@ -27,5 +27,10 @@ export class CodeBankModel {
       }),
     );
   }
+
+  async deleteCodeBank(): Promise<number> {
+    const deletedCodes = await this.codeBankModel.deleteMany();
+
+    return deletedCodes.deletedCount;
   }
 }
