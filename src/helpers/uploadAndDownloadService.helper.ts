@@ -6,10 +6,12 @@ import { extname } from 'path';
 import * as ExcelJS from 'exceljs';
 import { readFileSync } from 'fs';
 import * as path from 'path';
+import { CodeBankDto } from 'src/code-bank/dto/codeBank.dto';
 
 export class UploadAndDownloadService {
   public async generateFile(
     generatedCodes: { code: string; price: number }[],
+    body: CodeBankDto,
   ): Promise<void> {
     const workbook = new ExcelJS.Workbook();
 
@@ -18,7 +20,7 @@ export class UploadAndDownloadService {
     worksheet.addRow(['Code', 'Price']);
 
     for (const obj of generatedCodes) {
-      worksheet.addRow([obj.code, obj.price]);
+      worksheet.addRow([`${body.prefix}-${obj.code}`, obj.price]);
     }
 
     const centerAlignedCellStyle = {
