@@ -11,12 +11,21 @@ export class CodeBankModel {
     private readonly codeBankModel: Model<CodeBankInterface>,
   ) {}
 
-  async createCodesBank(
-    generatedCodes: object[],
-  ): Promise<{ code: string; price: number }[]> {
-    return (await this.codeBankModel.insertMany(generatedCodes)).map((doc) => ({
-      code: `${doc.prefix}-${doc.code}`,
-      price: doc.price,
-    }));
+  async createCodeBank(
+    generatedCodes: { code: string; price: number }[],
+  ): Promise<void> {
+    const batchSize = 1000;
+    const chunks = [];
+
+    for (let i = 0; i < generatedCodes.length; i += batchSize) {
+      chunks.push(generatedCodes.slice(i, i + batchSize));
+    }
+
+    await Promise.all(
+      chunks.map(async (chunk) => {
+        await this.codeBankModel.insertMany(chunk, { ordered: false });
+      }),
+    );
+  }
   }
 }
