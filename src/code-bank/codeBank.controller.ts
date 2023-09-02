@@ -15,14 +15,20 @@ import {
   ApiTags,
   ApiForbiddenResponse,
   ApiProduces,
+  ApiOkResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import {
   apiBadRequestResponse,
   apiInternalServerErrorResponse,
   apiUnauthorizedResponse,
   apiForbiddenResponse,
+  apiNotFoundResponse,
 } from 'src/swagger/errors.swagger';
-import { createdCodeBankResponse } from 'src/swagger/code-bank/codeBank.swagger';
+import {
+  createdCodeBankResponse,
+  deletedCodeBankResponse,
+} from 'src/swagger/code-bank/codeBank.swagger';
 
 @ApiProduces('application/json')
 @ApiTags('CodeBank')
@@ -45,6 +51,11 @@ export class CodeBankController {
   }
 
   @Delete()
+  @ApiOkResponse(deletedCodeBankResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   deleteCodeBank(@Res({ passthrough: true }) res: Response): object {
     return this.codeBankService.deleteCodeBank(res);
   }

@@ -32,7 +32,6 @@ export class CodeBankService {
 
       return await this.codeBankModel.createCodeBank(chargingCodes);
     } catch (error) {
-      console.log(error);
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
@@ -46,7 +45,7 @@ export class CodeBankService {
 
       return {
         success: true,
-        statusCode: 204,
+        statusCode: 200,
         message: 'Code Bank deleted successfully',
       };
     } catch (error) {
