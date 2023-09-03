@@ -26,8 +26,10 @@ import {
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
+  ApiOkResponse,
   ApiParam,
   ApiProduces,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -39,10 +41,12 @@ import {
   apiForbiddenResponse,
 } from 'src/swagger/errors.swagger';
 import {
-  createdLectureIdParam,
+  updatedLectureParam,
   createdLectureParam,
   createdLectureResponse,
   updatedLectureResponse,
+  lectureListResponse,
+  pageQueryParam,
 } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
@@ -71,7 +75,7 @@ export class LectureController {
   }
 
   @Put(':lectureId')
-  @ApiParam(createdLectureIdParam)
+  @ApiParam(updatedLectureParam)
   @ApiCreatedResponse(updatedLectureResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
@@ -90,6 +94,13 @@ export class LectureController {
   }
 
   @Get(':chapterId')
+  @ApiParam(createdLectureParam)
+  @ApiQuery(pageQueryParam)
+  @ApiOkResponse(lectureListResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getAllLecturesByChapterId(
     @Res({ passthrough: true }) res: Response,
     @Param('chapterId') chapterId: string,
