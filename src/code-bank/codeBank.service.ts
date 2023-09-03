@@ -41,7 +41,7 @@ export class CodeBankService {
       const deletedCount = await this.codeBankModel.deleteCodeBank();
 
       if (!deletedCount)
-        return this.errorResponse.handleError(res, 404, 'No Codes to delete.');
+        return this.errorResponse.handleError(res, 404, 'No codes to delete.');
 
       return {
         success: true,

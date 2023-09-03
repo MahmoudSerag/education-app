@@ -88,10 +88,12 @@ export class LectureService {
       if (!chapter)
         return this.errorResponse.handleError(res, 404, 'Chapter not found.');
 
-      const [lectures, lecturesCount] = await Promise.all([
-        this.lectureModel.getAllLecturesByChapterId(chapterId, page, limit),
-        this.lectureModel.countChapterLectures(chapterId),
-      ]);
+      const [lectures, lecturesCount] =
+        await this.lectureModel.getChapterLecturesAndCount(
+          chapterId,
+          page,
+          limit,
+        );
 
       return {
         success: true,
@@ -104,6 +106,25 @@ export class LectureService {
         lectures: (() => {
           return lectures.length ? lectures : 'No more lectures';
         })(),
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async deleteSingleLecture(res: Response, lectureId: string): Promise<any> {
+    try {
+      const lecture = await this.lectureModel.deleteLectureById(lectureId);
+
+      if (!lecture)
+        return this.errorResponse.handleError(res, 404, 'Lecture not found.');
+
+      this.helperFunction.deleteFiles(lecture.pdfFiles);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lecture deleted successfully.',
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

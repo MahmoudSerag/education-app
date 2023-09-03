@@ -71,7 +71,7 @@ export class AuthService {
       );
 
       body.password = hashedPassword;
-      await this.authModel.CreateNewUser(body);
+      await this.authModel.createNewUser(body);
 
       return {
         success: true,

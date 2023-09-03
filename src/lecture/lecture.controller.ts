@@ -9,6 +9,7 @@ import {
   UploadedFiles,
   Get,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -108,5 +109,13 @@ export class LectureController {
   ) {
     page = Number(page) || 1;
     return this.lectureService.getAllLecturesByChapterId(res, chapterId, page);
+  }
+
+  @Delete(':lectureId')
+  deleteSingleLecture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('lectureId') lectureId: string,
+  ): object {
+    return this.lectureService.deleteSingleLecture(res, lectureId);
   }
 }

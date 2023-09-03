@@ -95,4 +95,22 @@ export class LectureModel {
   async getChapterById(chapterId: string): Promise<ChapterInterface> {
     return await this.chapterModel.getChapterById(chapterId);
   }
+
+  async getChapterLecturesAndCount(
+    chapterId: string,
+    page: number,
+    limit: number,
+  ): Promise<[LectureInterface[], number]> {
+    return await Promise.all([
+      this.getAllLecturesByChapterId(chapterId, page, limit),
+      this.countChapterLectures(chapterId),
+    ]);
+  }
+
+  async deleteLectureById(lectureId: string): Promise<{ pdfFiles: string[] }> {
+    return await this.lectureModel
+      .findByIdAndDelete(lectureId)
+      .select('pdfFiles -_id')
+      .lean();
+  }
 }

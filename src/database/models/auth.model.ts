@@ -36,7 +36,7 @@ export class AuthModel {
       .lean();
   }
 
-  async CreateNewUser(body: RegisterDto): Promise<void> {
+  async createNewUser(body: RegisterDto): Promise<void> {
     await this.authModel.create(body);
   }
 
