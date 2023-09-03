@@ -47,6 +47,7 @@ import {
   createdLectureResponse,
   updatedLectureResponse,
   lectureListResponse,
+  deletedLectureResponse,
   pageQueryParam,
 } from 'src/swagger/lectures/lecture.swagger';
 
@@ -112,6 +113,13 @@ export class LectureController {
   }
 
   @Delete(':lectureId')
+  @ApiParam(updatedLectureParam)
+  @ApiOkResponse(deletedLectureResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   deleteSingleLecture(
     @Res({ passthrough: true }) res: Response,
     @Param('lectureId') lectureId: string,

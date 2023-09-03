@@ -84,3 +84,15 @@ export const pageQueryParam = {
   example: 1,
   required: true,
 };
+
+export const deletedLectureResponse = {
+  status: 200,
+  description: 'Delete a lecture by lectureId.',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 200,
+      message: 'Lecture deleted successfully.',
+    },
+  },
+};
