@@ -66,6 +66,32 @@ export class LectureModel {
   async getLectureById(lectureId: string): Promise<LectureInterface> {
     return await this.lectureModel.findById(lectureId).lean();
   }
+
+  async getAllLecturesByChapterId(
+    chapterId: string,
+    page: number,
+    limit: number,
+  ): Promise<LectureInterface[]> {
+    const lectures = await this.lectureModel
+      .find({ chapterId })
+      .select('-pdfFiles -videoURLs -createdAt -updatedAt -__v')
+      .populate({ path: 'chapterId', select: 'title -_id' })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    lectures.forEach((lecture) => {
+      lecture['chapterTitle'] = lecture.chapterId['title'];
+      delete lecture.chapterId;
+    });
+
+    return lectures;
+  }
+
+  async countChapterLectures(chapterId: string): Promise<number> {
+    return await this.lectureModel.count({ chapterId }).lean();
+  }
+
   async getChapterById(chapterId: string): Promise<ChapterInterface> {
     return await this.chapterModel.getChapterById(chapterId);
   }

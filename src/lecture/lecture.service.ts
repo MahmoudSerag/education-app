@@ -21,15 +21,6 @@ export class LectureService {
     files: Array<Express.Multer.File>,
   ) {
     try {
-      // body = {
-      //   title: 'My Title',
-      //   imageURL: 'https://example.com/image.jpg',
-      //   price: 250,
-      //   videoURLs: [
-      //     'https://www.youtube.com/watch?v=ctjgMbjvX7U&t=1126s',
-      //     'https://www.youtube.com/watch?v=ctjgMbjvX7U&t=1126s',
-      //   ],
-      // };
       if (files && files.length && files[0].mimetype !== 'application/pdf')
         return this.errorResponse.deleteFiles(res, files);
 
@@ -81,6 +72,40 @@ export class LectureService {
       };
     } catch (error) {
       this.helperFunction.deleteFiles(files);
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async getAllLecturesByChapterId(
+    res: Response,
+    chapterId: string,
+    page: number,
+    limit = 10,
+  ): Promise<any> {
+    try {
+      const chapter = await this.lectureModel.getChapterById(chapterId);
+
+      if (!chapter)
+        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+
+      const [lectures, lecturesCount] = await Promise.all([
+        this.lectureModel.getAllLecturesByChapterId(chapterId, page, limit),
+        this.lectureModel.countChapterLectures(chapterId),
+      ]);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lectures fetched successfully.',
+        totalLecturesCount: lecturesCount,
+        lecturesPerPage: limit,
+        maxPages: Math.ceil(lecturesCount / limit),
+        currentPage: page,
+        lectures: (() => {
+          return lectures.length ? lectures : 'No more lectures';
+        })(),
+      };
+    } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }

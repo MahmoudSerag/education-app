@@ -7,6 +7,8 @@ import {
   Res,
   UseInterceptors,
   UploadedFiles,
+  Get,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -85,5 +87,15 @@ export class LectureController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ): object {
     return this.lectureService.updateSingleLecture(res, lectureId, body, files);
+  }
+
+  @Get(':chapterId')
+  getAllLecturesByChapterId(
+    @Res({ passthrough: true }) res: Response,
+    @Param('chapterId') chapterId: string,
+    @Query('page') page: number,
+  ) {
+    page = Number(page) || 1;
+    return this.lectureService.getAllLecturesByChapterId(res, chapterId, page);
   }
 }
