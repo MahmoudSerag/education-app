@@ -16,10 +16,9 @@ export class IsValidVideoUrlConstraint implements ValidatorConstraintInterface {
   }
 
   private isValidYouTubeUrl(url: string): boolean {
-    return (
-      typeof url === 'string' &&
-      (url.includes('youtube.com/watch?v=') || url.includes('youtu.be/'))
-    );
+    const youtubeRegex =
+      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+    return typeof url === 'string' && youtubeRegex.test(url);
   }
 
   private isValidVimeoUrl(url: string): boolean {

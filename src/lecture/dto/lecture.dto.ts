@@ -16,6 +16,7 @@ export class LectureDto {
     example: 'My Title',
     required: true,
   })
+  @Matches(/.*\S.*/, { message: 'title should not be empty' })
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -47,7 +48,7 @@ export class LectureDto {
     name: 'videoURLs',
     type: Array,
     example: [
-      'https://example.com/video.mp4',
+      'https://www.youtube.com/watch?v=ctjgMbjvX7U',
       'https://www.youtube.com/watch?v=ctjgMbjvX7U',
     ],
     required: true,
@@ -57,15 +58,21 @@ export class LectureDto {
     message(validationArguments) {
       let value = validationArguments.value;
 
-      if (!Array.isArray(value)) value = 'videoURLs must be an array';
-      else
-        value.map((val: string) => {
-          if (!val)
-            value =
-              'Array should not include empty values, Only Youtube and Vimeo videoURLs are allowed.';
-          else if (!val.match(/^(https?:\/\/)?(www\.)?vimeo\.com\/(\d+)/))
-            value = `Invalid videoURL: ${val}`;
-        });
+      if (!Array.isArray(value)) return 'videoURLs must be an array';
+
+      for (let i = 0; i < value.length; i++) {
+        if (typeof value[i] !== 'string' || value[i].length === 0) {
+          return 'Array should not include empty values, Only Vimeo and Youtube videos are allowed.';
+        } else if (
+          !value[i].match(/^(https?:\/\/)?(www\.)?vimeo\.com\/(\d+)/) &&
+          !value[i].match(
+            /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/,
+          )
+        ) {
+          value = `Invalid videoURL: ${value[i]}`;
+          break;
+        }
+      }
 
       return value;
     },
