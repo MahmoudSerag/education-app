@@ -21,11 +21,17 @@ export class HelperFunctions {
     return generatedCodes;
   }
 
-  deletePDFFiles(filesPaths: any): void {
+  deleteFiles(filesPaths: any): void {
+    if (!filesPaths || !filesPaths.length) return;
+
     const filesLength = filesPaths.length;
-    if (typeof filesPaths[0] === 'string')
+
+    if (typeof filesPaths[0] === 'string') {
       for (let i = 0; i < filesLength; i++) fs.unlinkSync(filesPaths[i]);
-    else
-      for (let i = 0; i < filesLength; i++) fs.unlinkSync(filesPaths[i].path);
+      return;
+    }
+
+    for (let i = 0; i < filesLength; i++) fs.unlinkSync(filesPaths[i].path);
+    return;
   }
 }
