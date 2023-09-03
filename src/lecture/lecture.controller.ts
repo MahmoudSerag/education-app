@@ -37,8 +37,10 @@ import {
   apiForbiddenResponse,
 } from 'src/swagger/errors.swagger';
 import {
+  createdLectureIdParam,
   createdLectureParam,
   createdLectureResponse,
+  updatedLectureResponse,
 } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
@@ -65,8 +67,17 @@ export class LectureController {
   ): object {
     return this.lectureService.createNewLecture(res, chapterId, body, files);
   }
+
   @Put(':lectureId')
+  @ApiParam(createdLectureIdParam)
+  @ApiCreatedResponse(updatedLectureResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UseInterceptors(FilesInterceptor('files', 5, MulterConfig))
+  @ApiBody({ type: LectureDto })
   updateSingleLecture(
     @Res({ passthrough: true }) res: Response,
     @Param('lectureId') lectureId: string,
