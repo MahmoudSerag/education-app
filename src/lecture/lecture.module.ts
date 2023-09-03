@@ -30,9 +30,11 @@ import { ValidationMiddleware } from 'src/middlewares/bodyValidation.middleware'
 })
 export class LectureModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ValidationMiddleware).forRoutes({
-      path: 'api/v1/lectures/:chapterId',
-      method: RequestMethod.POST,
-    });
+    consumer
+      .apply(ValidationMiddleware)
+      .forRoutes(
+        { path: 'api/v1/lectures/:chapterId', method: RequestMethod.POST },
+        { path: 'api/v1/lectures/:lectureId', method: RequestMethod.PUT },
+      );
   }
 }

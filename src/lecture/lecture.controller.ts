@@ -3,6 +3,7 @@ import {
   Controller,
   Param,
   Post,
+  Put,
   Res,
   UseInterceptors,
   UploadedFiles,
@@ -63,5 +64,15 @@ export class LectureController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ): object {
     return this.lectureService.createNewLecture(res, chapterId, body, files);
+  }
+  @Put(':lectureId')
+  @UseInterceptors(FilesInterceptor('files', 5, MulterConfig))
+  updateSingleLecture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('lectureId') lectureId: string,
+    @Body() body: LectureDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ): object {
+    return this.lectureService.updateSingleLecture(res, lectureId, body, files);
   }
 }

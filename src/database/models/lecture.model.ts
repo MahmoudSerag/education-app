@@ -32,7 +32,7 @@ export class LectureModel {
     const lecturesPDFsFiles = await this.getLecturesByChapterId(chapterId);
 
     if (lecturesPDFsFiles.length)
-      this.helperFunction.deletePDFFiles(lecturesPDFsFiles);
+      this.helperFunction.deleteFiles(lecturesPDFsFiles);
 
     return await this.lectureModel.deleteMany({ chapterId }).lean();
   }
@@ -51,6 +51,21 @@ export class LectureModel {
     await this.lectureModel.create(body);
   }
 
+  async updateLectureById(
+    lectureId: string,
+    body: LectureDto,
+    files: Array<Express.Multer.File>,
+  ): Promise<LectureInterface> {
+    if (files && files.length)
+      body['pdfFiles'] = files.map((file) => file.path);
+    else body['pdfFiles'] = [];
+
+    return await this.lectureModel.findByIdAndUpdate(lectureId, body);
+  }
+
+  async getLectureById(lectureId: string): Promise<LectureInterface> {
+    return await this.lectureModel.findById(lectureId).lean();
+  }
   async getChapterById(chapterId: string): Promise<ChapterInterface> {
     return await this.chapterModel.getChapterById(chapterId);
   }
