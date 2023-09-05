@@ -126,4 +126,12 @@ export class LectureController {
   ): object {
     return this.lectureService.deleteSingleLecture(res, lectureId);
   }
+
+  @Get(':lectureId/details')
+  getSingleLecture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('lectureId') lectureId: string,
+  ): object {
+    return this.lectureService.getSingleLecture(res, lectureId);
+  }
 }

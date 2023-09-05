@@ -5,10 +5,14 @@ import {
   RequestMethod,
   forwardRef,
 } from '@nestjs/common';
+
 import { MongooseModule } from '@nestjs/mongoose';
+import { ChapterModule } from 'src/chapter/chapter.module';
+import { UsersLecturesModule } from 'src/users-lectures/usersLectures.module';
+
 import { LectureModel } from 'src/database/models/lecture.model';
 import { ChapterModel } from 'src/database/models/chapter.model';
-import { ChapterModule } from 'src/chapter/chapter.module';
+import { UsersLecturesModel } from 'src/database/models/usersLectures.model';
 
 import { LectureController } from './lecture.controller';
 import { LectureService } from './lecture.service';
@@ -16,25 +20,35 @@ import { LectureService } from './lecture.service';
 import { LectureSchema } from 'src/database/schemas/lecture.schema';
 
 import { ValidationMiddleware } from 'src/middlewares/bodyValidation.middleware';
+import { StudentMiddleware } from 'src/middlewares/student.middleware';
+import { ContentAccessControlMiddleware } from 'src/middlewares/contentAccessCOntrol.middleware';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
     forwardRef(() => ChapterModule),
+    UsersLecturesModule,
   ],
   controllers: [LectureController],
-  providers: [LectureService, LectureModel, ChapterModel],
+  providers: [LectureService, LectureModel, ChapterModel, UsersLecturesModel],
   exports: [
     MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
   ],
 })
 export class LectureModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    const routes = [
+      { path: '/api/v1/lectures/:chapterId', method: RequestMethod.POST },
+      { path: '/api/v1/lectures/:lectureId', method: RequestMethod.PUT },
+      {
+        path: '/api/v1/lectures/:lectureId/details',
+        method: RequestMethod.GET,
+      },
+    ];
+
+    consumer.apply(ValidationMiddleware).forRoutes(routes[0], routes[1]);
     consumer
-      .apply(ValidationMiddleware)
-      .forRoutes(
-        { path: 'api/v1/lectures/:chapterId', method: RequestMethod.POST },
-        { path: 'api/v1/lectures/:lectureId', method: RequestMethod.PUT },
-      );
+      .apply(StudentMiddleware, ContentAccessControlMiddleware)
+      .forRoutes(routes[2]);
   }
 }

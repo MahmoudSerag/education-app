@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { LectureModel } from 'src/database/models/lecture.model';
 import { Response } from 'express';
+
+import { LectureModel } from 'src/database/models/lecture.model';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import { HelperFunctions } from 'src/helpers/helperFunctions.helper';
@@ -125,6 +126,21 @@ export class LectureService {
         success: true,
         statusCode: 200,
         message: 'Lecture deleted successfully.',
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async getSingleLecture(res: Response, lectureId: string): Promise<any> {
+    try {
+      const lecture = await this.lectureModel.getLectureById(lectureId);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lecture fetched successfully.',
+        lecture,
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);

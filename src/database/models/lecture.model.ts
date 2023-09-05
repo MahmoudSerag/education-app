@@ -64,7 +64,20 @@ export class LectureModel {
   }
 
   async getLectureById(lectureId: string): Promise<LectureInterface> {
-    return await this.lectureModel.findById(lectureId).lean();
+    const lecture = await this.lectureModel
+      .findById(lectureId)
+      .select('-createdAt -updatedAt -__v')
+      .populate({ path: 'chapterId', select: 'title -_id' })
+      .lean();
+
+    lecture['chapterTitle'] = lecture.chapterId['title'];
+    lecture.pdfFiles = lecture.pdfFiles.map(
+      (el) => el.split('/')[1].split('-')[2],
+    );
+
+    delete lecture.chapterId;
+
+    return lecture;
   }
 
   async getAllLecturesByChapterId(
