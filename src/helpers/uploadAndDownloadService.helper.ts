@@ -60,7 +60,7 @@ export const MulterConfig = {
       const originalName = file.originalname.split('.')[0];
       const fileId = new mongoose.Types.ObjectId().toString();
       const fileExtension = extname(file.originalname);
-      const fileName = `${originalName}-${fileId}-${Date.now()}${fileExtension}`;
+      const fileName = `${fileId}-${Date.now()}-${originalName}${fileExtension}`;
 
       return callback(null, fileName);
     },
