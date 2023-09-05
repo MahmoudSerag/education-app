@@ -28,7 +28,7 @@ export class ErrorResponse {
   public handleError(res: Response, statusCode: number, message: string) {
     if (message === 'jwt expired' || message === 'jwt must be provided') {
       statusCode = HttpStatus.UNAUTHORIZED;
-      message = "The user's cookies have expired.";
+      message = "The user's session have expired.";
     }
 
     if (message.startsWith('Cast')) {

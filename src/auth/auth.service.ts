@@ -198,13 +198,13 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           401,
-          "The user's cookies has expired.",
+          "The user's session has expired.",
         );
 
       return {
         success: true,
         statusCode: 201,
-        message: "The user's cookies is active",
+        message: "The user's session is active",
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
@@ -233,7 +233,7 @@ export class AuthService {
         return this.errorResponse.handleError(
           res,
           401,
-          "The user's cookies has expired.",
+          "The user's session has expired.",
         );
       }
 
