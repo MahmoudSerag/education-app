@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { CodeBankModule } from './code-bank/codeBank.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { LectureModule } from './lecture/lecture.module';
+import { UsersLecturesModule } from './users-lectures/usersLectures.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
@@ -23,7 +24,7 @@ import { ErrorResponse } from './helpers/errorHandlingService.helper';
 import { HelperFunctions } from './helpers/helperFunctions.helper';
 
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { RoleAuthMiddleware } from './middlewares/roleAuth.middleware';
+import { AdminMiddleware } from './middlewares/admin.middleware';
 
 import { CodeBankController } from './code-bank/codeBank.controller';
 import { ChapterController } from './chapter/chapter.controller';
@@ -47,6 +48,7 @@ import { AppController } from './app.controller';
     CodeBankModule,
     ChapterModule,
     LectureModule,
+    UsersLecturesModule,
   ],
   controllers: [AppController],
   providers: [
@@ -60,13 +62,25 @@ import { AppController } from './app.controller';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    const baseRoute = '/api/v1';
+    const routes = [
+      { path: `${baseRoute}/chapters`, method: RequestMethod.GET },
+      { path: `${baseRoute}/chapters/search`, method: RequestMethod.GET },
+      { path: `${baseRoute}/chapters/:chapterId`, method: RequestMethod.GET },
+      { path: `${baseRoute}/lectures/:chapterId`, method: RequestMethod.GET },
+      {
+        path: `${baseRoute}/lectures/:lectureId/details`,
+        method: RequestMethod.GET,
+      },
+    ];
+
     consumer
-      .apply(LoggerMiddleware, RoleAuthMiddleware)
-      .exclude(
-        { path: '/api/v1/chapters', method: RequestMethod.GET },
-        { path: '/api/v1/chapters/search', method: RequestMethod.GET },
-        { path: 'api/v1/chapters/:chapterId', method: RequestMethod.GET },
-      )
+      .apply(LoggerMiddleware)
+      .exclude(routes[0], routes[1], routes[2], routes[3])
+      .forRoutes(CodeBankController, ChapterController, LectureController);
+    consumer
+      .apply(AdminMiddleware)
+      .exclude(...routes)
       .forRoutes(CodeBankController, ChapterController, LectureController);
   }
 }
