@@ -7,13 +7,11 @@ import { CodeBankService } from './codeBank.service';
 
 import { CodeBankSchema } from 'src/database/schemas/codeBank.schema';
 
-import { UploadAndDownloadService } from 'src/helpers/uploadAndDownloadService.helper';
-
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'CodeBank', schema: CodeBankSchema }]),
   ],
   controllers: [CodeBankController],
-  providers: [CodeBankService, CodeBankModel, UploadAndDownloadService],
+  providers: [CodeBankService, CodeBankModel],
 })
 export class CodeBankModule {}

@@ -139,4 +139,13 @@ export class LectureController {
   getSingleLecture(@Res({ passthrough: true }) res: Response): object {
     return this.lectureService.getSingleLecture(res);
   }
+
+  @Get(':lectureId/:pdfId/pdf')
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
+  downloadLecturePDF(
+    @Res({ passthrough: true }) res: Response,
+    @Param('pdfId') pdfId: string,
+  ): object {
+    return this.lectureService.downloadLecturePDF(res, pdfId);
+  }
 }

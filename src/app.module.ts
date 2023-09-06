@@ -22,6 +22,7 @@ import { JWTService } from './helpers/jwtService.helper';
 import { AppService } from './app.service';
 import { ErrorResponse } from './helpers/errorHandlingService.helper';
 import { HelperFunctions } from './helpers/helperFunctions.helper';
+import { UploadAndDownloadService } from 'src/helpers/uploadAndDownloadService.helper';
 
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { AdminMiddleware } from './middlewares/admin.middleware';
@@ -57,8 +58,14 @@ import { AppController } from './app.controller';
     ErrorResponse,
     HelperFunctions,
     AppService,
+    UploadAndDownloadService,
   ],
-  exports: [JWTService, ErrorResponse, HelperFunctions],
+  exports: [
+    JWTService,
+    ErrorResponse,
+    HelperFunctions,
+    UploadAndDownloadService,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -70,6 +77,10 @@ export class AppModule implements NestModule {
       { path: `${baseRoute}/lectures/:chapterId`, method: RequestMethod.GET },
       {
         path: `${baseRoute}/lectures/:lectureId/details`,
+        method: RequestMethod.GET,
+      },
+      {
+        path: `/api/v1/lectures/:lectureId/:pdfId/pdf`,
         method: RequestMethod.GET,
       },
     ];

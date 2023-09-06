@@ -44,11 +44,15 @@ export class LectureModule implements NestModule {
         path: '/api/v1/lectures/:lectureId/details',
         method: RequestMethod.GET,
       },
+      {
+        path: '/api/v1/lectures/:lectureId/:pdf/pdf',
+        method: RequestMethod.GET,
+      },
     ];
 
     consumer.apply(ValidationMiddleware).forRoutes(routes[0], routes[1]);
     consumer
       .apply(StudentMiddleware, ContentAccessControlMiddleware)
-      .forRoutes(routes[2]);
+      .forRoutes(routes[2], routes[3]);
   }
 }

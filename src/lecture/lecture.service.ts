@@ -5,6 +5,7 @@ import { LectureModel } from 'src/database/models/lecture.model';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 import { HelperFunctions } from 'src/helpers/helperFunctions.helper';
+import { UploadAndDownloadService } from 'src/helpers/uploadAndDownloadService.helper';
 
 import { LectureDto } from './dto/lecture.dto';
 
@@ -14,6 +15,7 @@ export class LectureService {
     private readonly lectureModel: LectureModel,
     private readonly errorResponse: ErrorResponse,
     private readonly helperFunction: HelperFunctions,
+    private readonly uploadAndDownloadService: UploadAndDownloadService,
   ) {}
   async createNewLecture(
     res: Response,
@@ -135,20 +137,55 @@ export class LectureService {
   async getSingleLecture(res: Response): Promise<any> {
     try {
       const lecture = res.locals.lecture;
+      const chapterTitle = lecture.chapterId?.title || '';
 
-      lecture['chapterTitle'] = lecture.chapterId['title'];
-      lecture.pdfFiles = lecture.pdfFiles.map(
-        (el) => el.split('/')[1].split('-')[2],
-      );
+      const pdfFiles = lecture.pdfFiles.map((pdf) => {
+        const currentPdf = pdf.split('-');
+        return {
+          pdfId: currentPdf[0].split('/')[1],
+          pdfName: currentPdf[2],
+        };
+      });
 
-      delete lecture.chapterId;
+      const optimizedLecture = {
+        ...lecture,
+        chapterTitle,
+        pdfFiles,
+      };
+
+      delete optimizedLecture.chapterId;
 
       return {
         success: true,
         statusCode: 200,
         message: 'Lecture fetched successfully.',
-        lecture,
+        lecture: optimizedLecture,
       };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
+
+  async downloadLecturePDF(res: Response, pdfId: string): Promise<any> {
+    try {
+      const pdfFiles = res.locals.lecture.pdfFiles;
+      let isPdfExists = false;
+
+      for (let i = 0; i < pdfFiles.length; i++) {
+        const currentPdfId = pdfFiles[i].split('-')[0].split('/')[1];
+        if (currentPdfId === pdfId) {
+          isPdfExists = true;
+          const pdfName = pdfFiles[i].split('/')[1];
+          return this.uploadAndDownloadService.downloadFile(
+            res,
+            pdfName,
+            'application/pdf',
+          );
+        }
+      }
+
+      if (!isPdfExists)
+        return this.errorResponse.handleError(res, 404, 'PDF not found.');
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }
