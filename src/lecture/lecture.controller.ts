@@ -8,11 +8,10 @@ import {
   UseInterceptors,
   UploadedFiles,
   Get,
-  Req,
   Query,
   Delete,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { LectureService } from './lecture.service';
