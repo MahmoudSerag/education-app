@@ -96,3 +96,26 @@ export const deletedLectureResponse = {
     },
   },
 };
+
+export const singleLectureResponse = {
+  status: 200,
+  description: 'Fetch a lecture by lectureId.',
+  schema: {
+    success: true,
+    statusCode: 200,
+    message: 'Lecture fetched successfully.',
+    lecture: {
+      _id: '64f4fb66a8469bd632604b28',
+      title: 'My Title',
+      imageURL: 'https://example.com/image.jpg',
+      academicYear: 1,
+      price: 250,
+      videoURLs: [
+        'https://www.youtube.com/watch?v=ctjgMbjvX7U',
+        'https://www.youtube.com/watch?v=ctjgMbjvX7U',
+      ],
+      pdfFiles: ['Contract.pdf', 'Backend task.pdf'],
+      chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+    },
+  },
+};

@@ -21,7 +21,7 @@ import { LectureSchema } from 'src/database/schemas/lecture.schema';
 
 import { ValidationMiddleware } from 'src/middlewares/bodyValidation.middleware';
 import { StudentMiddleware } from 'src/middlewares/student.middleware';
-import { ContentAccessControlMiddleware } from 'src/middlewares/contentAccessCOntrol.middleware';
+import { ContentAccessControlMiddleware } from 'src/middlewares/contentAccessControl.middleware';
 
 @Module({
   imports: [

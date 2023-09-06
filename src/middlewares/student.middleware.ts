@@ -8,7 +8,7 @@ export class StudentMiddleware implements NestMiddleware {
   constructor(private readonly errorResponse: ErrorResponse) {}
   use(req: Request, res: Response, next: NextFunction) {
     try {
-      const decodedToken = res.locals;
+      const decodedToken = res.locals.decodedToken;
 
       if (decodedToken.role !== 'student')
         return this.errorResponse.handleError(

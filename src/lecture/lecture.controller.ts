@@ -8,10 +8,11 @@ import {
   UseInterceptors,
   UploadedFiles,
   Get,
+  Req,
   Query,
   Delete,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { LectureService } from './lecture.service';
@@ -49,6 +50,7 @@ import {
   lectureListResponse,
   deletedLectureResponse,
   pageQueryParam,
+  singleLectureResponse,
 } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
@@ -128,10 +130,14 @@ export class LectureController {
   }
 
   @Get(':lectureId/details')
-  getSingleLecture(
-    @Res({ passthrough: true }) res: Response,
-    @Param('lectureId') lectureId: string,
-  ): object {
-    return this.lectureService.getSingleLecture(res, lectureId);
+  @ApiParam(updatedLectureParam)
+  @ApiCreatedResponse(singleLectureResponse)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
+  getSingleLecture(@Res({ passthrough: true }) res: Response): object {
+    return this.lectureService.getSingleLecture(res);
   }
 }

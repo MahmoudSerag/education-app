@@ -15,12 +15,12 @@ export class ContentAccessControlMiddleware implements NestMiddleware {
   ) {}
   async use(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = res.locals.userId;
+      const userId = res.locals.decodedToken.userId;
       const lectureId = req.params.lectureId;
 
       const [lecture, userLecture] = await Promise.all([
-        this.lectureModel.getLectureById(lectureId),
-        this.usersLecturesModel.findPurchasedLecture(userId, lectureId),
+        await this.lectureModel.getLectureById(lectureId),
+        await this.usersLecturesModel.findPurchasedLecture(userId, lectureId),
       ]);
 
       if (!lecture)
@@ -32,6 +32,8 @@ export class ContentAccessControlMiddleware implements NestMiddleware {
           403,
           'Forbidden: Should purchase this lecture',
         );
+
+      res.locals.lecture = lecture;
 
       next();
     } catch (error) {

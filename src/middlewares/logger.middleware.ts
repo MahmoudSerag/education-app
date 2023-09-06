@@ -20,7 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
         );
 
       const decodedToken = this.jwtService.verifyJWT(req.cookies.accessToken);
-      res.locals = decodedToken;
+      res.locals.decodedToken = decodedToken;
 
       next();
     } catch (error) {

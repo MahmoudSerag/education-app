@@ -132,9 +132,16 @@ export class LectureService {
     }
   }
 
-  async getSingleLecture(res: Response, lectureId: string): Promise<any> {
+  async getSingleLecture(res: Response): Promise<any> {
     try {
-      const lecture = await this.lectureModel.getLectureById(lectureId);
+      const lecture = res.locals.lecture;
+
+      lecture['chapterTitle'] = lecture.chapterId['title'];
+      lecture.pdfFiles = lecture.pdfFiles.map(
+        (el) => el.split('/')[1].split('-')[2],
+      );
+
+      delete lecture.chapterId;
 
       return {
         success: true,

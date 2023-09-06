@@ -8,7 +8,7 @@ export class AdminMiddleware implements NestMiddleware {
   constructor(private readonly errorResponse: ErrorResponse) {}
   use(req: Request, res: Response, next: NextFunction) {
     try {
-      const decodedToken = res.locals;
+      const decodedToken = res.locals.decodedToken;
 
       if (decodedToken.role !== 'admin')
         return this.errorResponse.handleError(
