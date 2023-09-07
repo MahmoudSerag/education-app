@@ -46,7 +46,7 @@ export class ChapterModel {
       .lean();
   }
 
-  async getChaptersByTitle(title: string): Promise<ChapterInterface[]> {
+  async searchChapters(title: string): Promise<ChapterInterface[]> {
     const chapterQuery = {
       title: { $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i') },
     };

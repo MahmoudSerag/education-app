@@ -76,19 +76,20 @@ export class AppModule implements NestModule {
       { path: `${baseRoute}/chapters/:chapterId`, method: RequestMethod.GET },
       { path: `${baseRoute}/lectures/:chapterId`, method: RequestMethod.GET },
       { path: `${baseRoute}/lectures`, method: RequestMethod.GET },
+      { path: `${baseRoute}/lectures/search/all`, method: RequestMethod.GET },
       {
         path: `${baseRoute}/lectures/:lectureId/details`,
         method: RequestMethod.GET,
       },
       {
         path: `/api/v1/lectures/:lectureId/:pdfId`,
-        method: RequestMethod.GET,
+        method: RequestMethod.POST,
       },
     ];
 
     consumer
       .apply(LoggerMiddleware)
-      .exclude(routes[0], routes[1], routes[2], routes[3], routes[4])
+      .exclude(routes[0], routes[1], routes[2], routes[3], routes[4], routes[5])
       .forRoutes(CodeBankController, ChapterController, LectureController);
     consumer
       .apply(AdminMiddleware)

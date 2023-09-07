@@ -100,7 +100,7 @@ export class ChapterService {
           `Incorrect query parameters. 'title' should not be empty or undefined.`,
         );
 
-      const chapters = await this.chapterModel.getChaptersByTitle(title);
+      const chapters = await this.chapterModel.searchChapters(title);
 
       if (!chapters.length)
         return this.errorResponse.handleError(

@@ -141,7 +141,7 @@ export class LectureController {
     return this.lectureService.getSingleLecture(res);
   }
 
-  @Get(':lectureId/:pdfId')
+  @Post(':lectureId/:pdfId')
   @ApiParam(updatedLectureParam)
   @ApiParam(pdfIdParam)
   @ApiBadRequestResponse(apiBadRequestResponse)
@@ -166,5 +166,14 @@ export class LectureController {
     @Query('page') page: number,
   ): object {
     return this.lectureService.getAllLectures(res, Number(page) || 1);
+  }
+
+  @Get('/search/all')
+  searchLectures(
+    @Res({ passthrough: true }) res: Response,
+    @Query('title') title: string,
+    @Query('page') page: number,
+  ): object {
+    return this.lectureService.searchLectures(res, title, Number(page) || 1);
   }
 }

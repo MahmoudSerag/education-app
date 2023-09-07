@@ -37,16 +37,18 @@ import { ContentAccessControlMiddleware } from 'src/middlewares/contentAccessCon
 })
 export class LectureModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    const baseRoute = '/api/v1';
+
     const routes = [
-      { path: '/api/v1/lectures/:chapterId', method: RequestMethod.POST },
-      { path: '/api/v1/lectures/:lectureId', method: RequestMethod.PUT },
+      { path: `${baseRoute}/lectures/:chapterId`, method: RequestMethod.POST },
+      { path: `${baseRoute}/lectures/:lectureId`, method: RequestMethod.PUT },
       {
-        path: '/api/v1/lectures/:lectureId/details',
+        path: `${baseRoute}/lectures/:lectureId/details`,
         method: RequestMethod.GET,
       },
       {
-        path: '/api/v1/lectures/:lectureId/:pdf',
-        method: RequestMethod.GET,
+        path: `${baseRoute}/lectures/:lectureId/:pdf`,
+        method: RequestMethod.POST,
       },
     ];
 

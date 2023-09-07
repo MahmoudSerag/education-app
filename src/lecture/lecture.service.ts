@@ -216,4 +216,38 @@ export class LectureService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async searchLectures(
+    res: Response,
+    title: string,
+    page: number,
+    limit = 10,
+  ): Promise<any> {
+    try {
+      if (!title || title.trim() === '')
+        return this.errorResponse.handleError(
+          res,
+          400,
+          `Incorrect query parameters. 'title' should not be empty or undefined.`,
+        );
+
+      const [lectures, lecturesCount] =
+        await this.lectureModel.searchLecturesAndCount(page, limit, title);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lectures fetched successfully',
+        totalLecturesCount: lecturesCount,
+        lecturesPerPage: limit,
+        maxPages: Math.ceil(lecturesCount / limit),
+        currentPage: page,
+        lectures: (() => {
+          return lectures.length ? lectures : 'No more lectures';
+        })(),
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }

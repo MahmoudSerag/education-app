@@ -143,8 +143,14 @@ export class LectureModel {
     return lectures;
   }
 
-  async countLectures(): Promise<number> {
-    return await this.lectureModel.count().lean();
+  async countLectures(title?: string): Promise<number> {
+    if (!title) return await this.lectureModel.count().lean();
+
+    const lectureQuery = {
+      title: { $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i') },
+    };
+
+    return await this.lectureModel.count(lectureQuery).lean();
   }
 
   async getLecturesAndCount(
@@ -154,6 +160,43 @@ export class LectureModel {
     return await Promise.all([
       this.getAllLectures(page, limit),
       this.countLectures(),
+    ]);
+  }
+
+  async searchLecture(
+    title: string,
+    page: number,
+    limit: number,
+  ): Promise<LectureInterface[]> {
+    const lectureQuery = {
+      title: { $regex: new RegExp(title.replace(/\s+/g, '\\s*'), 'i') },
+    };
+
+    const lecture = await this.lectureModel
+      .find(lectureQuery)
+      .select('title imageURL academicYear chapterId price')
+      .populate({ path: 'chapterId', select: 'title -_id' })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    lecture.forEach((lecture) => {
+      lecture['chapterTitle'] = lecture.chapterId['title'];
+      delete lecture.chapterId;
+    });
+
+    return lecture;
+  }
+
+  async searchLecturesAndCount(
+    page: number,
+    limit: number,
+    title: string,
+  ): Promise<[LectureInterface[], number]> {
+    return await Promise.all([
+      this.searchLecture(title, page, limit),
+      this.countLectures(title),
     ]);
   }
 }
