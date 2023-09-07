@@ -170,22 +170,26 @@ export class LectureService {
     try {
       const pdfFiles = res.locals.lecture.pdfFiles;
       let isPdfExists = false;
+      let pdfName: string, pdfMimeType: string;
 
-      for (let i = 0; i < pdfFiles.length; i++) {
-        const currentPdfId = pdfFiles[i].split('-')[0].split('/')[1];
+      for (const pdf of pdfFiles) {
+        const currentPdfId = pdf.split('-')[0].split('/')[1];
         if (currentPdfId === pdfId) {
           isPdfExists = true;
-          const pdfName = pdfFiles[i].split('/')[1];
-          return this.uploadAndDownloadService.downloadFile(
-            res,
-            pdfName,
-            'application/pdf',
-          );
+          pdfName = pdf.split('/')[1];
+          pdfMimeType = 'application/pdf';
+          break;
         }
       }
 
-      if (!isPdfExists)
+      if (!isPdfExists || !pdfName || !pdfMimeType)
         return this.errorResponse.handleError(res, 404, 'PDF not found.');
+
+      return this.uploadAndDownloadService.downloadFile(
+        res,
+        pdfName,
+        pdfMimeType,
+      );
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
     }

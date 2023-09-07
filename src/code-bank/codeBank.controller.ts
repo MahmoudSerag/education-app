@@ -9,7 +9,6 @@ import { CodeBankDto } from './dto/codeBank.dto';
 
 import {
   ApiBadRequestResponse,
-  ApiCreatedResponse,
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
   ApiTags,
@@ -25,10 +24,7 @@ import {
   apiForbiddenResponse,
   apiNotFoundResponse,
 } from 'src/swagger/errors.swagger';
-import {
-  createdCodeBankResponse,
-  deletedCodeBankResponse,
-} from 'src/swagger/code-bank/codeBank.swagger';
+import { deletedCodeBankResponse } from 'src/swagger/code-bank/codeBank.swagger';
 
 @ApiProduces('application/json')
 @ApiTags('CodeBank')
@@ -37,7 +33,6 @@ export class CodeBankController {
   constructor(private readonly codeBankService: CodeBankService) {}
 
   @Post()
-  @ApiCreatedResponse(createdCodeBankResponse)
   @ApiBadRequestResponse(apiBadRequestResponse)
   @ApiUnauthorizedResponse(apiUnauthorizedResponse)
   @ApiForbiddenResponse(apiForbiddenResponse)

@@ -119,3 +119,10 @@ export const singleLectureResponse = {
     },
   },
 };
+
+export const pdfIdParam = {
+  name: 'pdfId',
+  description: 'Should provide pdfId to download lecture.',
+  example: '64f4fb66a8469bd632604b26',
+  required: true,
+};

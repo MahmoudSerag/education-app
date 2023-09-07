@@ -50,6 +50,7 @@ import {
   deletedLectureResponse,
   pageQueryParam,
   singleLectureResponse,
+  pdfIdParam,
 } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
@@ -141,11 +142,17 @@ export class LectureController {
   }
 
   @Get(':lectureId/:pdfId/pdf')
+  @ApiParam(updatedLectureParam)
+  @ApiParam(pdfIdParam)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   downloadLecturePDF(
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
     @Param('pdfId') pdfId: string,
-  ): object {
-    return this.lectureService.downloadLecturePDF(res, pdfId);
+  ): void {
+    this.lectureService.downloadLecturePDF(res, pdfId);
   }
 }
