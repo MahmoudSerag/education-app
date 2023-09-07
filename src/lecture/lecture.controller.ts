@@ -157,6 +157,10 @@ export class LectureController {
   }
 
   @Get()
+  @ApiQuery(pageQueryParam)
+  @ApiOkResponse(lectureListResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getAllLectures(
     @Res({ passthrough: true }) res: Response,
     @Query('page') page: number,
