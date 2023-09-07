@@ -45,7 +45,7 @@ export class LectureModule implements NestModule {
         method: RequestMethod.GET,
       },
       {
-        path: '/api/v1/lectures/:lectureId/:pdf/pdf',
+        path: '/api/v1/lectures/:lectureId/:pdf',
         method: RequestMethod.GET,
       },
     ];

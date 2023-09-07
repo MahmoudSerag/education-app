@@ -22,7 +22,11 @@ export class LectureModel {
 
   async getLecturesByChapterId(chapterId: string): Promise<string[]> {
     return (
-      await this.lectureModel.find({ chapterId }).select('pdfFiles -_id').lean()
+      await this.lectureModel
+        .find({ chapterId })
+        .sort({ createdAt: -1 })
+        .select('pdfFiles -_id')
+        .lean()
     ).flatMap((lecture) => lecture.pdfFiles);
   }
 
@@ -116,5 +120,40 @@ export class LectureModel {
       .findByIdAndDelete(lectureId)
       .select('pdfFiles -_id')
       .lean();
+  }
+
+  async getAllLectures(
+    page: number,
+    limit: number,
+  ): Promise<LectureInterface[]> {
+    const lectures = await this.lectureModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select('title imageURL academicYear chapterId price')
+      .populate({ path: 'chapterId', select: 'title -_id' })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    lectures.forEach((lecture) => {
+      lecture['chapterTitle'] = lecture.chapterId['title'];
+      delete lecture.chapterId;
+    });
+
+    return lectures;
+  }
+
+  async countLectures(): Promise<number> {
+    return await this.lectureModel.count().lean();
+  }
+
+  async getLecturesAndCount(
+    page: number,
+    limit: number,
+  ): Promise<[LectureInterface[], number]> {
+    return await Promise.all([
+      this.getAllLectures(page, limit),
+      this.countLectures(),
+    ]);
   }
 }

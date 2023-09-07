@@ -141,7 +141,7 @@ export class LectureController {
     return this.lectureService.getSingleLecture(res);
   }
 
-  @Get(':lectureId/:pdfId/pdf')
+  @Get(':lectureId/:pdfId')
   @ApiParam(updatedLectureParam)
   @ApiParam(pdfIdParam)
   @ApiBadRequestResponse(apiBadRequestResponse)
@@ -154,5 +154,13 @@ export class LectureController {
     @Param('pdfId') pdfId: string,
   ): void {
     this.lectureService.downloadLecturePDF(res, pdfId);
+  }
+
+  @Get()
+  getAllLectures(
+    @Res({ passthrough: true }) res: Response,
+    @Query('page') page: number,
+  ): object {
+    return this.lectureService.getAllLectures(res, Number(page) || 1);
   }
 }

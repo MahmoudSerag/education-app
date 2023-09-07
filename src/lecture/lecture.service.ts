@@ -194,4 +194,26 @@ export class LectureService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async getAllLectures(res: Response, page: number, limit = 10): Promise<any> {
+    try {
+      const [lectures, lecturesCount] =
+        await this.lectureModel.getLecturesAndCount(page, limit);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lectures fetched successfully.',
+        totalLecturesCount: lecturesCount,
+        lecturePerPage: limit,
+        maxPages: Math.ceil(lecturesCount / limit),
+        currentPage: page,
+        lectures: (() => {
+          return lectures.length ? lectures : 'No more lectures';
+        })(),
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }
