@@ -14,6 +14,7 @@ export const UserSchema = new mongoose.Schema(
     },
     academicYear: {
       type: Number,
+      index: true,
       enum: [1, 2, 3],
       required: true,
     },
@@ -34,6 +35,7 @@ export const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      index: true,
       enum: ['admin', 'moderator', 'student'],
       default: 'student',
     },

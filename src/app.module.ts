@@ -5,6 +5,8 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -14,9 +16,9 @@ import { CodeBankModule } from './code-bank/codeBank.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { LectureModule } from './lecture/lecture.module';
 import { UsersLecturesModule } from './users-lectures/usersLectures.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
 
 import { JWTService } from './helpers/jwtService.helper';
 import { AppService } from './app.service';
@@ -31,6 +33,7 @@ import { CodeBankController } from './code-bank/codeBank.controller';
 import { ChapterController } from './chapter/chapter.controller';
 import { LectureController } from './lecture/lecture.controller';
 import { AppController } from './app.controller';
+import { StatisticsController } from './statistics/statistics.controller';
 
 @Global()
 @Module({
@@ -50,6 +53,7 @@ import { AppController } from './app.controller';
     ChapterModule,
     LectureModule,
     UsersLecturesModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -90,10 +94,20 @@ export class AppModule implements NestModule {
     consumer
       .apply(LoggerMiddleware)
       .exclude(routes[0], routes[1], routes[2], routes[3], routes[4], routes[5])
-      .forRoutes(CodeBankController, ChapterController, LectureController);
+      .forRoutes(
+        CodeBankController,
+        ChapterController,
+        LectureController,
+        StatisticsController,
+      );
     consumer
       .apply(AdminMiddleware)
       .exclude(...routes)
-      .forRoutes(CodeBankController, ChapterController, LectureController);
+      .forRoutes(
+        CodeBankController,
+        ChapterController,
+        LectureController,
+        StatisticsController,
+      );
   }
 }
