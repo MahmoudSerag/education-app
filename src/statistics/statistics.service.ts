@@ -23,6 +23,15 @@ export class StatisticsService {
         studentsInYearThree,
       ] = await this.statisticsModel.getStatistics();
 
+      if (
+        !numberOfStudents &&
+        !numberOfLectures &&
+        !studentsInYearOne &&
+        !studentsInYearTwo &&
+        !studentsInYearThree
+      )
+        return this.errorResponse.handleError(res, 404, 'No statistics found.');
+
       return {
         success: true,
         statusCode: 200,
