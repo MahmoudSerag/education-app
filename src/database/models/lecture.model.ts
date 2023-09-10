@@ -20,7 +20,7 @@ export class LectureModel {
     private readonly helperFunction: HelperFunctions,
   ) {}
 
-  async countAllLectures(): Promise<LectureInterface[]> {
+  async countAllLectures(): Promise<number> {
     return await this.lectureModel.count().lean();
   }
 

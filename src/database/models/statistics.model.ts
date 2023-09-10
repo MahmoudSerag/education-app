@@ -13,7 +13,7 @@ export class StatisticsModel {
     private readonly lectureModel: LectureModel,
   ) {}
 
-  async getStatistics(): Promise<any> {
+  async getStatistics(): Promise<number[]> {
     let yearOne = 0,
       yearTwo = 0,
       yearThree = 0;
@@ -33,5 +33,31 @@ export class StatisticsModel {
     });
 
     return [students.length, numberOfLectures, yearOne, yearTwo, yearThree];
+  }
+
+  async countAllStudents(): Promise<number> {
+    return await this.userModel.count({ role: 'student' }).lean();
+  }
+
+  async getStudentsList(
+    page: number,
+    limit: number,
+  ): Promise<UserAuthInterface[]> {
+    return await this.userModel
+      .find({ role: 'student' })
+      .select('fullName phoneNumber email academicYear sex')
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+  }
+
+  async getStudentsListWithTotalCount(
+    page: number,
+    limit: number,
+  ): Promise<[UserAuthInterface[], number]> {
+    return await Promise.all([
+      this.getStudentsList(page, limit),
+      this.countAllStudents(),
+    ]);
   }
 }

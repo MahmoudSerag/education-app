@@ -1,4 +1,4 @@
-import { Get, Controller, Res } from '@nestjs/common';
+import { Get, Controller, Res, Query } from '@nestjs/common';
 
 import { StatisticsService } from './statistics.service';
 
@@ -34,5 +34,13 @@ export class StatisticsController {
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getStatistics(@Res({ passthrough: true }) res: Response): object {
     return this.statisticsService.getStatistics(res);
+  }
+
+  @Get('students')
+  getStudentsList(
+    @Res({ passthrough: true }) res: Response,
+    @Query('page') page: number,
+  ): object {
+    return this.statisticsService.getStudentsList(res, Number(page) || 1);
   }
 }

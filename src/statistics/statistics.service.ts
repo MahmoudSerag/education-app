@@ -48,4 +48,24 @@ export class StatisticsService {
       return this.errorResponse.handleError(res, 500, error.message);
     }
   }
+
+  async getStudentsList(res: Response, page: number, limit = 10): Promise<any> {
+    try {
+      const [studentsList, totalStudentsCount] =
+        await this.statisticsModel.getStudentsListWithTotalCount(page, limit);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Students list fetched successfully.',
+        totalStudentsCount: totalStudentsCount,
+        studentsPerPage: limit,
+        maxPages: Math.ceil(totalStudentsCount / limit),
+        currentPage: page,
+        studentsList,
+      };
+    } catch (error) {
+      return this.errorResponse.handleError(res, 500, error.message);
+    }
+  }
 }
