@@ -62,7 +62,9 @@ export class StatisticsService {
         studentsPerPage: limit,
         maxPages: Math.ceil(totalStudentsCount / limit),
         currentPage: page,
-        studentsList,
+        studentsList: (() => {
+          return studentsList.length ? studentsList : 'No more students';
+        })(),
       };
     } catch (error) {
       return this.errorResponse.handleError(res, 500, error.message);
