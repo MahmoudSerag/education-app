@@ -9,6 +9,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiProduces,
   ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -25,6 +26,7 @@ import {
   studentsList,
 } from 'src/swagger/statistics/statistics.swagger';
 
+@ApiProduces('application/json')
 @Controller('api/v1/statistics')
 @ApiTags('Statistics')
 export class StatisticsController {
