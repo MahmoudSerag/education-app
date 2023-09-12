@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 
 import { UserAuthInterface } from 'src/auth/interface/userAuth.interface';
 
+import { UpdatedUserDto } from 'src/user/dto/updatedLecture.dto';
+
 @Injectable()
 export class UserModel {
   constructor(
@@ -15,5 +17,9 @@ export class UserModel {
       .findById(userId)
       .select('fullName email phoneNumber sex academicYear wallet')
       .lean();
+  }
+
+  async updateUserById(userId: string, body: UpdatedUserDto): Promise<void> {
+    await this.userModel.findByIdAndUpdate(userId, body);
   }
 }

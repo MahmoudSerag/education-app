@@ -4,6 +4,7 @@ import { Response } from 'express';
 import { UserModel } from 'src/database/models/user.model';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
+import { UpdatedUserDto } from './dto/updatedLecture.dto';
 
 @Injectable()
 export class UserService {
@@ -26,6 +27,22 @@ export class UserService {
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error);
+    }
+  }
+
+  async updateUserProfile(res: Response, body: UpdatedUserDto): Promise<any> {
+    try {
+      const userId = res.locals.decodedToken.userId;
+
+      await this.userModel.updateUserById(userId, body);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'User profile updated successfully',
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

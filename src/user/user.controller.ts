@@ -1,6 +1,11 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Body, Controller, Get, Patch, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
+
+import { UserService } from './user.service';
+
+import { validationPipe } from 'src/pipes/validation.pipe';
+
+import { UpdatedUserDto } from './dto/updatedLecture.dto';
 
 import {
   ApiInternalServerErrorResponse,
@@ -27,5 +32,14 @@ export class UserController {
   @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getUserProfile(@Res({ passthrough: true }) res: Response): object {
     return this.userService.getUserProfile(res);
+  }
+
+  @Patch('profile')
+  @UsePipes(validationPipe)
+  updateUserProfile(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: UpdatedUserDto,
+  ): object {
+    return this.userService.updateUserProfile(res, body);
   }
 }
