@@ -17,6 +17,7 @@ import { ChapterModule } from './chapter/chapter.module';
 import { LectureModule } from './lecture/lecture.module';
 import { UsersLecturesModule } from './users-lectures/usersLectures.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { UserModule } from './user/user.module';
 
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
@@ -34,6 +35,7 @@ import { ChapterController } from './chapter/chapter.controller';
 import { LectureController } from './lecture/lecture.controller';
 import { AppController } from './app.controller';
 import { StatisticsController } from './statistics/statistics.controller';
+import { UserController } from './user/user.controller';
 
 @Global()
 @Module({
@@ -54,6 +56,7 @@ import { StatisticsController } from './statistics/statistics.controller';
     LectureModule,
     UsersLecturesModule,
     StatisticsModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
@@ -89,6 +92,7 @@ export class AppModule implements NestModule {
         path: `/api/v1/lectures/:lectureId/:pdfId`,
         method: RequestMethod.POST,
       },
+      { path: `${baseRoute}/user/profile`, method: RequestMethod.GET },
     ];
 
     consumer
@@ -99,6 +103,7 @@ export class AppModule implements NestModule {
         ChapterController,
         LectureController,
         StatisticsController,
+        UserController,
       );
     consumer
       .apply(AdminMiddleware)
@@ -108,6 +113,7 @@ export class AppModule implements NestModule {
         ChapterController,
         LectureController,
         StatisticsController,
+        UserController,
       );
   }
 }
