@@ -126,3 +126,10 @@ export const pdfIdParam = {
   example: '64f4fb66a8469bd632604b26',
   required: true,
 };
+
+export const searchLectureQuery = {
+  name: 'title',
+  description: 'Should provide title to search chapters',
+  example: 'المواد المصولة و المواد الغير موصلة',
+  required: true,
+};

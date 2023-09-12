@@ -51,6 +51,7 @@ import {
   pageQueryParam,
   singleLectureResponse,
   pdfIdParam,
+  searchLectureQuery,
 } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
@@ -169,6 +170,11 @@ export class LectureController {
   }
 
   @Get('/search/all')
+  @ApiQuery(pageQueryParam)
+  @ApiQuery(searchLectureQuery)
+  @ApiOkResponse(lectureListResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   searchLectures(
     @Res({ passthrough: true }) res: Response,
     @Query('title') title: string,
