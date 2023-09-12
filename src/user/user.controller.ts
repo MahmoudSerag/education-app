@@ -8,14 +8,16 @@ import { validationPipe } from 'src/pipes/validation.pipe';
 import { UpdatedUserDto } from './dto/updatedLecture.dto';
 
 import {
+  ApiBadRequestResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiProduces,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { userProfile } from 'src/swagger/user/user.swagger';
+import { updatedUserProfile, userProfile } from 'src/swagger/user/user.swagger';
 import {
+  apiBadRequestResponse,
   apiInternalServerErrorResponse,
   apiUnauthorizedResponse,
 } from 'src/swagger/errors.swagger';
@@ -35,6 +37,10 @@ export class UserController {
   }
 
   @Patch('profile')
+  @ApiOkResponse(updatedUserProfile)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(validationPipe)
   updateUserProfile(
     @Res({ passthrough: true }) res: Response,

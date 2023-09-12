@@ -18,3 +18,15 @@ export const userProfile = {
     },
   },
 };
+
+export const updatedUserProfile = {
+  name: 'User Profile',
+  description: 'Fetch user profile',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 200,
+      message: 'User profile fetched successfully',
+    },
+  },
+};
