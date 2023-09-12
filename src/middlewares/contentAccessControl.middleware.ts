@@ -24,10 +24,14 @@ export class ContentAccessControlMiddleware implements NestMiddleware {
       ]);
 
       if (!lecture)
-        return this.errorResponse.handleError(res, 404, 'Lecture not found');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Lecture not found',
+        );
 
       if (!userLecture)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           403,
           'Forbidden: Should purchase this lecture',
@@ -37,7 +41,7 @@ export class ContentAccessControlMiddleware implements NestMiddleware {
 
       next();
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

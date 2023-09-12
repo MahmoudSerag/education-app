@@ -13,7 +13,7 @@ export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.cookies || !req.cookies.accessToken)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           401,
           'Unauthorized: Login first.',
@@ -24,7 +24,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
       next();
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

@@ -32,7 +32,7 @@ export class CodeBankService {
 
       return await this.codeBankModel.createCodeBank(chargingCodes);
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -41,7 +41,11 @@ export class CodeBankService {
       const deletedCount = await this.codeBankModel.deleteCodeBank();
 
       if (!deletedCount)
-        return this.errorResponse.handleError(res, 404, 'No codes to delete.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'No codes to delete.',
+        );
 
       return {
         success: true,
@@ -49,7 +53,7 @@ export class CodeBankService {
         message: 'Code Bank deleted successfully',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

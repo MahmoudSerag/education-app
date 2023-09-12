@@ -21,7 +21,7 @@ export class ChapterService {
         message: 'تم إنشاء الفصل بنجاح.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -32,7 +32,11 @@ export class ChapterService {
       const chapter = await this.chapterModel.deleteChapterById(chapterId);
 
       if (!chapter[0])
-        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapter not found.',
+        );
 
       if (!chapter[1]['deletedCount'])
         message = `تم حذف الفصل بنجاح و لا يوجد محاضرات محذوفة تابعة لهذا الفصل.`;
@@ -45,7 +49,7 @@ export class ChapterService {
           `تم حذف الفصل بنجاح وتم حذف المحاضرات التابعة لهذا الفصل بنجاح.`,
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -61,7 +65,11 @@ export class ChapterService {
       );
 
       if (!updatedChapter)
-        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapter not found.',
+        );
 
       return {
         success: true,
@@ -69,7 +77,7 @@ export class ChapterService {
         message: 'تم تعديل الفصل بنجاح.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -78,7 +86,11 @@ export class ChapterService {
       const chapters = await this.chapterModel.getAllChapters(academicYear);
 
       if (!chapters.length)
-        return this.errorResponse.handleError(res, 404, 'Chapters not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapters not found.',
+        );
 
       return {
         success: true,
@@ -87,14 +99,14 @@ export class ChapterService {
         chapters,
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
   async searchChapters(res: Response, title: string): Promise<any> {
     try {
       if (!title || title.trim() === '')
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           400,
           `Incorrect query parameters. 'title' should not be empty or undefined.`,
@@ -103,7 +115,7 @@ export class ChapterService {
       const chapters = await this.chapterModel.searchChapters(title);
 
       if (!chapters.length)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           404,
           'لا يوجد محاضرات بهذا التسلسل او الرمز',
@@ -116,7 +128,7 @@ export class ChapterService {
         chapters,
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -125,7 +137,11 @@ export class ChapterService {
       const chapter = await this.chapterModel.getChapterById(chapterId);
 
       if (!chapter)
-        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapter not found.',
+        );
 
       return {
         success: true,
@@ -134,7 +150,7 @@ export class ChapterService {
         chapter,
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

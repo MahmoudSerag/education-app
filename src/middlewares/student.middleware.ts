@@ -11,7 +11,7 @@ export class StudentMiddleware implements NestMiddleware {
       const decodedToken = res.locals.decodedToken;
 
       if (decodedToken.role !== 'student')
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           403,
           'Forbidden: Should login as student.',
@@ -19,7 +19,7 @@ export class StudentMiddleware implements NestMiddleware {
 
       next();
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

@@ -31,7 +31,11 @@ export class LectureService {
 
       if (!chapter) {
         this.helperFunction.deleteFiles(files);
-        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapter not found.',
+        );
       }
 
       await this.lectureModel.createNewLecture(body, chapter, files);
@@ -43,7 +47,7 @@ export class LectureService {
       };
     } catch (error) {
       this.helperFunction.deleteFiles(files);
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -61,7 +65,11 @@ export class LectureService {
 
       if (!lecture) {
         this.helperFunction.deleteFiles(files);
-        return this.errorResponse.handleError(res, 404, 'Lecture not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Lecture not found.',
+        );
       }
 
       await this.lectureModel.updateLectureById(lectureId, body, files);
@@ -75,7 +83,7 @@ export class LectureService {
       };
     } catch (error) {
       this.helperFunction.deleteFiles(files);
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -89,7 +97,11 @@ export class LectureService {
       const chapter = await this.lectureModel.getChapterById(chapterId);
 
       if (!chapter)
-        return this.errorResponse.handleError(res, 404, 'Chapter not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Chapter not found.',
+        );
 
       const [lectures, lecturesCount] =
         await this.lectureModel.getChapterLecturesAndCount(
@@ -111,7 +123,7 @@ export class LectureService {
         })(),
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -120,7 +132,11 @@ export class LectureService {
       const lecture = await this.lectureModel.deleteLectureById(lectureId);
 
       if (!lecture)
-        return this.errorResponse.handleError(res, 404, 'Lecture not found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Lecture not found.',
+        );
 
       this.helperFunction.deleteFiles(lecture.pdfFiles);
 
@@ -130,7 +146,7 @@ export class LectureService {
         message: 'Lecture deleted successfully.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -162,7 +178,7 @@ export class LectureService {
         lecture: optimizedLecture,
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -183,7 +199,7 @@ export class LectureService {
       }
 
       if (!isPdfExists || !pdfName || !pdfMimeType)
-        return this.errorResponse.handleError(res, 404, 'PDF not found.');
+        return this.errorResponse.sendErrorResponse(res, 404, 'PDF not found.');
 
       return this.uploadAndDownloadService.downloadFile(
         res,
@@ -191,7 +207,7 @@ export class LectureService {
         pdfMimeType,
       );
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -213,7 +229,7 @@ export class LectureService {
         })(),
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -225,7 +241,7 @@ export class LectureService {
   ): Promise<any> {
     try {
       if (!title || title.trim() === '')
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           400,
           `Incorrect query parameters. 'title' should not be empty or undefined.`,
@@ -247,7 +263,7 @@ export class LectureService {
         })(),
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }

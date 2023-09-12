@@ -30,17 +30,21 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (accessToken)
-        return this.errorResponse.handleError(res, 406, ', Logout first.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          406,
+          ', Logout first.',
+        );
 
       if (body.email !== body.confirmedEmail)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           400,
           'The email and confirmed email do not match',
         );
 
       if (body.password !== body.confirmedPassword)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           400,
           'The password and confirmed password do not match',
@@ -49,7 +53,7 @@ export class AuthService {
       const isEmailExist = await this.authModel.findUserByEmail(body.email);
 
       if (isEmailExist)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           409,
           'البريد الالكتروني مسجل بالفعل.',
@@ -60,7 +64,7 @@ export class AuthService {
       );
 
       if (isPhoneNumberExist)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           409,
           'رقم الهاتف مسجل بالفعل.',
@@ -79,7 +83,7 @@ export class AuthService {
         message: 'User created successfully.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -90,7 +94,11 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (userAccessToken)
-        return this.errorResponse.handleError(res, 406, 'Already logged in.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          406,
+          'Already logged in.',
+        );
 
       const user = await this.authModel.findUserByEmailOrPhoneNumber(
         body.emailOrPhoneNumber,
@@ -103,7 +111,7 @@ export class AuthService {
           user.password,
         ))
       )
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           401,
           'بيانات المستخدم غير صحيحة.من فضلك حاول مرة اخري.',
@@ -134,7 +142,7 @@ export class AuthService {
         message: 'User logged in successfully.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -145,12 +153,12 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (accessToken)
-        return this.errorResponse.handleError(res, 406, 'Logout first.');
+        return this.errorResponse.sendErrorResponse(res, 406, 'Logout first.');
 
       const user = await this.authModel.findUserByEmail(body.email);
 
       if (!user)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           404,
           'المستخدم غير موجود. من فضلك حاول مرة اخري.',
@@ -181,7 +189,7 @@ export class AuthService {
         message: 'من فضلك تحقق من حسابك',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -195,7 +203,7 @@ export class AuthService {
       const user = await this.authModel.findUserById(decodedToken.userId);
 
       if (!passwordResetToken || user.isTokenExpired)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           401,
           "The user's session has expired.",
@@ -207,7 +215,7 @@ export class AuthService {
         message: "The user's session is active",
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -218,7 +226,7 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (body.newPassword !== body.confirmedNewPassword)
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           406,
           'The email and confirmed email do not match.',
@@ -230,7 +238,7 @@ export class AuthService {
 
       if (!passwordResetToken || user.isTokenExpired) {
         res.clearCookie('userToken');
-        return this.errorResponse.handleError(
+        return this.errorResponse.sendErrorResponse(
           res,
           401,
           "The user's session has expired.",
@@ -254,13 +262,17 @@ export class AuthService {
         message: 'The user successfully reset his password.',
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
   logout(res: Response, accessToken: string): any {
     if (!accessToken)
-      return this.errorResponse.handleError(res, 406, 'Already logged out.');
+      return this.errorResponse.sendErrorResponse(
+        res,
+        406,
+        'Already logged out.',
+      );
 
     res.clearCookie('accessToken');
 

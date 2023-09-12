@@ -30,7 +30,11 @@ export class StatisticsService {
         !studentsInYearTwo &&
         !studentsInYearThree
       )
-        return this.errorResponse.handleError(res, 404, 'No statistics found.');
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'No statistics found.',
+        );
 
       return {
         success: true,
@@ -45,7 +49,7 @@ export class StatisticsService {
         },
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 
@@ -67,7 +71,7 @@ export class StatisticsService {
         })(),
       };
     } catch (error) {
-      return this.errorResponse.handleError(res, 500, error.message);
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
 }
