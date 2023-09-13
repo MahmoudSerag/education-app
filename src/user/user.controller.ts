@@ -15,7 +15,11 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { updatedUserProfile, userProfile } from 'src/swagger/user/user.swagger';
+import {
+  updatedUserProfile,
+  userProfile,
+  updatedUserPassword,
+} from 'src/swagger/user/user.swagger';
 import {
   apiBadRequestResponse,
   apiInternalServerErrorResponse,
@@ -51,6 +55,10 @@ export class UserController {
   }
 
   @Patch('password')
+  @ApiOkResponse(updatedUserPassword)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   @UsePipes(validationPipe)
   updateUserPassword(
     @Res({ passthrough: true }) res: Response,

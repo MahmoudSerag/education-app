@@ -5,7 +5,7 @@ export const apiUnauthorizedResponse = {
     example: {
       success: false,
       statusCode: 401,
-      message: 'Unauthorized.',
+      message: 'Unauthorized: Login first.',
     },
   },
 };

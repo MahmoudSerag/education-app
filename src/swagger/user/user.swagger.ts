@@ -30,3 +30,15 @@ export const updatedUserProfile = {
     },
   },
 };
+
+export const updatedUserPassword = {
+  name: 'User password',
+  description: 'Update user password',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 200,
+      message: 'Password updated successfully',
+    },
+  },
+};
