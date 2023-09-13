@@ -7,20 +7,13 @@ import { AuthService } from './auth.service';
 
 import { UserSchema } from 'src/database/schemas/user.schema';
 
-import { PasswordService } from 'src/helpers/passwordService.helper';
 import { EmailService } from 'src/helpers/emailService.helper';
 import { CookieService } from 'src/helpers/cookieService.helper';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    AuthModel,
-    PasswordService,
-    EmailService,
-    CookieService,
-  ],
+  providers: [AuthService, AuthModel, EmailService, CookieService],
   exports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
 })
 export class AuthModule {}
