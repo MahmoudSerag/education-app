@@ -42,3 +42,15 @@ export const updatedUserPassword = {
     },
   },
 };
+
+export const chargedWallet = {
+  name: 'User wallet',
+  description: 'Update user wallet',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 201,
+      message: 'Wallet charged successfully',
+    },
+  },
+};

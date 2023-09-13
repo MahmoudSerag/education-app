@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Patch, Res, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Res,
+  UsePipes,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 import { UserService } from './user.service';
@@ -6,9 +14,13 @@ import { UserService } from './user.service';
 import { validationPipe } from 'src/pipes/validation.pipe';
 
 import { UpdatedUserDto } from './dto/updatedUser.dto';
+import { UpdatedPasswordDto } from './dto/updatedPassword.dto';
+import { WalletDto } from './dto/wallet.dto';
 
 import {
   ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiProduces,
@@ -19,13 +31,14 @@ import {
   updatedUserProfile,
   userProfile,
   updatedUserPassword,
+  chargedWallet,
 } from 'src/swagger/user/user.swagger';
 import {
   apiBadRequestResponse,
+  apiForbiddenResponse,
   apiInternalServerErrorResponse,
   apiUnauthorizedResponse,
 } from 'src/swagger/errors.swagger';
-import { UpdatedPasswordDto } from './dto/updatedPassword.dto';
 
 @ApiProduces('application/json')
 @ApiTags('User')
@@ -65,5 +78,19 @@ export class UserController {
     @Body() body: UpdatedPasswordDto,
   ): object {
     return this.userService.updateUserPassword(res, body);
+  }
+
+  @Post('wallet')
+  @ApiCreatedResponse(chargedWallet)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
+  @UsePipes(validationPipe)
+  chargeWallet(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: WalletDto,
+  ): object {
+    return this.userService.chargeWallet(res, body.code);
   }
 }
