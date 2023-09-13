@@ -14,7 +14,7 @@ export class UpdatedUserDto {
     example: 'Ahmed Mohamed Ali',
     required: true,
   })
-  @Matches(/.*\S.*/, { message: 'title should not be empty' })
+  @Matches(/.*\S.*/, { message: 'fullName should not be empty' })
   @IsString()
   @IsNotEmpty()
   fullName: string;

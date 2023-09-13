@@ -8,7 +8,7 @@ export class UpdatedPasswordDto {
     example: '123456789',
     required: true,
   })
-  @Matches(/.*\S.*/, { message: 'Old password should not be empty' })
+  @Matches(/.*\S.*/, { message: 'OldPassword should not be empty' })
   @IsString()
   @IsNotEmpty()
   oldPassword: string;
@@ -19,7 +19,7 @@ export class UpdatedPasswordDto {
     example: '123456@#789',
     required: true,
   })
-  @Matches(/.*\S.*/, { message: 'New password should not be empty' })
+  @Matches(/.*\S.*/, { message: 'newPassword should not be empty' })
   @IsString()
   @IsNotEmpty()
   newPassword: string;
@@ -30,7 +30,7 @@ export class UpdatedPasswordDto {
     example: '123456@#789',
     required: true,
   })
-  @Matches(/.*\S.*/, { message: 'Confirmed new password should not be empty' })
+  @Matches(/.*\S.*/, { message: 'confirmedNewPassword should not be empty' })
   @IsString()
   @IsNotEmpty()
   confirmedNewPassword: string;

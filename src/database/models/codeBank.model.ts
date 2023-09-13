@@ -33,4 +33,15 @@ export class CodeBankModel {
 
     return deletedCodes.deletedCount;
   }
+
+  async getChargingCode(code: string): Promise<CodeBankInterface> {
+    return this.codeBankModel
+      .findOne({ code })
+      .select('code price -_id')
+      .lean();
+  }
+
+  async deleteChargingCode(code: string): Promise<void> {
+    await this.codeBankModel.deleteOne({ code }).lean();
+  }
 }

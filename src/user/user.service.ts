@@ -99,4 +99,32 @@ export class UserService {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
+
+  async chargeWallet(res: Response, code: string): Promise<any> {
+    try {
+      const userId = res.locals.decodedToken.userId;
+
+      const foundedCode = await this.userModel.getChargingCode(code);
+
+      if (!foundedCode)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'The charging code does not exist.',
+        );
+
+      await Promise.all([
+        this.userModel.chargeCode(userId, foundedCode.price),
+        this.userModel.deleteChargingCode(code),
+      ]);
+
+      return {
+        success: true,
+        statusCode: 201,
+        message: 'Wallet charged successfully',
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
+    }
+  }
 }
