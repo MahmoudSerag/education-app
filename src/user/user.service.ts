@@ -23,7 +23,15 @@ export class UserService {
         success: true,
         statusCode: 200,
         message: 'User profile fetched successfully',
-        userProfile,
+        userProfile: {
+          _id: userProfile._id,
+          email: userProfile.email,
+          fullName: userProfile.fullName,
+          academicYear: userProfile.academicYear,
+          phoneNumber: userProfile.phoneNumber,
+          sex: userProfile.sex,
+          wallet: userProfile.wallet,
+        },
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error);
