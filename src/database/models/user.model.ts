@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { UserAuthInterface } from 'src/auth/interface/userAuth.interface';
-
-import { UpdatedUserDto } from 'src/user/dto/updatedLecture.dto';
+import { UpdatedUserDto } from 'src/user/dto/updatedUser.dto';
 
 @Injectable()
 export class UserModel {
@@ -15,11 +14,14 @@ export class UserModel {
   async getUserById(userId: string): Promise<UserAuthInterface> {
     return await this.userModel
       .findById(userId)
-      .select('fullName email phoneNumber sex academicYear wallet')
-      .lean();
+      .select('fullName email phoneNumber sex academicYear wallet password');
   }
 
   async updateUserById(userId: string, body: UpdatedUserDto): Promise<void> {
     await this.userModel.findByIdAndUpdate(userId, body);
+  }
+
+  async updateUserPassword(user: UserAuthInterface): Promise<void> {
+    await user.save();
   }
 }

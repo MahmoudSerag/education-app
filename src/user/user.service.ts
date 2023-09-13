@@ -3,14 +3,18 @@ import { Response } from 'express';
 
 import { UserModel } from 'src/database/models/user.model';
 
+import { PasswordService } from 'src/helpers/passwordService.helper';
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
-import { UpdatedUserDto } from './dto/updatedLecture.dto';
+
+import { UpdatedUserDto } from './dto/updatedUser.dto';
+import { UpdatedPasswordDto } from './dto/updatedPassword.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly errorResponse: ErrorResponse,
     private readonly userModel: UserModel,
+    private readonly passwordService: PasswordService,
   ) {}
 
   async getUserProfile(res: Response): Promise<any> {
@@ -48,6 +52,48 @@ export class UserService {
         success: true,
         statusCode: 200,
         message: 'User profile updated successfully',
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
+    }
+  }
+
+  async updateUserPassword(
+    res: Response,
+    body: UpdatedPasswordDto,
+  ): Promise<any> {
+    try {
+      if (body.newPassword !== body.confirmedNewPassword)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          406,
+          'The password and confirmed password do not match.',
+        );
+
+      const userId = res.locals.decodedToken.userId;
+
+      const user = await this.userModel.getUserById(userId);
+
+      if (
+        !(await this.passwordService.comparePassword(
+          body.oldPassword,
+          user.password,
+        ))
+      )
+        return this.errorResponse.sendErrorResponse(
+          res,
+          403,
+          'Enter a valid old password.',
+        );
+
+      user.password = await this.passwordService.hashPassword(body.newPassword);
+
+      await this.userModel.updateUserPassword(user);
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Password updated successfully',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);

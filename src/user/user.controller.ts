@@ -5,7 +5,7 @@ import { UserService } from './user.service';
 
 import { validationPipe } from 'src/pipes/validation.pipe';
 
-import { UpdatedUserDto } from './dto/updatedLecture.dto';
+import { UpdatedUserDto } from './dto/updatedUser.dto';
 
 import {
   ApiBadRequestResponse,
@@ -21,6 +21,7 @@ import {
   apiInternalServerErrorResponse,
   apiUnauthorizedResponse,
 } from 'src/swagger/errors.swagger';
+import { UpdatedPasswordDto } from './dto/updatedPassword.dto';
 
 @ApiProduces('application/json')
 @ApiTags('User')
@@ -47,5 +48,14 @@ export class UserController {
     @Body() body: UpdatedUserDto,
   ): object {
     return this.userService.updateUserProfile(res, body);
+  }
+
+  @Patch('password')
+  @UsePipes(validationPipe)
+  updateUserPassword(
+    @Res({ passthrough: true }) res: Response,
+    @Body() body: UpdatedPasswordDto,
+  ): object {
+    return this.userService.updateUserPassword(res, body);
   }
 }
