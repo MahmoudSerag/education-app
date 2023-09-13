@@ -13,5 +13,8 @@ import { CodeBankSchema } from 'src/database/schemas/codeBank.schema';
   ],
   controllers: [CodeBankController],
   providers: [CodeBankService, CodeBankModel],
+  exports: [
+    MongooseModule.forFeature([{ name: 'CodeBank', schema: CodeBankSchema }]),
+  ],
 })
 export class CodeBankModule {}
