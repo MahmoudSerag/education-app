@@ -23,7 +23,9 @@ import {
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
+  ApiParam,
   ApiProduces,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -33,13 +35,16 @@ import {
   userProfile,
   updatedUserPassword,
   chargedWallet,
+  purchasedLecture,
 } from 'src/swagger/user/user.swagger';
 import {
   apiBadRequestResponse,
   apiForbiddenResponse,
   apiInternalServerErrorResponse,
+  apiNotFoundResponse,
   apiUnauthorizedResponse,
 } from 'src/swagger/errors.swagger';
+import { updatedLectureParam } from 'src/swagger/lectures/lecture.swagger';
 
 @ApiProduces('application/json')
 @ApiTags('User')
@@ -96,6 +101,13 @@ export class UserController {
   }
 
   @Post(':lectureId')
+  @ApiParam(updatedLectureParam)
+  @ApiCreatedResponse(purchasedLecture)
+  @ApiBadRequestResponse(apiBadRequestResponse)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   purchaseLecture(
     @Res({ passthrough: true }) res: Response,
     @Param('lectureId') lectureId: string,

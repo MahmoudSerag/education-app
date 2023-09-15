@@ -54,3 +54,15 @@ export const chargedWallet = {
     },
   },
 };
+
+export const purchasedLecture = {
+  name: 'User operations logs',
+  description: 'Purchase lecture',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 201,
+      message: 'Lecture purchased successfully',
+    },
+  },
+};
