@@ -66,3 +66,34 @@ export const purchasedLecture = {
     },
   },
 };
+
+export const operationsLogs = {
+  name: 'User operations logs',
+  description: 'Get user operations logs',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 200,
+      message: 'User operations logs fetched successfully',
+      userOperationsLogs: [
+        {
+          purchaseDate: '2023-09-15T12:45:25.861Z',
+          lecture: {
+            _id: '64f4fb66a8469bd632604b28',
+            title: 'My Title',
+            price: 250,
+          },
+        },
+        {
+          purchaseDate: '2023-09-15T13:10:25.367Z',
+          lecture: {
+            _id: '64f4fb67a8469bd632604b2d',
+            title: 'My Title',
+            price: 250,
+          },
+        },
+        `{..........}`,
+      ],
+    },
+  },
+};

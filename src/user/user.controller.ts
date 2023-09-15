@@ -36,6 +36,7 @@ import {
   updatedUserPassword,
   chargedWallet,
   purchasedLecture,
+  operationsLogs,
 } from 'src/swagger/user/user.swagger';
 import {
   apiBadRequestResponse,
@@ -116,6 +117,11 @@ export class UserController {
   }
 
   @Get('operationsLogs')
+  @ApiOkResponse(operationsLogs)
+  @ApiUnauthorizedResponse(apiUnauthorizedResponse)
+  @ApiForbiddenResponse(apiForbiddenResponse)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getUserOperationsLogs(@Res({ passthrough: true }) res: Response): object {
     return this.userService.getUserOperationsLogs(res);
   }
