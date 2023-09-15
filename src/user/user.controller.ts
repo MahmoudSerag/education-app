@@ -125,4 +125,11 @@ export class UserController {
   getUserOperationsLogs(@Res({ passthrough: true }) res: Response): object {
     return this.userService.getUserOperationsLogs(res);
   }
+
+  @Get('home')
+  getLatestLecturesAndChapters(
+    @Res({ passthrough: true }) res: Response,
+  ): object {
+    return this.userService.getLatestLecturesAndChapters(res);
+  }
 }

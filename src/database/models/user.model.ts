@@ -5,13 +5,15 @@ import { Model } from 'mongoose';
 import { CodeBankModel } from 'src/database/models/codeBank.model';
 import { LectureModel } from './lecture.model';
 import { OperationLogsModel } from './operationLogs.model';
+import { ChapterModel } from './chapter.model';
 
 import { UserAuthInterface } from 'src/auth/interface/userAuth.interface';
 import { CodeBankInterface } from 'src/code-bank/interface/codeBank.interface';
 import { LectureInterface } from 'src/lecture/interface/lecture.interface';
+import { OperationsLogsInterface } from 'src/operation-logs/interface/operationsLogs.interface';
+import { ChapterInterface } from 'src/chapter/interface/chapter.interface';
 
 import { UpdatedUserDto } from 'src/user/dto/updatedUser.dto';
-import { OperationsLogsInterface } from 'src/operation-logs/interface/operationsLogs.interface';
 
 @Injectable()
 export class UserModel {
@@ -20,6 +22,7 @@ export class UserModel {
     private readonly codeBankModel: CodeBankModel,
     private readonly lectureModel: LectureModel,
     private readonly operationLogs: OperationLogsModel,
+    private readonly chapterModel: ChapterModel,
   ) {}
 
   async getUserById(userId: string): Promise<UserAuthInterface> {
@@ -84,5 +87,21 @@ export class UserModel {
     });
 
     return userOperationsLogs;
+  }
+
+  async getLatestLecturesAndChapters(): Promise<
+    [LectureInterface[], ChapterInterface[]]
+  > {
+    const [lectures, chapters] = await Promise.all([
+      this.lectureModel.getLatestLectures(),
+      this.chapterModel.getLatestChapters(),
+    ]);
+
+    lectures.forEach((lecture) => {
+      lecture['chapterTitle'] = lecture.chapterId['title'];
+      delete lecture.chapterId;
+    });
+
+    return [lectures, chapters];
   }
 }

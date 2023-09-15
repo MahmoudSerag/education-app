@@ -199,4 +199,32 @@ export class UserService {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
+
+  async getLatestLecturesAndChapters(res: Response): Promise<any> {
+    try {
+      const [lectures, chapters] =
+        await this.userModel.getLatestLecturesAndChapters();
+
+      if (!lectures.length && !chapters.length)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Lectures and chapters not found.',
+        );
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'Lectures and chapters fetched successfully',
+        lectures: (() => {
+          return lectures.length ? lectures : 'No lectures found';
+        })(),
+        chapters: (() => {
+          return chapters.length ? chapters : 'No chapters found';
+        })(),
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
+    }
+  }
 }

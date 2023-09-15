@@ -79,6 +79,16 @@ export class LectureModel {
       .lean();
   }
 
+  async getLatestLectures(): Promise<LectureInterface[]> {
+    return await this.lectureModel
+      .find()
+      .sort({ createdAt: -1 })
+      .select('title imageURL academicYear chapterId price')
+      .populate({ path: 'chapterId', select: 'title -_id' })
+      .limit(6)
+      .lean();
+  }
+
   async getAllLecturesByChapterId(
     chapterId: string,
     page: number,

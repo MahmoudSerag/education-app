@@ -20,6 +20,15 @@ export class ChapterModel {
     await this.chapterModel.create(body);
   }
 
+  async getLatestChapters(): Promise<ChapterInterface[]> {
+    return await this.chapterModel
+      .find()
+      .select('title imageURL academicYear description')
+      .sort({ createdAt: -1 })
+      .limit(6)
+      .lean();
+  }
+
   async deleteChapterById(
     chapterId: string,
   ): Promise<[ChapterInterface, LectureInterface | void]> {
