@@ -8,11 +8,11 @@ import {
 
 import { MongooseModule } from '@nestjs/mongoose';
 import { ChapterModule } from 'src/chapter/chapter.module';
-import { UsersLecturesModule } from 'src/users-lectures/usersLectures.module';
+import { OperationLogsModule } from 'src/operation-logs/operationLogs.module';
 
 import { LectureModel } from 'src/database/models/lecture.model';
 import { ChapterModel } from 'src/database/models/chapter.model';
-import { UsersLecturesModel } from 'src/database/models/usersLectures.model';
+import { OperationLogsModel } from 'src/database/models/operationLogs.model';
 
 import { LectureController } from './lecture.controller';
 import { LectureService } from './lecture.service';
@@ -27,10 +27,10 @@ import { ContentAccessControlMiddleware } from 'src/middlewares/contentAccessCon
   imports: [
     MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
     forwardRef(() => ChapterModule),
-    UsersLecturesModule,
+    OperationLogsModule,
   ],
   controllers: [LectureController],
-  providers: [LectureService, LectureModel, ChapterModel, UsersLecturesModel],
+  providers: [LectureService, LectureModel, ChapterModel, OperationLogsModel],
   exports: [
     MongooseModule.forFeature([{ name: 'Lecture', schema: LectureSchema }]),
   ],

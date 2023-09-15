@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Res,
@@ -92,5 +93,13 @@ export class UserController {
     @Body() body: WalletDto,
   ): object {
     return this.userService.chargeWallet(res, body.code);
+  }
+
+  @Post(':lectureId')
+  purchaseLecture(
+    @Res({ passthrough: true }) res: Response,
+    @Param('lectureId') lectureId: string,
+  ): object {
+    return this.userService.purchaseLecture(res, lectureId);
   }
 }

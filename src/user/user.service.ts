@@ -127,4 +127,50 @@ export class UserService {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
+
+  async purchaseLecture(res: Response, lectureId: string): Promise<any> {
+    try {
+      const userId = res.locals.decodedToken.userId;
+
+      const [lecture, purchasedLecture, user] = await Promise.all([
+        this.userModel.getLectureById(lectureId),
+        this.userModel.findPurchasedLecture(userId, lectureId),
+        this.userModel.getUserById(userId),
+      ]);
+
+      if (!lecture)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'Lecture not found.',
+        );
+
+      if (purchasedLecture)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          403,
+          'Lecture already purchased.',
+        );
+
+      if (lecture.price > user.wallet)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          403,
+          'Not enough money.',
+        );
+
+      await Promise.all([
+        this.userModel.purchaseLecture(userId, lectureId),
+        this.userModel.updateUserWallet(userId, -lecture.price),
+      ]);
+
+      return {
+        success: true,
+        statusCode: 201,
+        message: 'Lecture purchased successfully',
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
+    }
+  }
 }
