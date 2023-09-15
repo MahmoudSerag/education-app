@@ -216,11 +216,9 @@ export class UserService {
         success: true,
         statusCode: 200,
         message: 'Lectures and chapters fetched successfully',
+        chapters,
         lectures: (() => {
           return lectures.length ? lectures : 'No lectures found';
-        })(),
-        chapters: (() => {
-          return chapters.length ? chapters : 'No chapters found';
         })(),
       };
     } catch (error) {
