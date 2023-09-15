@@ -15,7 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { CodeBankModule } from './code-bank/codeBank.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { LectureModule } from './lecture/lecture.module';
-import { UsersLecturesModule } from './users-lectures/usersLectures.module';
+import { OperationLogsModule } from './operation-logs/operationLogs.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { UserModule } from './user/user.module';
 
@@ -55,7 +55,7 @@ import { UserController } from './user/user.controller';
     CodeBankModule,
     ChapterModule,
     LectureModule,
-    UsersLecturesModule,
+    OperationLogsModule,
     StatisticsModule,
     UserModule,
   ],

@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface UsersLecturesInterface extends Document {
+export interface OperationsLogsInterface extends Document {
   userId: string;
   lectureId: string;
   purchaseDate: Date;

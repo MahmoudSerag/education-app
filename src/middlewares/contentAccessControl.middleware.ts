@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
-import { UsersLecturesModel } from 'src/database/models/usersLectures.model';
+import { OperationLogsModel } from 'src/database/models/operationLogs.model';
 import { LectureModel } from 'src/database/models/lecture.model';
 
 import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
@@ -9,7 +9,7 @@ import { ErrorResponse } from 'src/helpers/errorHandlingService.helper';
 @Injectable()
 export class ContentAccessControlMiddleware implements NestMiddleware {
   constructor(
-    private readonly usersLecturesModel: UsersLecturesModel,
+    private readonly usersLecturesModel: OperationLogsModel,
     private readonly errorResponse: ErrorResponse,
     private readonly lectureModel: LectureModel,
   ) {}
