@@ -97,3 +97,53 @@ export const operationsLogs = {
     },
   },
 };
+
+export const latestLecturesAndChapters = {
+  name: 'Home page',
+  description: 'Get latest lectures and chapters',
+  schema: {
+    example: {
+      success: true,
+      statusCode: 200,
+      message: 'Lectures and chapters fetched successfully',
+      lectures: [
+        {
+          _id: '64f7b1d7d97a5d9e44028c91',
+          title: 'My Title',
+          imageURL: 'https://example.com/image.jpg',
+          academicYear: 1,
+          price: 250,
+          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+        },
+        {
+          _id: '64f7b167ab0e9f8c2b935ca6',
+          title: 'My Title',
+          imageURL: 'https://example.com/image.jpg',
+          academicYear: 1,
+          price: 250,
+          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+        },
+        `..........`,
+      ],
+      chapters: [
+        {
+          _id: '64f919e1d82720fbe638352a',
+          title: 'الفيزياء الحديثة',
+          imageURL:
+            'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
+          academicYear: 2,
+          description: 'النهاردة درس مهم موووت',
+        },
+        {
+          _id: '64f4fad7d8570b684ca592e3',
+          title: 'المواد المصولة و المواد الغير موصلة',
+          imageURL:
+            'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
+          academicYear: 1,
+          description: 'النهاردة درس مهم موووت',
+        },
+        `..........`,
+      ],
+    },
+  },
+};

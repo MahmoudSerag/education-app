@@ -37,6 +37,7 @@ import {
   chargedWallet,
   purchasedLecture,
   operationsLogs,
+  latestLecturesAndChapters,
 } from 'src/swagger/user/user.swagger';
 import {
   apiBadRequestResponse,
@@ -127,6 +128,9 @@ export class UserController {
   }
 
   @Get('home')
+  @ApiOkResponse(latestLecturesAndChapters)
+  @ApiNotFoundResponse(apiNotFoundResponse)
+  @ApiInternalServerErrorResponse(apiInternalServerErrorResponse)
   getLatestLecturesAndChapters(
     @Res({ passthrough: true }) res: Response,
   ): object {
