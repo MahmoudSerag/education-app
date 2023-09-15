@@ -24,4 +24,12 @@ export class OperationLogsModel {
   async purchaseLecture(userId: string, lectureId: string): Promise<void> {
     await this.operationLogsModel.create({ userId, lectureId });
   }
+
+  async getOperationsLogs(userId: string): Promise<OperationsLogsInterface[]> {
+    return await this.operationLogsModel
+      .find({ userId })
+      .select('purchaseDate lectureId -_id')
+      .populate({ path: 'lectureId', select: 'title price _id' })
+      .lean();
+  }
 }

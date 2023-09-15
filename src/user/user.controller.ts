@@ -114,4 +114,9 @@ export class UserController {
   ): object {
     return this.userService.purchaseLecture(res, lectureId);
   }
+
+  @Get('operationsLogs')
+  getUserOperationsLogs(@Res({ passthrough: true }) res: Response): object {
+    return this.userService.getUserOperationsLogs(res);
+  }
 }

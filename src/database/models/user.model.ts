@@ -70,4 +70,19 @@ export class UserModel {
   ): Promise<OperationsLogsInterface> {
     return this.operationLogs.findPurchasedLecture(userId, lectureId);
   }
+
+  async getUserOperationsLogs(
+    userId: string,
+  ): Promise<OperationsLogsInterface[]> {
+    const userOperationsLogs = await this.operationLogs.getOperationsLogs(
+      userId,
+    );
+
+    userOperationsLogs.forEach((log) => {
+      log['lecture'] = log.lectureId;
+      delete log.lectureId;
+    });
+
+    return userOperationsLogs;
+  }
 }

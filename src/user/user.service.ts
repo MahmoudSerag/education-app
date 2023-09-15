@@ -173,4 +173,30 @@ export class UserService {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
     }
   }
+
+  async getUserOperationsLogs(res: Response): Promise<any> {
+    try {
+      const userId = res.locals.decodedToken.userId;
+
+      const userOperationsLogs = await this.userModel.getUserOperationsLogs(
+        userId,
+      );
+
+      if (!userOperationsLogs)
+        return this.errorResponse.sendErrorResponse(
+          res,
+          404,
+          'User operations logs not found.',
+        );
+
+      return {
+        success: true,
+        statusCode: 200,
+        message: 'User operations logs fetched successfully',
+        userOperationsLogs,
+      };
+    } catch (error) {
+      return this.errorResponse.sendErrorResponse(res, 500, error.message);
+    }
+  }
 }

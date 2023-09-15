@@ -47,6 +47,7 @@ export class UserModule implements NestModule {
       .forRoutes(
         { path: 'api/v1/user/wallet', method: RequestMethod.POST },
         { path: 'api/v1/user/:lectureId', method: RequestMethod.POST },
+        { path: 'api/v1/user/operationsLogs', method: RequestMethod.GET },
       );
   }
 }
