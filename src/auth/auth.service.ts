@@ -30,11 +30,7 @@ export class AuthService {
   ): Promise<any> {
     try {
       if (accessToken)
-        return this.errorResponse.sendErrorResponse(
-          res,
-          406,
-          ', Logout first.',
-        );
+        return this.errorResponse.sendErrorResponse(res, 406, 'Logout first.');
 
       if (body.email !== body.confirmedEmail)
         return this.errorResponse.sendErrorResponse(
@@ -48,26 +44,6 @@ export class AuthService {
           res,
           400,
           'The password and confirmed password do not match.',
-        );
-
-      const isEmailExist = await this.authModel.findUserByEmail(body.email);
-
-      if (isEmailExist)
-        return this.errorResponse.sendErrorResponse(
-          res,
-          409,
-          'Email is already exist.',
-        );
-
-      const isPhoneNumberExist = await this.authModel.findUserByPhoneNumber(
-        body.phoneNumber,
-      );
-
-      if (isPhoneNumberExist)
-        return this.errorResponse.sendErrorResponse(
-          res,
-          409,
-          'phone number is already exist.',
         );
 
       const hashedPassword = await this.passwordService.hashPassword(

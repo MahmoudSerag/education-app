@@ -11,13 +11,6 @@ export class AuthModel {
     @InjectModel('User') private readonly authModel: Model<UserAuthInterface>,
   ) {}
 
-  async findUserByPhoneNumber(phoneNumber: string): Promise<UserAuthInterface> {
-    return await this.authModel
-      .findOne({ phoneNumber })
-      .select('phoneNumber -_id')
-      .lean();
-  }
-
   async findUserByEmail(email: string): Promise<UserAuthInterface> {
     return await this.authModel.findOne({ email }).select('email');
   }

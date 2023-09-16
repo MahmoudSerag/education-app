@@ -69,7 +69,7 @@ export class ChapterModel {
   async getChapterById(chapterId: string): Promise<ChapterInterface> {
     return await this.chapterModel
       .findById(chapterId)
-      .select('_id academicYear')
+      .select('_id academicYear title imageURL description')
       .lean();
   }
 }

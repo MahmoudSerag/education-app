@@ -47,6 +47,7 @@ export class UserService {
       const userId = res.locals.decodedToken.userId;
 
       await this.userModel.updateUserById(userId, body);
+      res.locals.decodedToken.phoneNumber = body.phoneNumber;
 
       return {
         success: true,

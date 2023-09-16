@@ -26,14 +26,31 @@ export class ErrorResponse {
   }
 
   public sendErrorResponse(res: Response, statusCode: number, message: string) {
-    if (message === 'jwt expired' || message === 'jwt must be provided') {
+    console.log(message);
+    if (
+      message === 'jwt expired' ||
+      message === 'jwt must be provided' ||
+      message === 'jwt malformed'
+    ) {
       statusCode = HttpStatus.UNAUTHORIZED;
       message = "The user's session have expired.";
-    }
-
-    if (message.startsWith('Cast')) {
+    } else if (message.startsWith('Cast')) {
       statusCode = HttpStatus.BAD_REQUEST;
       message = 'Invalid id.';
+    } else if (
+      (message.startsWith('Plan') &&
+        message.split('{ ')[1].startsWith('phoneNumber')) ||
+      (message.startsWith('E11000') &&
+        message.split('{ ')[1].startsWith('phoneNumber'))
+    ) {
+      statusCode = HttpStatus.BAD_REQUEST;
+      message = 'Phone number already exists.';
+    } else if (
+      message.startsWith('E11000') &&
+      message.split('{ ')[1].startsWith('email')
+    ) {
+      statusCode = HttpStatus.BAD_REQUEST;
+      message = 'Email already exists.';
     }
 
     res.status(statusCode || HttpStatus.INTERNAL_SERVER_ERROR).json({
