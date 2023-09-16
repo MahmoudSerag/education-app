@@ -35,7 +35,7 @@ export const studentsList = {
         {
           _id: '64b0b6a54b9fa8315d2cb45a',
           email: 'sragmahmoud400@gmail.com',
-          fullName: 'محمود سراج اسماعيل',
+          fullName: 'Mahmoud Serag Ismail',
           academicYear: 2,
           phoneNumber: '01064560400',
           sex: 'ذكر',
@@ -43,7 +43,7 @@ export const studentsList = {
         {
           _id: '64bdb9ea453cc737c5a34562',
           email: 'sragmahmoud40@gmail.com',
-          fullName: 'محمود سراج اسماعيل',
+          fullName: 'Mahmoud Serag Ismail',
           academicYear: 2,
           phoneNumber: '01064560420',
           sex: 'ذكر',

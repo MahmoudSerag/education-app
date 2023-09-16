@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CodeBankDto {
@@ -28,6 +28,7 @@ export class CodeBankDto {
     example: 'KT1',
     required: true,
   })
+  @Matches(/.*\S.*/, { message: 'OldPassword should not be empty' })
   @IsString()
   @IsNotEmpty()
   prefix: string;

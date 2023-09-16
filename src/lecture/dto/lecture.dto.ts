@@ -16,7 +16,7 @@ export class LectureDto {
     example: 'My Title',
     required: true,
   })
-  @Matches(/.*\S.*/, { message: 'title should not be empty' })
+  @Matches(/.*\S.*/, { message: 'title should not be empty.' })
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -58,7 +58,7 @@ export class LectureDto {
     message(validationArguments) {
       let value = validationArguments.value;
 
-      if (!Array.isArray(value)) return 'videoURLs must be an array';
+      if (!Array.isArray(value)) return 'videoURLs must be an array.';
 
       for (let i = 0; i < value.length; i++) {
         if (typeof value[i] !== 'string' || value[i].length === 0) {

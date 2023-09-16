@@ -11,9 +11,10 @@ export class ChapterDto {
   @ApiProperty({
     name: 'title',
     type: String,
-    example: 'الفيزياء الحديثة',
+    example: 'Modern physics.',
     required: true,
   })
+  @Matches(/.*\S.*/, { message: 'title should not be empty' })
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -47,9 +48,10 @@ export class ChapterDto {
   @ApiProperty({
     name: 'description',
     type: String,
-    example: 'النهاردة درس مهم موووت',
+    example: 'This is an important chapter to explain logic gates.',
     required: true,
   })
+  @Matches(/.*\S.*/, { message: 'description should not be empty' })
   @IsString()
   @IsNotEmpty()
   description: string;

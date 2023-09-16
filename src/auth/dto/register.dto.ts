@@ -16,6 +16,7 @@ export class RegisterDto {
     example: 'ElBon maher',
     required: true,
   })
+  @Matches(/.*\S.*/, { message: 'fullName should not be empty' })
   @IsString()
   @IsNotEmpty()
   fullName: string;

@@ -18,7 +18,7 @@ export class ChapterService {
       return {
         success: true,
         statusCode: 201,
-        message: 'تم إنشاء الفصل بنجاح.',
+        message: 'Chapter created successfully.',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -39,14 +39,14 @@ export class ChapterService {
         );
 
       if (!chapter[1]['deletedCount'])
-        message = `تم حذف الفصل بنجاح و لا يوجد محاضرات محذوفة تابعة لهذا الفصل.`;
+        message = `The chapter has been successfully deleted and there are no deleted lectures related to this chapter.`;
 
       return {
         success: true,
         statusCode: 200,
         message:
           message ||
-          `تم حذف الفصل بنجاح وتم حذف المحاضرات التابعة لهذا الفصل بنجاح.`,
+          `The chapter has been successfully deleted and the lectures for this chapter have been successfully deleted.`,
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -74,7 +74,7 @@ export class ChapterService {
       return {
         success: true,
         statusCode: 200,
-        message: 'تم تعديل الفصل بنجاح.',
+        message: 'Chapter updated successfully.',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -118,7 +118,7 @@ export class ChapterService {
         return this.errorResponse.sendErrorResponse(
           res,
           404,
-          'لا يوجد محاضرات بهذا التسلسل او الرمز',
+          'There are no lectures in this sequence.',
         );
 
       return {

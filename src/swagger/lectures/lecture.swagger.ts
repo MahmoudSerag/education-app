@@ -63,7 +63,7 @@ export const lectureListResponse = {
           imageURL: 'https://example.com/image.jpg',
           academicYear: 1,
           price: 250,
-          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+          chapterTitle: 'Conducting materials and non-conducting materials.',
         },
         {
           _id: '64f4993c19980f70f976e160',
@@ -71,7 +71,7 @@ export const lectureListResponse = {
           imageURL: 'https://example.com/image.jpg',
           academicYear: 1,
           price: 250,
-          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+          chapterTitle: 'Conducting materials and non-conducting materials.',
         },
       ],
     },
@@ -114,8 +114,8 @@ export const singleLectureResponse = {
         'https://www.youtube.com/watch?v=ctjgMbjvX7U',
         'https://www.youtube.com/watch?v=ctjgMbjvX7U',
       ],
-      pdfFiles: ['Contract.pdf', 'Backend task.pdf'],
-      chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+      pdfFiles: ['Lecture1.pdf', 'Lecture2.pdf'],
+      chapterTitle: 'Conducting materials and non-conducting materials.',
     },
   },
 };
@@ -130,6 +130,6 @@ export const pdfIdParam = {
 export const searchLectureQuery = {
   name: 'title',
   description: 'Should provide title to search chapters',
-  example: 'المواد المصولة و المواد الغير موصلة',
+  example: 'Conducting materials and non-conducting materials.',
   required: true,
 };

@@ -51,7 +51,7 @@ export class UserService {
       return {
         success: true,
         statusCode: 200,
-        message: 'User profile updated successfully',
+        message: 'User profile updated successfully.',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -121,7 +121,7 @@ export class UserService {
       return {
         success: true,
         statusCode: 201,
-        message: 'Wallet charged successfully',
+        message: 'Wallet charged successfully.',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -192,7 +192,7 @@ export class UserService {
       return {
         success: true,
         statusCode: 200,
-        message: 'User operations logs fetched successfully',
+        message: 'User operations logs fetched successfully.',
         userOperationsLogs,
       };
     } catch (error) {
@@ -215,10 +215,10 @@ export class UserService {
       return {
         success: true,
         statusCode: 200,
-        message: 'Lectures and chapters fetched successfully',
+        message: 'Lectures and chapters fetched successfully.',
         chapters,
         lectures: (() => {
-          return lectures.length ? lectures : 'No lectures found';
+          return lectures.length ? lectures : 'No lectures found.';
         })(),
       };
     } catch (error) {

@@ -9,7 +9,7 @@ export const userProfile = {
       userProfile: {
         _id: '64bdba13453cc737c5a34566',
         email: 'sragmahmoud4@gmail.com',
-        fullName: 'محمود سراج اسماعيل',
+        fullName: 'Mahmoud Serag Ismail',
         academicYear: 2,
         phoneNumber: '01064560430',
         sex: 'ذكر',
@@ -113,7 +113,7 @@ export const latestLecturesAndChapters = {
           imageURL: 'https://example.com/image.jpg',
           academicYear: 1,
           price: 250,
-          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+          chapterTitle: 'Conducting materials and non-conducting materials.',
         },
         {
           _id: '64f7b167ab0e9f8c2b935ca6',
@@ -121,26 +121,28 @@ export const latestLecturesAndChapters = {
           imageURL: 'https://example.com/image.jpg',
           academicYear: 1,
           price: 250,
-          chapterTitle: 'المواد المصولة و المواد الغير موصلة',
+          chapterTitle: 'Conducting materials and non-conducting materials.',
         },
         `..........`,
       ],
       chapters: [
         {
           _id: '64f919e1d82720fbe638352a',
-          title: 'الفيزياء الحديثة',
+          title: 'Modern Physics',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
         },
         {
           _id: '64f4fad7d8570b684ca592e3',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 1,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
         },
         `..........`,
       ],

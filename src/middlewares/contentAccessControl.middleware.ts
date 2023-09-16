@@ -27,14 +27,14 @@ export class ContentAccessControlMiddleware implements NestMiddleware {
         return this.errorResponse.sendErrorResponse(
           res,
           404,
-          'Lecture not found',
+          'Lecture not found.',
         );
 
       if (!userLecture)
         return this.errorResponse.sendErrorResponse(
           res,
           403,
-          'Forbidden: Should purchase this lecture',
+          'Forbidden: Should purchase this lecture.',
         );
 
       res.locals.lecture = lecture;

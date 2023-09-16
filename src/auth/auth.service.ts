@@ -40,14 +40,14 @@ export class AuthService {
         return this.errorResponse.sendErrorResponse(
           res,
           400,
-          'The email and confirmed email do not match',
+          'The email and confirmed email do not match.',
         );
 
       if (body.password !== body.confirmedPassword)
         return this.errorResponse.sendErrorResponse(
           res,
           400,
-          'The password and confirmed password do not match',
+          'The password and confirmed password do not match.',
         );
 
       const isEmailExist = await this.authModel.findUserByEmail(body.email);
@@ -56,7 +56,7 @@ export class AuthService {
         return this.errorResponse.sendErrorResponse(
           res,
           409,
-          'البريد الالكتروني مسجل بالفعل.',
+          'Email is already exist.',
         );
 
       const isPhoneNumberExist = await this.authModel.findUserByPhoneNumber(
@@ -67,7 +67,7 @@ export class AuthService {
         return this.errorResponse.sendErrorResponse(
           res,
           409,
-          'رقم الهاتف مسجل بالفعل.',
+          'phone number is already exist.',
         );
 
       const hashedPassword = await this.passwordService.hashPassword(
@@ -114,7 +114,7 @@ export class AuthService {
         return this.errorResponse.sendErrorResponse(
           res,
           401,
-          'بيانات المستخدم غير صحيحة.من فضلك حاول مرة اخري.',
+          'Invalid email or password. Please try again.',
         );
 
       const payload = {
@@ -161,7 +161,7 @@ export class AuthService {
         return this.errorResponse.sendErrorResponse(
           res,
           404,
-          'المستخدم غير موجود. من فضلك حاول مرة اخري.',
+          'Email not found. Please try again.',
         );
 
       await this.emailService.senMail(user.email);
@@ -186,7 +186,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: 'من فضلك تحقق من حسابك',
+        message: 'Please check your email to reset your password.',
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);
@@ -212,7 +212,7 @@ export class AuthService {
       return {
         success: true,
         statusCode: 201,
-        message: "The user's session is active",
+        message: "The user's session is active.",
       };
     } catch (error) {
       return this.errorResponse.sendErrorResponse(res, 500, error.message);

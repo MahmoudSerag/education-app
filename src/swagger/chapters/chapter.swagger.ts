@@ -18,7 +18,7 @@ export const deletedChapterResponse = {
       success: true,
       statusCode: 200,
       message:
-        'تم حذف الفصل بنجاح و لا يوجد محاضرات محذوفة تابعة لهذا الفصل. || تم حذف الفصل بنجاح وتم حذف المحاضرات التابعة لهذا الفصل بنجاح.',
+        'The chapter has been successfully deleted and there are no deleted lectures related to this chapter. || The chapter has been successfully deleted and the lectures for this chapter have been successfully deleted.',
     },
   },
 };
@@ -68,21 +68,23 @@ export const getChaptersResponse = {
       chapters: [
         {
           _id: '64d97510859dc4f83d9dc0c8',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
           createdAt: '2023-08-14T00:28:00.061Z',
           updatedAt: '2023-08-14T00:28:00.061Z',
         },
         {
           _id: '64da68e286a1df137c94af8a',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
           createdAt: '2023-08-14T17:48:18.803Z',
           updatedAt: '2023-08-14T17:48:18.803Z',
         },
@@ -95,7 +97,7 @@ export const getChaptersResponse = {
 export const searchChapterQuery = {
   name: 'title',
   description: 'Should provide title to search chapters',
-  example: 'المواد المصولة و المواد الغير موصلة',
+  example: 'Conducting materials and non-conducting materials.',
   required: true,
 };
 
@@ -110,21 +112,23 @@ export const searchChapterResponse = {
       chapters: [
         {
           _id: '64d97510859dc4f83d9dc0c8',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
           createdAt: '2023-08-14T00:28:00.061Z',
           updatedAt: '2023-08-14T00:28:00.061Z',
         },
         {
           _id: '64da68e286a1df137c94af8a',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
           createdAt: '2023-08-14T17:48:18.803Z',
           updatedAt: '2023-08-14T17:48:18.803Z',
         },
@@ -152,11 +156,12 @@ export const getChapterResponse = {
       chapters: [
         {
           _id: '64d97510859dc4f83d9dc0c8',
-          title: 'المواد المصولة و المواد الغير موصلة',
+          title: 'Conducting materials and non-conducting materials.',
           imageURL:
             'https://i.ibb.co/mSq8k9B/istockphoto-1023966316-1024x1024.jpg',
           academicYear: 2,
-          description: 'النهاردة درس مهم موووت',
+          description:
+            'This is a chapter for conducting materials and non-conducting materials.',
           createdAt: '2023-08-14T00:28:00.061Z',
           updatedAt: '2023-08-14T00:28:00.061Z',
         },

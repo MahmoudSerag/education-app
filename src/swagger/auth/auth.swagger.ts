@@ -29,7 +29,7 @@ export const passwordResetStepOneSuccessResponse = {
     example: {
       success: true,
       statusCode: 201,
-      message: 'من فضلك تحقق من حسابك',
+      message: 'Please check your email to reset your password',
     },
   },
 };

@@ -21,7 +21,7 @@ export class ErrorResponse {
     res.status(400).json({
       success: true,
       statusCode: 400,
-      message: 'Only pdf files allowed',
+      message: 'Only pdf files allowed.',
     });
   }
 

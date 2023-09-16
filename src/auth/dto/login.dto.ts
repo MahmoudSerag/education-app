@@ -9,7 +9,7 @@ export class LoginDto {
     required: true,
   })
   @Matches(/^(01[0125][0-9]{8})$|^([^\s@]+@[^\s@]+\.[^\s@]+)$/, {
-    message: 'You should enter a valid email or phone number',
+    message: 'Invalid email or phone number.',
   })
   @IsNotEmpty()
   emailOrPhoneNumber: string;
