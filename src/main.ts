@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import * as xss from 'xss-clean';
+import * as mongoSanitize from 'express-mongo-sanitize';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -37,6 +38,7 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(xss());
+  app.use(mongoSanitize());
 
   app.use(cookieParser());
 
