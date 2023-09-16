@@ -26,7 +26,6 @@ export class ErrorResponse {
   }
 
   public sendErrorResponse(res: Response, statusCode: number, message: string) {
-    console.log(message);
     if (
       message === 'jwt expired' ||
       message === 'jwt must be provided' ||

@@ -11,9 +11,8 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      process.env.CLIENT_DOMAIN_ONE,
-      process.env.CLIENT_DOMAIN_TWO,
-      process.env.CLIENT_DOMAIN_THREE,
+      process.env.CLIENT_DOMAIN_DEV,
+      process.env.CLIENT_DOMAIN_PRODUCTION,
     ],
     credentials: true,
     methods: ['GET', 'PATCH', 'POST', 'DELETE', 'PUT'],
@@ -26,9 +25,8 @@ async function bootstrap() {
     .setDescription(process.env.SWAGGER_DESCRIPTION)
     .setVersion('1.0')
     .addTag('APIs')
-    .addServer(process.env.SWAGGER_SERVER_ONE)
-    .addServer(process.env.SWAGGER_SERVER_TWO)
-    .addServer(process.env.SWAGGER_SERVER_THREE)
+    .addServer(process.env.SWAGGER_SERVER_DEV)
+    .addServer(process.env.SWAGGER_SERVER_PRODUCTION)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

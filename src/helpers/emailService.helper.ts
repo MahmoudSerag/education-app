@@ -3,7 +3,7 @@ import * as nodemailer from 'nodemailer';
 export class EmailService {
   private generateMailOptions(userMail: string): object {
     return {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_SENDER,
       to: userMail,
       subject: 'Reset Password',
       text: `Reset your password by clicking this link: http://localhost:3000/reset-password/.`,
@@ -15,7 +15,7 @@ export class EmailService {
       host: process.env.EMAIL_HOST,
       secure: true,
       auth: {
-        user: process.env.EMAIL_USER,
+        user: process.env.EMAIL_SENDER,
         pass: process.env.EMAIL_PASSWORD,
       },
     });
